@@ -1,5 +1,6 @@
 .container{
     min-height:200px;
+    min-width: 200px;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -15,6 +16,8 @@
     width: 100px;
     height: 100px;
     border: 2px solid pink;
+    text-align: center;
+    margin: 5px;
 }
 /* 
 #btn-hit,

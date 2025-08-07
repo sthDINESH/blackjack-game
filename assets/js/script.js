@@ -102,6 +102,27 @@ function drawCard(user, numCardsToDraw = 1) {
   user["sum"] = calculateSum(user["hand"]);
 }
 
+/**
+ * Display player card and sum of current hand
+ */
+const revealPlayerHand = () =>{
+    const divPlayerCards = document.querySelector("#player-cards");
+    const divPlayerSum = document.querySelector("#player-sum");
+     
+    const numVisibleCards = divPlayerCards.children.length;
+    const numPlayerCards = player["hand"].length;
+    if( numPlayerCards > numVisibleCards){
+        for(count = numVisibleCards; count < numPlayerCards; count++){
+            const showCard = document.createElement("div");
+            showCard.classList.add("card");
+            showCard.innerHTML =`<p>${player["hand"][count]["suit"]} ${player["hand"][count]["value"]}</p>`;
+            console.log(showCard);
+            divPlayerCards.appendChild(showCard);
+        }
+        divPlayerSum.innerText = player["sum"];
+    }
+}
+
 const btnsGame = document.querySelector("#btns-game");
 const btnPlay = document.querySelector("#btn-play");
 const btnHit = document.querySelector("#btn-hit");
@@ -125,4 +146,6 @@ const playGame = () => {
   drawCard(player, 2);
   console.log("Dealer", dealer);
   console.log("Player", player);
+
+  revealPlayerHand();
 };
