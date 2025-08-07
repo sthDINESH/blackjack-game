@@ -1,3 +1,17 @@
+const playerCardsContainerID = "#player-cards";
+const playerSumContainerID = "#player-sum";
+const dealerCardsContainerID = "#dealer-cards";
+const dealerSumContainerID = "#dealer-sum";
+
+const btnsGame = document.querySelector("#btns-game");
+const btnPlay = document.querySelector("#btn-play");
+const btnHit = document.querySelector("#btn-hit");
+const btnStand = document.querySelector("#btn-stand");
+
+// Remove Hit and Stand Buttons before the game starts
+btnsGame.removeChild(btnHit);
+btnsGame.removeChild(btnStand);
+
 // Constants to represent a deck of cards
 const suits = ["Heart", "Spade", "Diamond", "Club"];
 // const suits = ["Heart"];
@@ -24,6 +38,12 @@ const deck = [];
 // Global objects to store player and dealer details
 const dealer = {};
 const player = {};
+
+dealer["cardsContainerId"] = dealerCardsContainerID;
+dealer["sumContainerId"] = dealerSumContainerID;
+
+player["cardsContainerId"] = playerCardsContainerID;
+player["sumContainerId"] = playerSumContainerID;
 
 /**
  * Function to initialize global deck[] with the deck available in the game
@@ -103,15 +123,19 @@ function drawCard(user, numCardsToDraw = 1) {
 }
 
 /**
- * 
- * @param {*} user 
- * @param {*} divCards 
- * @param {*} divSum 
- * @param {*} revealAll 
+ *
+ * @param {*} user
+ * @param {*} divCards
+ * @param {*} divSum
+ * @param {*} revealAll
  */
-const revealHand = (user, divCards, divSum, revealAll = false) => {
+const revealHand = (user, revealAll = false) => {
+  const divCards = document.querySelector(user["cardsContainerId"]);
+  const divSum = document.querySelector(user["sumContainerId"]);
+
   const numVisibleCards = divCards.children.length;
   const numCardsInHand = user["hand"].length;
+
   if (numCardsInHand > numVisibleCards) {
     for (count = numVisibleCards; count < numCardsInHand; count++) {
       const showCard = document.createElement("div");
@@ -126,23 +150,10 @@ const revealHand = (user, divCards, divSum, revealAll = false) => {
     if (revealAll) {
       divSum.innerText = user["sum"];
     } else {
-        divSum.innerText = user["hand"][0]["value"];
+      divSum.innerText = user["hand"][0]["value"];
     }
   }
 };
-
-const btnsGame = document.querySelector("#btns-game");
-const btnPlay = document.querySelector("#btn-play");
-const btnHit = document.querySelector("#btn-hit");
-const btnStand = document.querySelector("#btn-stand");
-const divDealerCards = document.querySelector("#dealer-cards");
-const divDealerSum = document.querySelector("#dealer-sum");
-const divPlayerCards = document.querySelector("#player-cards");
-const divPlayerSum = document.querySelector("#player-sum");
-
-// Remove Hit and Stand Buttons before the game starts
-btnsGame.removeChild(btnHit);
-btnsGame.removeChild(btnStand);
 
 const playGame = () => {
   btnsGame.appendChild(btnHit);
@@ -160,6 +171,6 @@ const playGame = () => {
   console.log("Player", player);
 
   //   revealPlayerHand();
-  revealHand(player, divPlayerCards, divPlayerSum, true);
-  revealHand(dealer, divDealerCards, divDealerSum, false);
+  revealHand(player, true);
+  revealHand(dealer, false);
 };
