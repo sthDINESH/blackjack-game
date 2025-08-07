@@ -103,30 +103,42 @@ function drawCard(user, numCardsToDraw = 1) {
 }
 
 /**
- * Display player card and sum of current hand
+ * 
+ * @param {*} user 
+ * @param {*} divCards 
+ * @param {*} divSum 
+ * @param {*} revealAll 
  */
-const revealPlayerHand = () =>{
-    const divPlayerCards = document.querySelector("#player-cards");
-    const divPlayerSum = document.querySelector("#player-sum");
-     
-    const numVisibleCards = divPlayerCards.children.length;
-    const numPlayerCards = player["hand"].length;
-    if( numPlayerCards > numVisibleCards){
-        for(count = numVisibleCards; count < numPlayerCards; count++){
-            const showCard = document.createElement("div");
-            showCard.classList.add("card");
-            showCard.innerHTML =`<p>${player["hand"][count]["suit"]} ${player["hand"][count]["value"]}</p>`;
-            console.log(showCard);
-            divPlayerCards.appendChild(showCard);
-        }
-        divPlayerSum.innerText = player["sum"];
+const revealHand = (user, divCards, divSum, revealAll = false) => {
+  const numVisibleCards = divCards.children.length;
+  const numCardsInHand = user["hand"].length;
+  if (numCardsInHand > numVisibleCards) {
+    for (count = numVisibleCards; count < numCardsInHand; count++) {
+      const showCard = document.createElement("div");
+      showCard.classList.add("card");
+      if (revealAll || count === 0) {
+        showCard.innerHTML = `<p>${user["hand"][count]["suit"]} ${user["hand"][count]["value"]}</p>`;
+      } else {
+        showCard.innerHTML = `<p>X</p>`;
+      }
+      divCards.appendChild(showCard);
     }
-}
+    if (revealAll) {
+      divSum.innerText = user["sum"];
+    } else {
+        divSum.innerText = user["hand"][0]["value"];
+    }
+  }
+};
 
 const btnsGame = document.querySelector("#btns-game");
 const btnPlay = document.querySelector("#btn-play");
 const btnHit = document.querySelector("#btn-hit");
 const btnStand = document.querySelector("#btn-stand");
+const divDealerCards = document.querySelector("#dealer-cards");
+const divDealerSum = document.querySelector("#dealer-sum");
+const divPlayerCards = document.querySelector("#player-cards");
+const divPlayerSum = document.querySelector("#player-sum");
 
 // Remove Hit and Stand Buttons before the game starts
 btnsGame.removeChild(btnHit);
@@ -147,5 +159,7 @@ const playGame = () => {
   console.log("Dealer", dealer);
   console.log("Player", player);
 
-  revealPlayerHand();
+  //   revealPlayerHand();
+  revealHand(player, divPlayerCards, divPlayerSum, true);
+  revealHand(dealer, divDealerCards, divDealerSum, false);
 };
