@@ -170,7 +170,11 @@ const playGame = () => {
   console.log("Dealer", dealer);
   console.log("Player", player);
 
-  //   revealPlayerHand();
   revealHand(player, true);
   revealHand(dealer, false);
 };
+
+const hit = () => {
+    drawCard(player);
+    revealHand(player, true);
+}
