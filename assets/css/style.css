@@ -1,0 +1,18 @@
+.container{
+    min-height:200px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid paleturquoise;
+}
+
+.btn{
+    margin: 10px;
+    min-width:50px;
+}
+
+.card{
+    width: 100px;
+    height: 100px;
+    border: 2px solid pink;
+}
