@@ -4,13 +4,15 @@ const dealerCardsContainerID = "#dealer-cards";
 const dealerSumContainerID = "#dealer-sum";
 
 const btnsGame = document.querySelector("#btns-game");
+const divResults = document.querySelector("#results");
+
 const btnPlay = document.querySelector("#btn-play");
 const btnHit = document.querySelector("#btn-hit");
 const btnStand = document.querySelector("#btn-stand");
 
 // Remove Hit and Stand Buttons before the game starts
-btnsGame.removeChild(btnHit);
-btnsGame.removeChild(btnStand);
+// btnsGame.removeChild(btnHit);
+// btnsGame.removeChild(btnStand);
 
 
 // Constants to represent a deck of cards
@@ -42,9 +44,14 @@ const player = {};
 
 dealer["cardsContainerId"] = dealerCardsContainerID;
 dealer["sumContainerId"] = dealerSumContainerID;
+dealer["reveal"] = false;
 
 player["cardsContainerId"] = playerCardsContainerID;
 player["sumContainerId"] = playerSumContainerID;
+player["reveal"] = true;
+
+let gameOver = false;
+ 
 
 /**
  * Function to initialize global deck[] with the deck available in the game
@@ -123,6 +130,22 @@ function drawCard(user, numCardsToDraw = 1) {
   user["sum"] = calculateSum(user["hand"]);
 }
 
+const checkResults = () => {
+  let result=null;
+  
+  if(player["sum"]>21){
+    // Check if player is Bust!
+    result = "Bust! You lose."
+    gameOver = true;
+  }
+  
+  if(gameOver){
+    btnsGame.classList.add("hide");
+    divResults.classList.remove("hide");
+    divResults.firstElementChild.innerText = result;
+  }
+}
+
 /**
  *
  * @param {*} user
@@ -130,7 +153,7 @@ function drawCard(user, numCardsToDraw = 1) {
  * @param {*} divSum
  * @param {*} revealAll
  */
-const revealHand = (user, revealAll = false) => {
+const revealHand = (user) => {
   const divCards = document.querySelector(user["cardsContainerId"]);
   const divSum = document.querySelector(user["sumContainerId"]);
 
@@ -141,14 +164,14 @@ const revealHand = (user, revealAll = false) => {
     for (count = numVisibleCards; count < numCardsInHand; count++) {
       const showCard = document.createElement("div");
       showCard.classList.add("card");
-      if (revealAll || count === 0) {
+      if (user["reveal"] || count === 0) {
         showCard.innerHTML = `<p>${user["hand"][count]["suit"]} ${user["hand"][count]["value"]}</p>`;
       } else {
         showCard.innerHTML = `<p>X</p>`;
       }
       divCards.appendChild(showCard);
     }
-    if (revealAll) {
+    if (user["reveal"]) {
       divSum.innerText = user["sum"];
     } else {
       divSum.innerText = user["hand"][0]["value"];
@@ -158,29 +181,40 @@ const revealHand = (user, revealAll = false) => {
 
 
 const playGame = () => {
-  btnsGame.appendChild(btnHit);
-  btnsGame.appendChild(btnStand);
-  btnsGame.removeChild(btnPlay);
+  if(gameOver){
 
-  // Initialize available deck
-  initializeDeck();
-  console.log("Deck", deck);
+  } else {
+    // btnsGame.appendChild(btnHit);
+    // btnsGame.appendChild(btnStand);
+    // btnsGame.removeChild(btnPlay);
+    btnPlay.classList.toggle("hide");
+    btnHit.classList.toggle("hide");
+    btnStand.classList.toggle("hide");
 
-  // Initialize the dealer and player hand with 2 cards
-  drawCard(dealer, 2);
-  drawCard(player, 2);
-  console.log("Dealer", dealer);
-  console.log("Player", player);
+    // Initialize available deck
+    initializeDeck();
+    console.log("Deck", deck);
 
-  revealHand(player, true);
-  revealHand(dealer, false);
+    // Initialize the dealer and player hand with 2 cards
+    drawCard(dealer, 2);
+    drawCard(player, 2);
+    console.log("Dealer", dealer);
+    console.log("Player", player);
+
+    revealHand(player);
+    revealHand(dealer);
+
+    checkResults();
+  }
 };
 
 // Add Event listeners to buttons
 btnPlay.addEventListener("click",playGame);
+
 btnHit.addEventListener("click",function (){
     drawCard(player);
-    revealHand(player, true);
+    revealHand(player);
+    checkResults();
 });
 
 
