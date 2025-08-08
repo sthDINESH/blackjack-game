@@ -37,7 +37,7 @@ const cardNumbers = [
 const cardValues = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
 
 // Global object to store the cards available in the game
-const deck = [];
+let deck = [];
 
 // Global objects to store player and dealer details
 const dealer = {};
@@ -57,6 +57,7 @@ let gameOver = false;
  * Function to initialize global deck[] with the deck available in the game
  *  */
 function initializeDeck() {
+  deck = [];
   for (let suit of suits) {
     for (let index = 0; index < cardValues.length; index++) {
       deck.push({
