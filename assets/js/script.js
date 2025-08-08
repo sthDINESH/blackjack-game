@@ -138,8 +138,8 @@ const checkResults = () => {
     // Check if player is Bust!
     result = "Bust! You lose.";
     gameOver = true;
-  } else if(player["sum"] == 21) {
-    // 
+  } else if (player["sum"] == 21) {
+    //
     result = "You win!";
     gameOver = true;
   }
@@ -162,25 +162,24 @@ const revealHand = (user) => {
   const divCards = document.querySelector(user["cardsContainerId"]);
   const divSum = document.querySelector(user["sumContainerId"]);
 
-  const numVisibleCards = divCards.children.length;
-  const numCardsInHand = user["hand"].length;
+  divCards.innerHTML="";
+  divSum.innerHTML="";
 
-  if (numCardsInHand > numVisibleCards) {
-    for (count = numVisibleCards; count < numCardsInHand; count++) {
-      const showCard = document.createElement("div");
-      showCard.classList.add("card");
-      if (user["reveal"] || count === 0) {
-        showCard.innerHTML = `<p>${user["hand"][count]["suit"]} ${user["hand"][count]["value"]}</p>`;
-      } else {
-        showCard.innerHTML = `<p>X</p>`;
-      }
-      divCards.appendChild(showCard);
-    }
-    if (user["reveal"]) {
-      divSum.innerText = user["sum"];
+  user["hand"].forEach((card) => {
+    const showCard = document.createElement("div");
+    showCard.classList.add("card");
+    if (user["reveal"] || user["hand"].indexOf(card) === 0) {
+      showCard.innerHTML = `<p>${card["suit"]} ${card["value"]}</p>`;
     } else {
-      divSum.innerText = user["hand"][0]["value"];
+      showCard.innerHTML = `<p>X</p>`;
     }
+    divCards.appendChild(showCard);
+  });
+
+  if (user["reveal"]) {
+    divSum.innerText = user["sum"];
+  } else {
+    divSum.innerText = user["hand"][0]["value"];
   }
 };
 
@@ -211,14 +210,10 @@ btnPlay.addEventListener("click", playGame);
 btnPlayAgain.addEventListener("click", () => {
   delete player.hand;
   delete player.sum;
-  document.querySelector(player.cardsContainerId).innerHTML = "";
-  document.querySelector(player.sumContainerId).innerHTML = "";
 
   delete dealer.hand;
   delete dealer.sum;
-  document.querySelector(dealer.cardsContainerId).innerHTML = "";
-  document.querySelector(dealer.sumContainerId).innerHTML = "";
-  
+
   playGame();
 });
 
