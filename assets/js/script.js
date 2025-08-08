@@ -185,7 +185,6 @@ const checkResults = () => {
   }
 };
 
-
 const playGame = () => {
   gameOver = false;
   divStart.classList.add("hide");
@@ -207,12 +206,14 @@ const playGame = () => {
 
 // Add Event listeners to buttons
 btnPlay.addEventListener("click", playGame);
+
 btnPlayAgain.addEventListener("click", () => {
   delete player.hand;
   delete player.sum;
 
   delete dealer.hand;
   delete dealer.sum;
+  dealer.reveal = false;
 
   playGame();
 });
@@ -221,4 +222,14 @@ btnHit.addEventListener("click", function () {
   drawCard(player);
   console.log("Player", player);
   checkResults();
+});
+
+btnStand.addEventListener("click",()=>{
+  dealer["reveal"] = true;
+  revealHand(dealer);
+  while(dealer["sum"] < 17){
+    drawCard(dealer);
+  }
+  checkResults();
+
 });
