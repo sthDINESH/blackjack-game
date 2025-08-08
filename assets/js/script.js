@@ -3,17 +3,18 @@ const playerSumContainerID = "#player-sum";
 const dealerCardsContainerID = "#dealer-cards";
 const dealerSumContainerID = "#dealer-sum";
 
+const divStart = document.querySelector("#start");
 const btnsGame = document.querySelector("#btns-game");
 const divResults = document.querySelector("#results");
 
 const btnPlay = document.querySelector("#btn-play");
+const btnPlayAgain = document.querySelector("#btn-play-again");
 const btnHit = document.querySelector("#btn-hit");
 const btnStand = document.querySelector("#btn-stand");
 
 // Remove Hit and Stand Buttons before the game starts
 // btnsGame.removeChild(btnHit);
 // btnsGame.removeChild(btnStand);
-
 
 // Constants to represent a deck of cards
 const suits = ["Heart", "Spade", "Diamond", "Club"];
@@ -51,7 +52,6 @@ player["sumContainerId"] = playerSumContainerID;
 player["reveal"] = true;
 
 let gameOver = false;
- 
 
 /**
  * Function to initialize global deck[] with the deck available in the game
@@ -131,20 +131,20 @@ function drawCard(user, numCardsToDraw = 1) {
 }
 
 const checkResults = () => {
-  let result=null;
-  
-  if(player["sum"]>21){
+  let result = null;
+
+  if (player["sum"] > 21) {
     // Check if player is Bust!
-    result = "Bust! You lose."
+    result = "Bust! You lose.";
     gameOver = true;
   }
-  
-  if(gameOver){
+
+  if (gameOver) {
     btnsGame.classList.add("hide");
     divResults.classList.remove("hide");
     divResults.firstElementChild.innerText = result;
   }
-}
+};
 
 /**
  *
@@ -179,42 +179,46 @@ const revealHand = (user) => {
   }
 };
 
-
 const playGame = () => {
-  if(gameOver){
+  gameOver = false;
+  divStart.classList.add("hide");
+  divResults.classList.add("hide");
+  btnsGame.classList.remove("hide");
 
-  } else {
-    // btnsGame.appendChild(btnHit);
-    // btnsGame.appendChild(btnStand);
-    // btnsGame.removeChild(btnPlay);
-    btnPlay.classList.toggle("hide");
-    btnHit.classList.toggle("hide");
-    btnStand.classList.toggle("hide");
+  // Initialize available deck
+  initializeDeck();
+  console.log("Deck", deck);
 
-    // Initialize available deck
-    initializeDeck();
-    console.log("Deck", deck);
+  // Initialize the dealer and player hand with 2 cards
+  drawCard(dealer, 2);
+  drawCard(player, 2);
+  console.log("Dealer", dealer);
+  console.log("Player", player);
 
-    // Initialize the dealer and player hand with 2 cards
-    drawCard(dealer, 2);
-    drawCard(player, 2);
-    console.log("Dealer", dealer);
-    console.log("Player", player);
+  revealHand(player);
+  revealHand(dealer);
 
-    revealHand(player);
-    revealHand(dealer);
-
-    checkResults();
-  }
+  checkResults();
 };
 
 // Add Event listeners to buttons
-btnPlay.addEventListener("click",playGame);
+btnPlay.addEventListener("click", playGame);
+btnPlayAgain.addEventListener("click", () => {
+  delete player.hand;
+  delete player.sum;
+  document.querySelector(player.cardsContainerId).innerHTML = "";
+  document.querySelector(player.sumContainerId).innerHTML = "";
 
-btnHit.addEventListener("click",function (){
-    drawCard(player);
-    revealHand(player);
-    checkResults();
+  delete dealer.hand;
+  delete dealer.sum;
+  document.querySelector(dealer.cardsContainerId).innerHTML = "";
+  document.querySelector(dealer.sumContainerId).innerHTML = "";
+  
+  playGame();
 });
 
-
+btnHit.addEventListener("click", function () {
+  drawCard(player);
+  revealHand(player);
+  checkResults();
+});
