@@ -110,48 +110,6 @@ const calculateSum = (hand) => {
 };
 
 /**
- * Draw deck from the deck and add it to user's hand
- * @param {*} user: global object to add the drawn deck to
- * @param {*} numCardsToDraw : number of deck to draw from the deck
- */
-function drawCard(user, numCardsToDraw = 1) {
-  //   Create an empty array to store the hand if the key is not present
-  if (user["hand"] === undefined) {
-    user["hand"] = [];
-  }
-
-  for (let count = 0; count < numCardsToDraw; count++) {
-    // Pick a card at random index from the deck
-    let index = Math.floor(Math.random() * deck.length);
-    // Add the card to the user's hand
-    user["hand"].push(deck[index]);
-    // Remove the card from the deck
-    deck.splice(index, 1);
-  }
-  user["sum"] = calculateSum(user["hand"]);
-}
-
-const checkResults = () => {
-  let result = null;
-
-  if (player["sum"] > 21) {
-    // Check if player is Bust!
-    result = "Bust! You lose.";
-    gameOver = true;
-  } else if (player["sum"] == 21) {
-    //
-    result = "You win!";
-    gameOver = true;
-  }
-
-  if (gameOver) {
-    btnsGame.classList.add("hide");
-    divResults.classList.remove("hide");
-    divResults.firstElementChild.innerText = result;
-  }
-};
-
-/**
  *
  * @param {*} user
  * @param {*} divCards
@@ -183,6 +141,51 @@ const revealHand = (user) => {
   }
 };
 
+/**
+ * Draw deck from the deck and add it to user's hand
+ * @param {*} user: global object to add the drawn deck to
+ * @param {*} numCardsToDraw : number of deck to draw from the deck
+ */
+function drawCard(user, numCardsToDraw = 1) {
+  //   Create an empty array to store the hand if the key is not present
+  if (user["hand"] === undefined) {
+    user["hand"] = [];
+  }
+
+  for (let count = 0; count < numCardsToDraw; count++) {
+    // Pick a card at random index from the deck
+    let index = Math.floor(Math.random() * deck.length);
+    // Add the card to the user's hand
+    user["hand"].push(deck[index]);
+    // Remove the card from the deck
+    deck.splice(index, 1);
+  }
+  user["sum"] = calculateSum(user["hand"]);
+  
+  revealHand(user);
+}
+
+const checkResults = () => {
+  let result = null;
+
+  if (player["sum"] > 21) {
+    // Check if player is Bust!
+    result = "Bust! You lose.";
+    gameOver = true;
+  } else if (player["sum"] == 21) {
+    //
+    result = "You win!";
+    gameOver = true;
+  }
+
+  if (gameOver) {
+    btnsGame.classList.add("hide");
+    divResults.classList.remove("hide");
+    divResults.firstElementChild.innerText = result;
+  }
+};
+
+
 const playGame = () => {
   gameOver = false;
   divStart.classList.add("hide");
@@ -198,9 +201,6 @@ const playGame = () => {
   drawCard(player, 2);
   console.log("Dealer", dealer);
   console.log("Player", player);
-
-  revealHand(player);
-  revealHand(dealer);
 
   checkResults();
 };
@@ -219,6 +219,6 @@ btnPlayAgain.addEventListener("click", () => {
 
 btnHit.addEventListener("click", function () {
   drawCard(player);
-  revealHand(player);
+  console.log("Player", player);
   checkResults();
 });
