@@ -12,6 +12,7 @@ const btnStand = document.querySelector("#btn-stand");
 btnsGame.removeChild(btnHit);
 btnsGame.removeChild(btnStand);
 
+
 // Constants to represent a deck of cards
 const suits = ["Heart", "Spade", "Diamond", "Club"];
 // const suits = ["Heart"];
@@ -155,6 +156,7 @@ const revealHand = (user, revealAll = false) => {
   }
 };
 
+
 const playGame = () => {
   btnsGame.appendChild(btnHit);
   btnsGame.appendChild(btnStand);
@@ -174,7 +176,11 @@ const playGame = () => {
   revealHand(dealer, false);
 };
 
-const hit = () => {
+// Add Event listeners to buttons
+btnPlay.addEventListener("click",playGame);
+btnHit.addEventListener("click",function (){
     drawCard(player);
     revealHand(player, true);
-}
+});
+
+
