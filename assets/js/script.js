@@ -138,6 +138,10 @@ const checkResults = () => {
     // Check if player is Bust!
     result = "Bust! You lose.";
     gameOver = true;
+  } else if(player["sum"] == 21) {
+    // 
+    result = "You win!";
+    gameOver = true;
   }
 
   if (gameOver) {
