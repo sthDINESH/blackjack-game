@@ -52,6 +52,7 @@ player["sumContainerId"] = playerSumContainerID;
 player["reveal"] = true;
 
 let gameOver = false;
+let stand = false;
 
 /**
  * Function to initialize global deck[] with the deck available in the game
@@ -120,8 +121,8 @@ const revealHand = (user) => {
   const divCards = document.querySelector(user["cardsContainerId"]);
   const divSum = document.querySelector(user["sumContainerId"]);
 
-  divCards.innerHTML="";
-  divSum.innerHTML="";
+  divCards.innerHTML = "";
+  divSum.innerHTML = "";
 
   user["hand"].forEach((card) => {
     const showCard = document.createElement("div");
@@ -161,21 +162,32 @@ function drawCard(user, numCardsToDraw = 1) {
     deck.splice(index, 1);
   }
   user["sum"] = calculateSum(user["hand"]);
-  
+
   revealHand(user);
 }
 
 const checkResults = () => {
   let result = null;
 
-  if (player["sum"] > 21) {
-    // Check if player is Bust!
-    result = "Bust! You lose.";
+  if (!stand) {
+    if (player["sum"] > 21) {
+      // Check if player is Bust!
+      result = "Bust! You lose.";
+      gameOver = true;
+    } else if (player["sum"] == 21) {
+      //
+      result = "You win!";
+      gameOver = true;
+    }
+  } else {
     gameOver = true;
-  } else if (player["sum"] == 21) {
-    //
-    result = "You win!";
-    gameOver = true;
+    if (dealer["sum"] > 21) {
+      result = "Dealer Bust! You win.";
+    } else if (player["sum"] > dealer["sum"]) {
+      result = "You win.";
+    } else {
+      result = "Dealer wins.";
+    }
   }
 
   if (gameOver) {
@@ -186,7 +198,6 @@ const checkResults = () => {
 };
 
 const playGame = () => {
-  gameOver = false;
   divStart.classList.add("hide");
   divResults.classList.add("hide");
   btnsGame.classList.remove("hide");
@@ -215,6 +226,9 @@ btnPlayAgain.addEventListener("click", () => {
   delete dealer.sum;
   dealer.reveal = false;
 
+  gameOver = false;
+  stand = false;
+
   playGame();
 });
 
@@ -224,12 +238,12 @@ btnHit.addEventListener("click", function () {
   checkResults();
 });
 
-btnStand.addEventListener("click",()=>{
+btnStand.addEventListener("click", () => {
+  stand = true;
   dealer["reveal"] = true;
   revealHand(dealer);
-  while(dealer["sum"] < 17){
+  while (dealer["sum"] < 17) {
     drawCard(dealer);
   }
   checkResults();
-
 });
