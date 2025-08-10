@@ -37,8 +37,29 @@ The website aims to address the following user goals:
 8. **AS A** beginner, **I WANT TO** get hints on when to hit, stand, or double down, **SO THAT I CAN** learn better strategies.  
 9. **AS A** beginner, **I WANT TO** undo my last move in a practice mode, **SO THAT I CAN** experiment without penalty.  
 10. **AS A** time-killer, **I WANT TO** play without logging in or registering, **SO THAT I CAN** jump straight into the game.  
-11. **AS A** time-killer, **I WANT TO** pause and resume a round, **SO THAT I CAN** fit the game around my other activities.  
+11. **AS A** time-killer, **I WANT TO** pause and resume a round, **SO THAT I CAN** fit the game around my other activities. 
 
+### Scope Plane
+
+#### Features
+The table below includes the opportunities for the project along with a score of their importance level and viability(rated low to high, 1-5). Features that score high on importance and viability are addressed as part of the MVP. Features that score mid-range are should-have features, which will be added once the project has achieved MVP status. Low scored features are could-have features that if not addressed in this development version could be addressed in a future version.
+
+| Feature                                             | Importance (1–5) | Viability (1–5) | MVP      | Delivered |
+|-----------------------------------------------------|------------------|-----------------| -------- | --- |
+| Dealer AI following standard rules                  | 5                | 5               | &#x2611; |  |
+| Basic blackjack game logic (deal, hit, stand)       | 5                | 5               | &#x2611; |  |
+| Card display with images                            | 5                | 4               | &#x2611; |  |
+| Win/Loss detection and messaging                    | 5                | 5               | &#x2611; |  |
+| Basic score tracking (per session)                  | 3                | 5               |      |  |
+| Smooth card dealing animation                       | 3                | 3               |      |  |
+| Basic responsive design for mobile                  | 5                | 4               | &#x2611; |  |
+| Simple start/reset button                           | 5                | 5               | &#x2611; |  |
+| Quick tutorial pop-up                               | 3                | 3               |      |  |
+| Optional hints (hit/stand suggestions)              | 2                | 3               |      |  |
+| Win/Loss statistics persistence (localStorage)      | 3                | 5               |      |  |
+| Pause/Resume functionality                          | 2                | 2               |      |  |
+| Sound effects (deal, win, lose)                     | 2                | 3               |      |  |
+| Advanced dealer behavior (counting, bluffing)       | 1                | 1               |      |  |
 
 
 
