@@ -50,7 +50,7 @@ The table below includes the opportunities for the project along with a score of
 | Basic blackjack game logic (deal, hit, stand)       | 5                | 5               | &#x2611; |  |
 | Card display with images                            | 5                | 4               | &#x2611; |  |
 | Win/Loss detection and messaging                    | 5                | 5               | &#x2611; |  |
-| Basic score tracking (per session)                  | 3                | 5               |      |  |
+| Basic score tracking (per session)                  | 3                | 5               | &#x2611; |  |
 | Smooth card dealing animation                       | 3                | 3               |      |  |
 | Basic responsive design for mobile                  | 5                | 4               | &#x2611; |  |
 | Simple start/reset button                           | 5                | 5               | &#x2611; |  |
