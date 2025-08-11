@@ -38,6 +38,7 @@ The website aims to address the following user goals:
 9. **AS A** beginner, **I WANT TO** undo my last move in a practice mode, **SO THAT I CAN** experiment without penalty.  
 10. **AS A** time-killer, **I WANT TO** play without logging in or registering, **SO THAT I CAN** jump straight into the game.  
 11. **AS A** time-killer, **I WANT TO** pause and resume a round, **SO THAT I CAN** fit the game around my other activities. 
+12. **AS A** player, **I WANT TO** place a monetary bet before each round, **SO THAT I CAN** compete against the dealer and track my winnings or losses over time.
 
 ### Scope Plane
 
@@ -50,6 +51,9 @@ The table below includes the opportunities for the project along with a score of
 | Basic blackjack game logic (deal, hit, stand)       | 5                | 5               | &#x2611; |  |
 | Card display with images                            | 5                | 4               | &#x2611; |  |
 | Win/Loss detection and messaging                    | 5                | 5               | &#x2611; |  |
+| Player monetary balance tracking                    | 4                | 4               |  |  |
+| Place bet before each round                         | 4                | 4               |  |  |
+| Adjust balance after win/loss                       | 4                | 4               |  |  |
 | Basic score tracking (per session)                  | 3                | 5               | &#x2611; |  |
 | Smooth card dealing animation                       | 3                | 3               |      |  |
 | Basic responsive design for mobile                  | 5                | 4               | &#x2611; |  |
@@ -60,6 +64,7 @@ The table below includes the opportunities for the project along with a score of
 | Pause/Resume functionality                          | 2                | 2               |      |  |
 | Sound effects (deal, win, lose)                     | 2                | 3               |      |  |
 | Advanced dealer behavior (counting, bluffing)       | 1                | 1               |      |  |
+
 
 
 
