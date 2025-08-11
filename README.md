@@ -39,6 +39,7 @@ The website aims to address the following user goals:
 10. **AS A** time-killer, **I WANT TO** play without logging in or registering, **SO THAT I CAN** jump straight into the game.  
 11. **AS A** time-killer, **I WANT TO** pause and resume a round, **SO THAT I CAN** fit the game around my other activities. 
 12. **AS A** player, **I WANT TO** place a monetary bet before each round, **SO THAT I CAN** compete against the dealer and track my winnings or losses over time.
+13. **AS A** first-time player, **I WANT TO** see a welcome screen with the game name, logo, and rules, **SO THAT I CAN** understand the objective and start playing confidently.
 
 ### Scope Plane
 
@@ -54,6 +55,7 @@ The table below includes the opportunities for the project along with a score of
 | Player monetary balance tracking                    | 4                | 4               |  |  |
 | Place bet before each round                         | 4                | 4               |  |  |
 | Adjust balance after win/loss                       | 4                | 4               |  |  |
+| Welcome/Intro section with logo, rules, and Play    | 4                | 5               | &#x2611; |  |
 | Basic score tracking (per session)                  | 3                | 5               | &#x2611; |  |
 | Smooth card dealing animation                       | 3                | 3               |      |  |
 | Basic responsive design for mobile                  | 5                | 4               | &#x2611; |  |
@@ -64,6 +66,68 @@ The table below includes the opportunities for the project along with a score of
 | Pause/Resume functionality                          | 2                | 2               |      |  |
 | Sound effects (deal, win, lose)                     | 2                | 3               |      |  |
 | Advanced dealer behavior (counting, bluffing)       | 1                | 1               |      |  |
+
+### Structure plane
+
+#### Information Architecture
+
+##### Main Section
+
+###### Game Area
+- Dealer's Hand (cards + score placeholder)
+- Player's Hand (cards + score placeholder)
+
+##### Controls Panel
+- Deal (starts the game once bet placed)
+- Hit, Stand
+- Double down, Hint(if implemented)
+
+##### Betting Panel
+- Current balance
+- Chip buttons
+- Confirm Bet button(locks before round starts)
+
+##### Status Display
+- Round outcome message
+- Session score tracker(wins/losses, balance changes)
+
+##### Rules/Tutorial
+- Blackjack rules
+
+##### Welcome/Intro Section
+- Logo, game name, welcome message
+- Blackjack game rules
+- Play button(start the game)
+
+#### Interaction Design
+##### Intro Section Interactions
+
+###### View Logo and Welcome Message
+- Display centered on screen with clean styling.
+
+###### Read Rules
+- Rules visible directly below welcome message.
+
+###### Click Play Button
+- Hides intro screen, shows betting panel.
+- Prepares deck and balance display for first round.
+
+##### User Flow Including Intro
+1. **Player lands on Intro Screen**
+	- Sees logo, welcome text, and rules.
+2. **Player clicks Play**
+	- Navigates to betting interface.
+3. **Player selects bet**
+	- Confirms bet.
+4. **Player clicks Deal**
+	- Plays game.
+5. **End of round**
+	- Balance updates.
+	- Repeat betting phase.
+
+    
+
+
 
 
 
