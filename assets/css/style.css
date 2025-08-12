@@ -1,18 +1,93 @@
-.container{
-    min-height:200px;
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Limelight&family=Oregano:ital@0;1&display=swap');
+
+:root {
+    --primary-color: #E4ECE7;
+    --light-primary-color: white;
+    --dark-color: #262223;
+    --primary-accent-color: #0468BF; 
+    --secondary-accent-color: #D91A3D;
+
+    --primary-font: "Oregano", cursive;
+    --accent-font: "Limelight", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: var(--primary-font);
+}
+
+body {
+    background-color: var(--primary-color);
+}
+
+h1{
+    font-family: var(--accent-font);
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    letter-spacing: 0.25rem;
+    line-height: 3rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-top: 0.2rem solid black;
+    border-bottom: 0.2rem solid black;
+    
+    padding:1rem 0;
+    /* text-shadow: 0 0 2px yellow, 3px 3px 4px rgba(0,0,0,0.5); */
+    text-shadow: 3px 3px 4px rgba(0,0,0,0.5);    
+}
+
+h2{
+    font-weight: bold;
+    font-size: 1.25rem;
+    letter-spacing: 0.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.container {
+    min-height: 200px;
     min-width: 200px;
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     border: 2px solid paleturquoise;
 }
 
-.btn{
-    margin: 10px;
-    min-width:50px;
+.row {
+    /* border: 2px dashed red; */
+    justify-content: space-between;
 }
 
-.card{
+.col-12{
+    /* border: 2px dotted pink; */
+}
+
+.btn {
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    min-width: 40vw;
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+
+.btn-outline-danger{
+    border-color: var(--secondary-accent-color);
+    color: var(--secondary-accent-color);
+}
+
+.btn-primary{
+    border-color: var(--primary-accent-color);
+    background-color: var(--primary-accent-color);
+    min-width: 80vw;
+    font-family: var(--accent-font);
+    text-transform: uppercase;
+    letter-spacing: 0.4rem;
+    padding:0.5rem 0;
+    margin: 1.5rem 0;
+}
+
+.card {
     width: 100px;
     height: 100px;
     border: 2px solid pink;
@@ -20,11 +95,87 @@
     margin: 5px;
 }
 
-.hide{
+.drop-shadow {
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+}
+
+.hide {
     display: none;
 }
-/* 
-#btn-hit,
-#btn-stand{
-    display: none;
-} */
+
+/* Intro section */
+#intro{
+    text-align: center;
+    min-height: 100vh;
+}
+
+#hero-image {
+    --hero-image-width: 80vw;
+    min-width: var(--hero-image-width);
+    min-height: calc(var(--hero-image-width)*1.12);
+    /* to align images within the container */
+    position: relative;
+    /* border: 2px solid seagreen; */
+}
+
+#hero-image>div {
+    position: absolute;
+    /* Common background image properties in hero image */
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#hero-image>#card-jack {
+    background-image: url('../images/playing-card-jack_hero.webp');
+    width: 50%;
+    height: 72%;
+    right: 15%;
+    top: 10%;
+    /* border: 2px dotted green; */
+}
+
+#hero-image>#card-jack::before {
+    content: '';
+    background-color: var(--light-primary-color);
+    border-radius: 0.5rem;
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 106%;
+    transform: rotate(-15deg) translateY(-3%) translateX(-1.5%);
+    box-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.7);
+}
+
+.hero-card-style {
+    --card-width: 34.8%;
+    border-radius: 0.5rem;
+    width: var(--card-width);
+    height: calc(var(--card-width)*1.47);
+    background-color: rgb(0,0,0,0.25);
+    /* border: 2px dotted black; */
+}
+
+#hero-image>#card-10-hearts {
+    background-image: url('../images/svg-cards/10_of_spades.svg');
+    top: 40%;
+    right: 13%;
+    transform: rotateZ(32deg);
+}
+
+#hero-image>#card-ace-spade {
+    background-image: url('../images/svg-cards/ace_of_spades.svg');
+    top: 42%;
+    right: 13%;
+    transform: rotateZ(50deg);
+}
+
+#hero-image>#chips-image {
+    background-image: url('../images/casino-token-chips-shadow.webp');
+    width: 70%;
+    height: 55%;
+    top: 45%;
+    right: 25%;
+    transform: rotateZ(2.5deg);
+    /* border: 2px dotted black; */
+}
