@@ -106,15 +106,22 @@ h2{
 /* Intro section */
 #intro{
     text-align: center;
-    min-height: 100vh;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+#intro p{
+    margin-bottom: 0.5rem;
 }
 
 #hero-image {
-    --hero-image-width: 80vw;
+    --hero-image-width: 75vw;
     min-width: var(--hero-image-width);
     min-height: calc(var(--hero-image-width)*1.12);
     /* to align images within the container */
     position: relative;
+    margin-top: 2rem;
     /* border: 2px solid seagreen; */
 }
 
