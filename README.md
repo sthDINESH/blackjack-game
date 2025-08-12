@@ -125,18 +125,7 @@ The table below includes the opportunities for the project along with a score of
 	- Balance updates.
 	- Repeat betting phase.
 
-## Color Palettes
 
-Below are the color palettes used for the design. Both images are displayed at the same width for easy comparison.
-
-<div align="center">
-
-<img src="assets/images/color-palette-1.png" alt="Color Palette 1" width="300" />
-
-<img src="assets/images/color-palette-2.png" alt="Color Palette 2" width="300" />
-
-</div>
-[Download Color Palette 1](assets/images/color-palette-1.png) | [Download Color Palette 2](assets/images/color-palette-2.png)
 
 ### Skeleton plane
 
@@ -147,8 +136,23 @@ Below are the color palettes used for the design. Both images are displayed at t
 
 #### Color scheme
 
+Below are the color palettes used for the design.
 
+<div align="left">
 
+<img src="assets/images/color-palette-1.png" alt="Color Palette 1" width="800" />
+
+<img src="assets/images/color-palette-2.png" alt="Color Palette 2" width="800" />
+
+</div>
+
+#### Typography
+
+<div align="left">
+
+<img src="assets/images/typography.png" alt="Color Palette 1" width="800" />
+
+</div>
 
 
 
