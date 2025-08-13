@@ -1,3 +1,8 @@
+/**
+ * ----------------------------------------------
+ * CUSTOM CLASS DECLARATIONS
+ * ----------------------------------------------
+ */
 /** Class to handle user interface management */
 class uiManager {
   // Private fields pointing to UI relevant DOM elements
@@ -11,6 +16,9 @@ class uiManager {
   #dealerCards;
   #dealerSum;
 
+  /**
+   * Uses query selectors to assign pointers to relevant DOM nodes
+   */
   constructor() {
     this.#intro = document.querySelector("#intro");
     this.#deal = document.querySelector("#deal");
@@ -24,64 +32,62 @@ class uiManager {
 
     this.displayIntro();
   }
-
-  #showIntro(show) {
-    show
-      ? this.#intro.classList.remove("hide")
-      : this.#intro.classList.add("hide");
-  }
-
-  #showDeal(show) {
-    show
-      ? this.#deal.classList.remove("hide")
-      : this.#deal.classList.add("hide");
-  }
-
-  #showGame(show) {
-    show
-      ? this.#game.classList.remove("hide")
-      : this.#game.classList.add("hide");
-  }
-
-  #showResults(show) {
-    show
-      ? this.#results.classList.remove("hide")
-      : this.#results.classList.add("hide");
-  }
-
-  #showGameControls(show) {
-    show
-      ? this.#gameControls.classList.remove("hide")
-      : this.#gameControls.classList.add("hide");
+  //Private utility methods
+  /**
+   * Private method to show/hide DOM nodes
+   * @param {boolean} show - true to show/false to hide
+   * @param {object} node - DOM node
+   */
+  #showNode(node, show) {
+    if (typeof show === "boolean" && node) {
+      show ? node.classList.remove("hide") : node.classList.add("hide");
+    } else if (!node) {
+      throw "Value expected for node";
+    } else {
+      throw new TypeError("Boolean value expected for show");
+    }
   }
 
   // Public methods
+  /**
+   * Public method to display Intro/Welcome screen
+   */
   displayIntro() {
-    this.#showIntro(true);
-    this.#showDeal(false);
-    this.#showGame(false);
-    this.#showResults(false);
+    this.#showNode(this.#intro, true);
+    this.#showNode(this.#deal, false);
+    this.#showNode(this.#game, false);
+    this.#showNode(this.#results, false);
   }
-
+  /**
+   * Public method to display Game screen
+   */
   displayGameArea() {
-    this.#showIntro(false);
-    this.#showDeal(false);
-    this.#showGame(true);
-    this.#showGameControls(true);
-    this.#showResults(false);
+    this.#showNode(this.#intro, false);
+    this.#showNode(this.#deal, false);
+    this.#showNode(this.#game, true);
+    this.#showNode(this.#gameControls, true);
+    this.#showNode(this.#results, false);
   }
-
+  /**
+   * Public method to display Results modal
+   * @param {string} result - Message to be displayed
+   */
   displayResults(result) {
-    this.#showResults(true);
-    this.#showGameControls(false);
+    this.#showNode(this.#gameControls, false);
+    this.#showNode(this.#results, true);
     this.#results.firstElementChild.innerText = result;
   }
-
+  /**
+   * Public method to display game control buttons
+   */
   displayGameControls() {
-    this.#showResults(false);
-    this.#showGameControls(true);
+    this.#showNode(this.#gameControls, true);
+    this.#showNode(this.#results, false);
   }
-
+  /**
+   * Display the cards for the user on game screen
+   * @param {user} user - object of user class
+   */
   revealHand(user) {
     const divCards =
       user.id === "dealer" ? this.#dealerCards : this.#playerCards;
@@ -109,8 +115,6 @@ class uiManager {
     }
   }
 }
-
-const gameUI = new uiManager();
 
 /**
  * Class for managing card deck in the game
@@ -145,7 +149,9 @@ class deckManager {
     this.#cardValues = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
     this.initializeDeck();
   }
-
+  /**
+   * Populates private deck[] with available cards
+   */
   initializeDeck() {
     this.#deck = [];
     for (let suit of this.#suits) {
@@ -160,9 +166,9 @@ class deckManager {
   }
 
   /**
-   *
-   * @param {*} numCardsToDraw
-   * @returns
+   * Draws cards out of the deck - the drawn cards are removed from the deck
+   * @param {*} numCardsToDraw - number of cards to draw
+   * @returns {array} - Array with drawn card objects
    */
   drawCards(numCardsToDraw = 1) {
     const cards = [];
@@ -176,13 +182,14 @@ class deckManager {
     }
     return cards;
   }
-
+  /**
+   * Returns the current deck
+   * @returns {array} current deck with the cards present
+   */
   showCurrentDeck() {
     return this.#deck;
   }
 }
-
-const gameDeck = new deckManager();
 
 /**
  * Class to represent each user(dealer and player)
@@ -194,12 +201,18 @@ class user {
   #sum;
 
   constructor(id) {
-    this.#id = id;
-    this.clearHand(id);
+    if (id === "dealer" || id === "player") {
+      this.#id = id;
+      this.clearHand(id);
+    } else {
+      throw `Invalid value for id: ${id}`;
+    }
   }
 
+  /**
+   * Resets the hand[], sum and revealAllCards values
+   */
   clearHand() {
-    // TODO: add error checking for id values
     this.#hand = [];
     this.#sum = 0;
     this.#id === "dealer"
@@ -207,9 +220,8 @@ class user {
       : (this.#revealAllCards = true);
   }
   /**
-   *
-   * @param {*} hand
-   * @returns
+   * Checks if the current hand includes Ace card counted with a value of 11
+   * @returns {boolean} true if present/false if not
    */
   #handIncludesAce11() {
     for (let card of this.#hand) {
@@ -221,7 +233,7 @@ class user {
   }
 
   /**
-   *
+   * Calculates the sum of the values of cards in current hand and sets #sum
    */
   #calculateSumOfHand() {
     // Calculate the sum
@@ -246,7 +258,8 @@ class user {
   }
 
   /**
-   *
+   * Adds cards to users current hand
+   * @param {array} cards - array of card objects to be added
    */
   addCardsToHand(cards) {
     // TODO: add error checks for data type of hand
@@ -254,32 +267,42 @@ class user {
       this.#hand.push(card);
     });
     this.#calculateSumOfHand();
-    console.log(`${this.#id} ${this.#hand} ${this.#sum}`);
   }
-
+  /**
+   * Accessor to return the current sum of hand
+   */
   get sum() {
     return this.#sum;
   }
 
+  /**
+   * Accessor to return user id
+   */
   get id() {
     return this.#id;
   }
 
+  /**
+   * Accessor to return the current hand
+   */
   get hand() {
     return this.#hand;
   }
 
+  /**
+   * Accessor to check if all cards in the hand can be revealed
+   */
   get revealAllCards() {
     return this.#revealAllCards;
   }
 
+  /**
+   * Accessor to set if cards can be revealed
+   */
   set revealAllCards(show) {
     this.#revealAllCards = show;
   }
 }
-// Global objects to store player and dealer details
-const dealer = new user("dealer");
-const player = new user("player");
 
 class flags {
   // Private fields
@@ -289,8 +312,10 @@ class flags {
   constructor() {
     this.reset();
   }
-
-  reset(){
+  /**
+   * Reset the flags to defaults
+   */
+  reset() {
     this.#gameOver = false;
     this.#stand = false;
   }
@@ -315,24 +340,43 @@ class flags {
     }
   }
 
-  get stand(){
+  get stand() {
     return this.#stand;
   }
 }
 
+/**
+ * ----------------------------------------------
+ * GLOBAL OBJECT INSTANCES
+ * ----------------------------------------------
+ */
+const gameUI = new uiManager();
+const gameDeck = new deckManager();
+const dealer = new user("dealer");
+const player = new user("player");
 const gameFlags = new flags();
 
+/**
+ * ----------------------------------------------
+ * GAME FUNCTIONS
+ * ----------------------------------------------
+ */
 /**
  * Draw deck from the deck and add it to user's hand
  * @param {*} user: global object to add the drawn deck to
  * @param {*} numCardsToDraw : number of deck to draw from the deck
  */
-function drawCard(user, numCardsToDraw = 1) {
+const drawCard = (user, numCardsToDraw = 1) => {
   user.addCardsToHand(gameDeck.drawCards(numCardsToDraw));
-  console.log("Deck", gameDeck.showCurrentDeck());
   gameUI.revealHand(user);
+
+  console.log("DEBUG: Deck", gameDeck.showCurrentDeck());
+  console.log("DEBUG:", user);
 }
 
+/**
+ * Check the game results
+ */
 const checkResults = () => {
   let result = null;
 
@@ -362,23 +406,27 @@ const checkResults = () => {
   }
 };
 
+/**
+ * Start the game
+ */
 const playGame = () => {
   // Switch to game User interface
   gameUI.displayGameArea();
 
-  // Initialize available deck
-  gameDeck.initializeDeck();
-  console.log("Deck", gameDeck.showCurrentDeck());
+  console.log("DEBUG: Deck", gameDeck.showCurrentDeck());
 
   // Initialize the dealer and player hand with 2 cards
   drawCard(dealer, 2);
   drawCard(player, 2);
-  console.log("Dealer", dealer);
-  console.log("Player", player);
 
   checkResults();
 };
 
+/**
+ * ----------------------------------------------
+ * EVENT HANDLERS
+ * ----------------------------------------------
+ */
 // Wait for DOM contents to be loaded
 document.addEventListener("DOMContentLoaded", function () {
   // Add event listeners for buttons
@@ -390,7 +438,6 @@ document.addEventListener("DOMContentLoaded", function () {
           playGame();
         } else if (this.getAttribute("data-type") === "hit") {
           drawCard(player);
-          console.log("Player", player);
           checkResults();
         } else if (this.getAttribute("data-type") === "stand") {
           gameFlags.stand = true;
@@ -404,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
           dealer.clearHand();
           player.clearHand();
           gameFlags.reset();
-          
+
           gameDeck.initializeDeck();
           playGame();
         } else {
