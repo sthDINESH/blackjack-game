@@ -231,6 +231,30 @@ document.addEventListener("DOMContentLoaded", function () {
       button.addEventListener("click", function (event) {
         if (this.getAttribute("data-type") === "game-start") {
           playGame();
+        } else if (this.getAttribute("data-type") === "hit") {
+          drawCard(player);
+          console.log("Player", player);
+          checkResults();
+        } else if (this.getAttribute("data-type") === "stand") {
+          stand = true;
+          dealer["reveal"] = true;
+          revealHand(dealer);
+          while (dealer["sum"] < 17) {
+            drawCard(dealer);
+          }
+          checkResults();
+        } else if (this.getAttribute("data-type") === "play-again") {
+          delete player.hand;
+          delete player.sum;
+
+          delete dealer.hand;
+          delete dealer.sum;
+          dealer.reveal = false;
+
+          gameOver = false;
+          stand = false;
+
+          playGame();
         } else {
           alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
           throw `Unimplememted feature: ${this.getAttribute("data-type")}`;
@@ -239,35 +263,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
-// btnPlay.addEventListener("click", playGame);
-
-// btnPlayAgain.addEventListener("click", () => {
-//   delete player.hand;
-//   delete player.sum;
-
-//   delete dealer.hand;
-//   delete dealer.sum;
-//   dealer.reveal = false;
-
-//   gameOver = false;
-//   stand = false;
-
-//   playGame();
-// });
-
-// btnHit.addEventListener("click", function () {
-//   drawCard(player);
-//   console.log("Player", player);
-//   checkResults();
-// });
-
-// btnStand.addEventListener("click", () => {
-//   stand = true;
-//   dealer["reveal"] = true;
-//   revealHand(dealer);
-//   while (dealer["sum"] < 17) {
-//     drawCard(dealer);
-//   }
-//   checkResults();
-// });
