@@ -84,18 +84,17 @@ class uiManager {
 
   revealHand(user) {
     const divCards =
-      user["id"] === "dealer" ? this.#dealerCards : this.#playerCards;
-    const divSum = user["id"] === "dealer" ? this.#dealerSum : this.#playerSum;
-    // const divCards = document.querySelector(user["cardsContainerId"]);
-    // const divSum = document.querySelector(user["sumContainerId"]);
+      user.id === "dealer" ? this.#dealerCards : this.#playerCards;
+    const divSum = user.id === "dealer" ? this.#dealerSum : this.#playerSum;
+    
     // Empty the elements within the divs
     divCards.innerHTML = "";
     divSum.innerHTML = "";
 
-    user["hand"].forEach((card) => {
+    user.hand.forEach((card) => {
       const showCard = document.createElement("div");
       showCard.classList.add("card");
-      if (user["reveal"] || user["hand"].indexOf(card) === 0) {
+      if (user.revealAllCards || user.hand.indexOf(card) === 0) {
         showCard.innerHTML = `<p>${card["suit"]} ${card["value"]}</p>`;
       } else {
         showCard.innerHTML = `<p>X</p>`;
@@ -103,10 +102,10 @@ class uiManager {
       divCards.appendChild(showCard);
     });
 
-    if (user["reveal"]) {
-      divSum.innerText = user["sum"];
+    if (user.revealAllCards) {
+      divSum.innerText = user.sum;
     } else {
-      divSum.innerText = user["hand"][0]["value"];
+      divSum.innerText = user.hand[0]["value"];
     }
   }
 }
@@ -144,6 +143,10 @@ class deckManager {
       "King",
     ];
     this.#cardValues = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
+    this.initializeDeck();
+  }
+
+  initializeDeck(){
     this.#deck = [];
     for (let suit of this.#suits) {
       for (let index = 0; index < this.#cardValues.length; index++) {
@@ -157,9 +160,9 @@ class deckManager {
   }
 
   /**
-   * 
-   * @param {*} numCardsToDraw 
-   * @returns 
+   *
+   * @param {*} numCardsToDraw
+   * @returns
    */
   drawCards(numCardsToDraw = 1) {
     const cards = [];
@@ -174,22 +177,109 @@ class deckManager {
     return cards;
   }
 
-  showCurrentDeck(){
+  showCurrentDeck() {
     return this.#deck;
   }
 }
 
 const gameDeck = new deckManager();
 
+/**
+ * Class to represent each user(dealer and player)
+ */
+class user {
+  #id;
+  #revealAllCards;
+  #hand;
+  #sum;
+
+  constructor(id) {
+    this.#id = id;
+    this.clearHand(id);
+  }
+
+  clearHand(){
+    // TODO: add error checking for id values
+    this.#hand = [];
+    this.#sum = 0;
+    this.#id === "dealer"
+      ? (this.#revealAllCards = false)
+      : (this.#revealAllCards = true);
+  }
+  /**
+   *
+   * @param {*} hand
+   * @returns
+   */
+  #handIncludesAce11() {
+    for (let card of this.#hand) {
+      if (card["value"] === 11) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   *
+   */
+  #calculateSumOfHand() {
+    // Calculate the sum
+    let sum = this.#hand.reduce(
+      (partialSum, currentCard) => partialSum + currentCard["value"],
+      0
+    );
+    // Recalculate the sum with Ace card replaced with value of 1 if needed
+    while (sum > 21 && this.#handIncludesAce11()) {
+      for (let index in this.#hand) {
+        if (this.#hand[index]["value"] === 11) {
+          this.#hand[index]["value"] = 1;
+          break;
+        }
+      }
+      sum = this.#hand.reduce(
+        (partialSum, currentCard) => partialSum + currentCard["value"],
+        0
+      );
+    }
+    this.#sum = sum;
+  }
+
+  /**
+   *
+   */
+  addCardsToHand(cards) {
+    // TODO: add error checks for data type of hand
+    cards.forEach((card) => {
+      this.#hand.push(card);
+    });
+    this.#calculateSumOfHand();
+    console.log(`${this.#id} ${this.#hand} ${this.#sum}`);
+  }
+
+  get sum(){
+    return this.#sum;
+  }
+
+  get id(){
+    return this.#id;
+  }
+
+  get hand(){
+    return this.#hand;
+  }
+
+  get revealAllCards(){
+    return this.#revealAllCards;
+  }
+
+  set revealAllCards(show){
+    this.#revealAllCards = show;
+  }
+}
 // Global objects to store player and dealer details
-const dealer = {};
-const player = {};
-
-dealer["reveal"] = false;
-dealer["id"] = "dealer";
-
-player["reveal"] = true;
-player["id"] = "player";
+const dealer = new user("dealer");
+const player = new user("player");
 
 let gameOver = false;
 let stand = false;
@@ -241,26 +331,8 @@ const calculateSum = (hand) => {
  * @param {*} numCardsToDraw : number of deck to draw from the deck
  */
 function drawCard(user, numCardsToDraw = 1) {
-  //   Create an empty array to store the hand if the key is not present
-  if (user["hand"] === undefined) {
-    user["hand"] = [];
-  }
-
-  // user["hand"].push(gameDeck.drawCards(numCardsToDraw));
-  // user["hand"].push(...gameDeck.drawCards(numCardsToDraw));
-  gameDeck.drawCards(numCardsToDraw).forEach((card)=>user["hand"].push(card));
-
-  // for (let count = 0; count < numCardsToDraw; count++) {
-  //   // Pick a card at random index from the deck
-  //   let index = Math.floor(Math.random() * deck.length);
-  //   // Add the card to the user's hand
-  //   user["hand"].push(deck[index]);
-  //   // Remove the card from the deck
-  //   deck.splice(index, 1);
-  // }
+  user.addCardsToHand(gameDeck.drawCards(numCardsToDraw));
   console.log("Deck", gameDeck.showCurrentDeck());
-  user["sum"] = calculateSum(user["hand"]);
-
   gameUI.revealHand(user);
 }
 
@@ -268,20 +340,20 @@ const checkResults = () => {
   let result = null;
 
   if (!stand) {
-    if (player["sum"] > 21) {
+    if (player.sum > 21) {
       // Check if player is Bust!
       result = "Bust! You lose.";
       gameOver = true;
-    } else if (player["sum"] == 21) {
+    } else if (player.sum == 21) {
       //
       result = "You win!";
       gameOver = true;
     }
   } else {
     gameOver = true;
-    if (dealer["sum"] > 21) {
+    if (dealer.sum > 21) {
       result = "Dealer Bust! You win.";
-    } else if (player["sum"] > dealer["sum"]) {
+    } else if (player.sum > dealer.sum) {
       result = "You win.";
     } else {
       result = "Dealer wins.";
@@ -298,7 +370,7 @@ const playGame = () => {
   gameUI.displayGameArea();
 
   // Initialize available deck
-  // initializeDeck();
+  gameDeck.initializeDeck();
   console.log("Deck", gameDeck.showCurrentDeck());
 
   // Initialize the dealer and player hand with 2 cards
@@ -325,19 +397,15 @@ document.addEventListener("DOMContentLoaded", function () {
           checkResults();
         } else if (this.getAttribute("data-type") === "stand") {
           stand = true;
-          dealer["reveal"] = true;
+          dealer.revealAllCards = true;
           gameUI.revealHand(dealer);
-          while (dealer["sum"] < 17) {
+          while (dealer.sum < 17) {
             drawCard(dealer);
           }
           checkResults();
         } else if (this.getAttribute("data-type") === "play-again") {
-          delete player.hand;
-          delete player.sum;
-
-          delete dealer.hand;
-          delete dealer.sum;
-          dealer.reveal = false;
+          dealer.clearHand();
+          player.clearHand();
 
           gameOver = false;
           stand = false;
