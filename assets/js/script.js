@@ -113,28 +113,73 @@ class uiManager {
 
 const gameUI = new uiManager();
 
-// Constants to represent a deck of cards
-const suits = ["Heart", "Spade", "Diamond", "Club"];
-// const suits = ["Heart"];
-const cardNumbers = [
-  "Ace",
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  "Jack",
-  "Queen",
-  "King",
-];
-const cardValues = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
+/**
+ * Class for managing card deck in the game
+ */
+class deckManager {
+  // Private fields
+  #suits;
+  #cardNumbers;
+  #cardValues;
+  #deck;
 
-// Global object to store the cards available in the game
-let deck = [];
+  /**
+   * Initializes the deck with available cards for the game(single deck of 52 cards)
+   */
+  constructor() {
+    this.#suits = ["Heart", "Spade", "Diamond", "Club"];
+    this.#cardNumbers = [
+      "Ace",
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      "Jack",
+      "Queen",
+      "King",
+    ];
+    this.#cardValues = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
+    this.#deck = [];
+    for (let suit of this.#suits) {
+      for (let index = 0; index < this.#cardValues.length; index++) {
+        this.#deck.push({
+          suit: suit,
+          number: this.#cardNumbers[index],
+          value: this.#cardValues[index],
+        });
+      }
+    }
+  }
+
+  /**
+   * 
+   * @param {*} numCardsToDraw 
+   * @returns 
+   */
+  drawCards(numCardsToDraw = 1) {
+    const cards = [];
+    for (let count = 0; count < numCardsToDraw; count++) {
+      // Pick a card at random index from the deck
+      let index = Math.floor(Math.random() * this.#deck.length);
+      // Add the card to be returned
+      cards.push(this.#deck[index]);
+      // Remove the card from the deck
+      this.#deck.splice(index, 1);
+    }
+    return cards;
+  }
+
+  showCurrentDeck(){
+    return this.#deck;
+  }
+}
+
+const gameDeck = new deckManager();
 
 // Global objects to store player and dealer details
 const dealer = {};
@@ -149,21 +194,6 @@ player["id"] = "player";
 let gameOver = false;
 let stand = false;
 
-/**
- * Function to initialize global deck[] with the deck available in the game
- *  */
-function initializeDeck() {
-  deck = [];
-  for (let suit of suits) {
-    for (let index = 0; index < cardValues.length; index++) {
-      deck.push({
-        suit: suit,
-        number: cardNumbers[index],
-        value: cardValues[index],
-      });
-    }
-  }
-}
 /**
  * Check if the current hand includes Ace cards marked with value of 11; helper to calculate sum
  * @param {} hand: array of cards in current hand
@@ -216,14 +246,19 @@ function drawCard(user, numCardsToDraw = 1) {
     user["hand"] = [];
   }
 
-  for (let count = 0; count < numCardsToDraw; count++) {
-    // Pick a card at random index from the deck
-    let index = Math.floor(Math.random() * deck.length);
-    // Add the card to the user's hand
-    user["hand"].push(deck[index]);
-    // Remove the card from the deck
-    deck.splice(index, 1);
-  }
+  // user["hand"].push(gameDeck.drawCards(numCardsToDraw));
+  // user["hand"].push(...gameDeck.drawCards(numCardsToDraw));
+  gameDeck.drawCards(numCardsToDraw).forEach((card)=>user["hand"].push(card));
+
+  // for (let count = 0; count < numCardsToDraw; count++) {
+  //   // Pick a card at random index from the deck
+  //   let index = Math.floor(Math.random() * deck.length);
+  //   // Add the card to the user's hand
+  //   user["hand"].push(deck[index]);
+  //   // Remove the card from the deck
+  //   deck.splice(index, 1);
+  // }
+  console.log("Deck", gameDeck.showCurrentDeck());
   user["sum"] = calculateSum(user["hand"]);
 
   gameUI.revealHand(user);
@@ -263,8 +298,8 @@ const playGame = () => {
   gameUI.displayGameArea();
 
   // Initialize available deck
-  initializeDeck();
-  console.log("Deck", deck);
+  // initializeDeck();
+  console.log("Deck", gameDeck.showCurrentDeck());
 
   // Initialize the dealer and player hand with 2 cards
   drawCard(dealer, 2);
