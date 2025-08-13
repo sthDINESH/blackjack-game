@@ -198,7 +198,14 @@ const checkResults = () => {
 };
 
 const playGame = () => {
-  divStart.classList.add("hide");
+  // Hide other sections
+  document.querySelector("#intro").classList.add("hide");
+  console.dir(document.querySelector("#intro"));
+  document.querySelector("#deal").classList.add("hide");
+  // Reveal game round section
+  document.querySelector("#game-round").classList.remove("hide");
+
+  // divStart.classList.add("hide");
   divResults.classList.add("hide");
   btnsGame.classList.remove("hide");
 
@@ -215,35 +222,52 @@ const playGame = () => {
   checkResults();
 };
 
-// Add Event listeners to buttons
-btnPlay.addEventListener("click", playGame);
-
-btnPlayAgain.addEventListener("click", () => {
-  delete player.hand;
-  delete player.sum;
-
-  delete dealer.hand;
-  delete dealer.sum;
-  dealer.reveal = false;
-
-  gameOver = false;
-  stand = false;
-
-  playGame();
+// Wait for DOM contents to be loaded
+document.addEventListener("DOMContentLoaded", function () {
+  // Add event listeners for buttons
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    if (button.getAttribute("data-type") !== "button-bs-modal") {
+      button.addEventListener("click", function (event) {
+        if (this.getAttribute("data-type") === "game-start") {
+          playGame();
+        } else {
+          alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
+          throw `Unimplememted feature: ${this.getAttribute("data-type")}`;
+        }
+      });
+    }
+  });
 });
 
-btnHit.addEventListener("click", function () {
-  drawCard(player);
-  console.log("Player", player);
-  checkResults();
-});
+// btnPlay.addEventListener("click", playGame);
 
-btnStand.addEventListener("click", () => {
-  stand = true;
-  dealer["reveal"] = true;
-  revealHand(dealer);
-  while (dealer["sum"] < 17) {
-    drawCard(dealer);
-  }
-  checkResults();
-});
+// btnPlayAgain.addEventListener("click", () => {
+//   delete player.hand;
+//   delete player.sum;
+
+//   delete dealer.hand;
+//   delete dealer.sum;
+//   dealer.reveal = false;
+
+//   gameOver = false;
+//   stand = false;
+
+//   playGame();
+// });
+
+// btnHit.addEventListener("click", function () {
+//   drawCard(player);
+//   console.log("Player", player);
+//   checkResults();
+// });
+
+// btnStand.addEventListener("click", () => {
+//   stand = true;
+//   dealer["reveal"] = true;
+//   revealHand(dealer);
+//   while (dealer["sum"] < 17) {
+//     drawCard(dealer);
+//   }
+//   checkResults();
+// });

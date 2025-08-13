@@ -37,7 +37,7 @@
             <div class="col-12">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                    data-bs-target="#game-rules">Learn Rules</button>
+                    data-bs-target="#game-rules" data-type="button-bs-modal">Learn Rules</button>
 
                 <!-- Modal -->
                 <div class="modal fade" id="game-rules" tabindex="-1" aria-labelledby="gameRulesModalLabel"
@@ -88,38 +88,39 @@
                                 <p>If you go over 21, you lose immediately.</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">OK</button>
+                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" data-type="button-bs-modal">OK</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-12">
-                <button class="btn btn-primary">Play!</button>
+                <button class="btn btn-primary" data-type="game-start">Play!</button>
             </div>
 
         </div>
     </header>
-    <main class="hide">
-        <div id="dealer-details" class="container">
-            <div id="dealer-cards" class="container"></div>
-            <div id="dealer-sum" class="container"></div>
-        </div>
-        <div id="start" class="container">
-            <button id="btn-play" class="btn">Play</button>
-        </div>
-        <div id="btns-game" class="container hide">
-            <button id="btn-hit" class="btn">Hit</button>
-            <button id="btn-stand" class="btn">Stand</button>
-        </div>
-        <div id="results" class="container hide">
-            <p></p>
-            <button id="btn-play-again" class="btn">Play Again</button>
-        </div>
-        <div id="player-details" class="container">
-            <div id="player-cards" class="container"></div>
-            <div id="player-sum" class="container"></div>
-        </div>
+    <main>
+        <section id="deal" class="hide">
+        </section>
+        <section id="game-round" class="hide">
+            <div id="dealer-details" class="container">
+                <div id="dealer-cards" class="container"></div>
+                <div id="dealer-sum" class="container"></div>
+            </div>
+            <div id="btns-game" class="container">
+                <button id="btn-hit" class="btn">Hit</button>
+                <button id="btn-stand" class="btn">Stand</button>
+            </div>
+            <div id="results" class="container hide">
+                <p></p>
+                <button id="btn-play-again" class="btn">Play Again</button>
+            </div>
+            <div id="player-details" class="container">
+                <div id="player-cards" class="container"></div>
+                <div id="player-sum" class="container"></div>
+            </div>
+        </section>
 
     </main>
     <!-- Bootstrap 5 JS -->

@@ -108,8 +108,8 @@ h2,
 #intro {
     text-align: center;
     min-height: 90vh;
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
 }
 
 #intro p {
