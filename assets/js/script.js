@@ -1,20 +1,117 @@
-const playerCardsContainerID = "#player-cards";
-const playerSumContainerID = "#player-sum";
-const dealerCardsContainerID = "#dealer-cards";
-const dealerSumContainerID = "#dealer-sum";
+/** Class to handle user interface management */
+class uiManager {
+  // Private fields pointing to UI relevant DOM elements
+  #intro;
+  #deal;
+  #game;
+  #results;
+  #gameControls;
+  #playerCards;
+  #playerSum;
+  #dealerCards;
+  #dealerSum;
 
-const divStart = document.querySelector("#start");
-const btnsGame = document.querySelector("#btns-game");
-const divResults = document.querySelector("#results");
+  constructor() {
+    this.#intro = document.querySelector("#intro");
+    this.#deal = document.querySelector("#deal");
+    this.#game = document.querySelector("#game-round");
+    this.#results = document.querySelector("#results");
+    this.#gameControls = document.querySelector("#btns-game");
+    this.#playerCards = document.querySelector("#player-cards");
+    this.#playerSum = document.querySelector("#player-sum");
+    this.#dealerCards = document.querySelector("#dealer-cards");
+    this.#dealerSum = document.querySelector("#dealer-sum");
 
-const btnPlay = document.querySelector("#btn-play");
-const btnPlayAgain = document.querySelector("#btn-play-again");
-const btnHit = document.querySelector("#btn-hit");
-const btnStand = document.querySelector("#btn-stand");
+    this.displayIntro();
+  }
 
-// Remove Hit and Stand Buttons before the game starts
-// btnsGame.removeChild(btnHit);
-// btnsGame.removeChild(btnStand);
+  #showIntro(show) {
+    show
+      ? this.#intro.classList.remove("hide")
+      : this.#intro.classList.add("hide");
+  }
+
+  #showDeal(show) {
+    show
+      ? this.#deal.classList.remove("hide")
+      : this.#deal.classList.add("hide");
+  }
+
+  #showGame(show) {
+    show
+      ? this.#game.classList.remove("hide")
+      : this.#game.classList.add("hide");
+  }
+
+  #showResults(show) {
+    show
+      ? this.#results.classList.remove("hide")
+      : this.#results.classList.add("hide");
+  }
+
+  #showGameControls(show) {
+    show
+      ? this.#gameControls.classList.remove("hide")
+      : this.#gameControls.classList.add("hide");
+  }
+
+  // Public methods
+  displayIntro() {
+    this.#showIntro(true);
+    this.#showDeal(false);
+    this.#showGame(false);
+    this.#showResults(false);
+  }
+
+  displayGameArea() {
+    this.#showIntro(false);
+    this.#showDeal(false);
+    this.#showGame(true);
+    this.#showGameControls(true);
+    this.#showResults(false);
+  }
+
+  displayResults(result) {
+    this.#showResults(true);
+    this.#showGameControls(false);
+    this.#results.firstElementChild.innerText = result;
+  }
+
+  displayGameControls() {
+    this.#showResults(false);
+    this.#showGameControls(true);
+  }
+
+  revealHand(user) {
+    const divCards =
+      user["id"] === "dealer" ? this.#dealerCards : this.#playerCards;
+    const divSum = user["id"] === "dealer" ? this.#dealerSum : this.#playerSum;
+    // const divCards = document.querySelector(user["cardsContainerId"]);
+    // const divSum = document.querySelector(user["sumContainerId"]);
+    // Empty the elements within the divs
+    divCards.innerHTML = "";
+    divSum.innerHTML = "";
+
+    user["hand"].forEach((card) => {
+      const showCard = document.createElement("div");
+      showCard.classList.add("card");
+      if (user["reveal"] || user["hand"].indexOf(card) === 0) {
+        showCard.innerHTML = `<p>${card["suit"]} ${card["value"]}</p>`;
+      } else {
+        showCard.innerHTML = `<p>X</p>`;
+      }
+      divCards.appendChild(showCard);
+    });
+
+    if (user["reveal"]) {
+      divSum.innerText = user["sum"];
+    } else {
+      divSum.innerText = user["hand"][0]["value"];
+    }
+  }
+}
+
+const gameUI = new uiManager();
 
 // Constants to represent a deck of cards
 const suits = ["Heart", "Spade", "Diamond", "Club"];
@@ -43,13 +140,11 @@ let deck = [];
 const dealer = {};
 const player = {};
 
-dealer["cardsContainerId"] = dealerCardsContainerID;
-dealer["sumContainerId"] = dealerSumContainerID;
 dealer["reveal"] = false;
+dealer["id"] = "dealer";
 
-player["cardsContainerId"] = playerCardsContainerID;
-player["sumContainerId"] = playerSumContainerID;
 player["reveal"] = true;
+player["id"] = "player";
 
 let gameOver = false;
 let stand = false;
@@ -111,38 +206,6 @@ const calculateSum = (hand) => {
 };
 
 /**
- *
- * @param {*} user
- * @param {*} divCards
- * @param {*} divSum
- * @param {*} revealAll
- */
-const revealHand = (user) => {
-  const divCards = document.querySelector(user["cardsContainerId"]);
-  const divSum = document.querySelector(user["sumContainerId"]);
-
-  divCards.innerHTML = "";
-  divSum.innerHTML = "";
-
-  user["hand"].forEach((card) => {
-    const showCard = document.createElement("div");
-    showCard.classList.add("card");
-    if (user["reveal"] || user["hand"].indexOf(card) === 0) {
-      showCard.innerHTML = `<p>${card["suit"]} ${card["value"]}</p>`;
-    } else {
-      showCard.innerHTML = `<p>X</p>`;
-    }
-    divCards.appendChild(showCard);
-  });
-
-  if (user["reveal"]) {
-    divSum.innerText = user["sum"];
-  } else {
-    divSum.innerText = user["hand"][0]["value"];
-  }
-};
-
-/**
  * Draw deck from the deck and add it to user's hand
  * @param {*} user: global object to add the drawn deck to
  * @param {*} numCardsToDraw : number of deck to draw from the deck
@@ -163,7 +226,7 @@ function drawCard(user, numCardsToDraw = 1) {
   }
   user["sum"] = calculateSum(user["hand"]);
 
-  revealHand(user);
+  gameUI.revealHand(user);
 }
 
 const checkResults = () => {
@@ -191,23 +254,13 @@ const checkResults = () => {
   }
 
   if (gameOver) {
-    btnsGame.classList.add("hide");
-    divResults.classList.remove("hide");
-    divResults.firstElementChild.innerText = result;
+    gameUI.displayResults(result);
   }
 };
 
 const playGame = () => {
-  // Hide other sections
-  document.querySelector("#intro").classList.add("hide");
-  console.dir(document.querySelector("#intro"));
-  document.querySelector("#deal").classList.add("hide");
-  // Reveal game round section
-  document.querySelector("#game-round").classList.remove("hide");
-
-  // divStart.classList.add("hide");
-  divResults.classList.add("hide");
-  btnsGame.classList.remove("hide");
+  // Switch to game User interface
+  gameUI.displayGameArea();
 
   // Initialize available deck
   initializeDeck();
@@ -238,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (this.getAttribute("data-type") === "stand") {
           stand = true;
           dealer["reveal"] = true;
-          revealHand(dealer);
+          gameUI.revealHand(dealer);
           while (dealer["sum"] < 17) {
             drawCard(dealer);
           }
