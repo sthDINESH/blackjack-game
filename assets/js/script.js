@@ -86,7 +86,7 @@ class uiManager {
     const divCards =
       user.id === "dealer" ? this.#dealerCards : this.#playerCards;
     const divSum = user.id === "dealer" ? this.#dealerSum : this.#playerSum;
-    
+
     // Empty the elements within the divs
     divCards.innerHTML = "";
     divSum.innerHTML = "";
@@ -146,7 +146,7 @@ class deckManager {
     this.initializeDeck();
   }
 
-  initializeDeck(){
+  initializeDeck() {
     this.#deck = [];
     for (let suit of this.#suits) {
       for (let index = 0; index < this.#cardValues.length; index++) {
@@ -198,7 +198,7 @@ class user {
     this.clearHand(id);
   }
 
-  clearHand(){
+  clearHand() {
     // TODO: add error checking for id values
     this.#hand = [];
     this.#sum = 0;
@@ -257,23 +257,23 @@ class user {
     console.log(`${this.#id} ${this.#hand} ${this.#sum}`);
   }
 
-  get sum(){
+  get sum() {
     return this.#sum;
   }
 
-  get id(){
+  get id() {
     return this.#id;
   }
 
-  get hand(){
+  get hand() {
     return this.#hand;
   }
 
-  get revealAllCards(){
+  get revealAllCards() {
     return this.#revealAllCards;
   }
 
-  set revealAllCards(show){
+  set revealAllCards(show) {
     this.#revealAllCards = show;
   }
 }
@@ -281,49 +281,46 @@ class user {
 const dealer = new user("dealer");
 const player = new user("player");
 
-let gameOver = false;
-let stand = false;
+class flags {
+  // Private fields
+  #gameOver;
+  #stand;
 
-/**
- * Check if the current hand includes Ace cards marked with value of 11; helper to calculate sum
- * @param {} hand: array of cards in current hand
- * @returns true - if present, false if not
- */
-const includesAce11 = (hand) => {
-  for (let card in hand) {
-    if (card["value"] === 11) {
-      return true;
+  constructor() {
+    this.reset();
+  }
+
+  reset(){
+    this.#gameOver = false;
+    this.#stand = false;
+  }
+
+  set gameOver(isOver) {
+    if (typeof isOver !== "boolean") {
+      throw new TypeError("isOver value must be boolean");
+    } else {
+      this.#gameOver = isOver;
     }
   }
-  return false;
-};
 
-/**
- * Calculate the value of the cards in hand; checks if Ace should be used as 1 or 11
- * @param hand: array of cards in current hand
- * @returns sum of the value of cards in current hand
- */
-const calculateSum = (hand) => {
-  // Calculate the sum
-  let sum = hand.reduce(
-    (partialSum, currentCard) => partialSum + currentCard["value"],
-    0
-  );
-  // Recalculate the sum with Ace card replaced with value of 1 if needed
-  while (sum > 21 && includesAce11(hand)) {
-    for (let index in hand) {
-      if (hand[index]["value"] === 11) {
-        hand[index]["value"] = 1;
-        break;
-      }
-    }
-    sum = hand.reduce(
-      (partialSum, currentCard) => partialSum + currentCard["value"],
-      0
-    );
+  get gameOver() {
+    return this.#gameOver;
   }
-  return sum;
-};
+
+  set stand(isStand) {
+    if (typeof isStand !== "boolean") {
+      throw new TypeError("isStand value must be boolean");
+    } else {
+      this.#stand = isStand;
+    }
+  }
+
+  get stand(){
+    return this.#stand;
+  }
+}
+
+const gameFlags = new flags();
 
 /**
  * Draw deck from the deck and add it to user's hand
@@ -339,18 +336,18 @@ function drawCard(user, numCardsToDraw = 1) {
 const checkResults = () => {
   let result = null;
 
-  if (!stand) {
+  if (!gameFlags.stand) {
     if (player.sum > 21) {
       // Check if player is Bust!
       result = "Bust! You lose.";
-      gameOver = true;
+      gameFlags.gameOver = true;
     } else if (player.sum == 21) {
       //
       result = "You win!";
-      gameOver = true;
+      gameFlags.gameOver = true;
     }
   } else {
-    gameOver = true;
+    gameFlags.gameOver = true;
     if (dealer.sum > 21) {
       result = "Dealer Bust! You win.";
     } else if (player.sum > dealer.sum) {
@@ -360,7 +357,7 @@ const checkResults = () => {
     }
   }
 
-  if (gameOver) {
+  if (gameFlags.gameOver) {
     gameUI.displayResults(result);
   }
 };
@@ -396,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log("Player", player);
           checkResults();
         } else if (this.getAttribute("data-type") === "stand") {
-          stand = true;
+          gameFlags.stand = true;
           dealer.revealAllCards = true;
           gameUI.revealHand(dealer);
           while (dealer.sum < 17) {
@@ -406,10 +403,9 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (this.getAttribute("data-type") === "play-again") {
           dealer.clearHand();
           player.clearHand();
-
-          gameOver = false;
-          stand = false;
-
+          gameFlags.reset();
+          
+          gameDeck.initializeDeck();
           playGame();
         } else {
           alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
