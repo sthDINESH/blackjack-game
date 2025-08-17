@@ -101,7 +101,9 @@ class uiManager {
       const showCard = document.createElement("div");
       showCard.classList.add("card");
       if (user.revealAllCards || user.hand.indexOf(card) === 0) {
-        showCard.innerHTML = `<p>${card["suit"]} ${card["value"]}</p>`;
+        const cardImage=`assets/images/svg-cards/${card["number"]}_of_${card["suit"]}.svg`;
+        // showCard.innerHTML = `<p>${cardImage}</p>`;
+        showCard.style.backgroundImage = `url(${cardImage})`;
       } else {
         showCard.innerHTML = `<p>X</p>`;
       }
@@ -130,9 +132,9 @@ class deckManager {
    * Initializes the deck with available cards for the game(single deck of 52 cards)
    */
   constructor() {
-    this.#suits = ["Heart", "Spade", "Diamond", "Club"];
+    this.#suits = ["hearts", "spades", "diamonds", "clubs"];
     this.#cardNumbers = [
-      "Ace",
+      "ace",
       2,
       3,
       4,
@@ -142,9 +144,9 @@ class deckManager {
       8,
       9,
       10,
-      "Jack",
-      "Queen",
-      "King",
+      "jack",
+      "queen",
+      "king",
     ];
     this.#cardValues = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
     this.initializeDeck();

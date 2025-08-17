@@ -105,9 +105,11 @@ h2,
     --card-width: min(25vw,11.3vh);
     width: var(--card-width);
     aspect-ratio: 0.69;
-    border: 2px solid pink;
+    /* border: 2px solid pink; */
     text-align: center;
     margin: 0.5rem 0;
+    background-size:contain;
+    background-repeat: no-repeat;
 }
 
 .drop-shadow {
