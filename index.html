@@ -36,18 +36,15 @@
             </div>
             <div class="col-12">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                    data-bs-target="#game-rules" data-type="button-bs-modal">Learn Rules</button>
+                <button type="button" class="btn btn-circle-outline" data-bs-toggle="modal" data-bs-target="#game-rules"
+                    data-type="button-bs-modal">Rules</button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="game-rules" tabindex="-1" aria-labelledby="gameRulesModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="game-rules" tabindex="-1" aria-labelledby="gameRulesModalLabel">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <p class="modal-title" id="gameRulesModalLabel">Rules</p>
-                                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button> -->
+                                <h2 class="modal-title heading" id="gameRulesModalLabel">Rules</h2>
                             </div>
                             <div class="modal-body">
                                 <p class="sub-heading">Objective</p>
@@ -88,7 +85,8 @@
                                 <p>If you go over 21, you lose immediately.</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" data-type="button-bs-modal">OK</button>
+                                <button type="button" class="btn btn-circle" data-bs-dismiss="modal"
+                                    data-type="button-bs-modal">OK</button>
                             </div>
                         </div>
                     </div>
@@ -104,21 +102,38 @@
         <section id="deal" class="hide">
         </section>
         <section id="game-round" class="hide">
-            <div id="dealer-details" class="container">
-                <div id="dealer-cards" class="container"></div>
-                <div id="dealer-sum" class="container"></div>
-            </div>
-            <div id="btns-game" class="container">
-                <button id="btn-hit" class="btn" data-type="hit">Hit</button>
-                <button id="btn-stand" class="btn" data-type="stand">Stand</button>
-            </div>
-            <div id="results" class="container hide">
-                <p></p>
-                <button id="btn-play-again" class="btn" data-type="play-again">Play Again</button>
-            </div>
-            <div id="player-details" class="container">
-                <div id="player-cards" class="container"></div>
-                <div id="player-sum" class="container"></div>
+            <div class="section-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div id="dealer-details" class="col-12">
+                            <div class="row">
+                                <h2 class="col-12">Dealer</h2>
+                                <div id="dealer-cards"></div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div id="dealer-sum" class="sum-area"></div>
+                        </div>
+                        <div id="btns-game" class="col-12">
+                            <button id="btn-hit" class="btn btn-circle" data-type="hit">Hit</button>
+                            <div id="bet-amount"></div>
+                            <button id="btn-stand" class="btn btn-circle" data-type="stand">Stand</button>
+                        </div>
+                        <div id="results" class="col-12 hide">
+                            <p></p>
+                            <button id="btn-play-again" class="btn" data-type="play-again">Play Again</button>
+                        </div>
+                        <div class="col-12">
+                            <div id="player-sum" class="sum-area"></div>
+                        </div>
+                        <div id="player-details" class="col-12">
+                            <div class="row">
+                                <div id="player-cards"></div>
+                                <h2 class="col-12">Player</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
