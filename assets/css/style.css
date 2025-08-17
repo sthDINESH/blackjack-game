@@ -18,7 +18,7 @@
     --primary-font: "Oregano", cursive;
     --accent-font: "Limelight", sans-serif;
 
-    --game-controls-bg-diameter: 280px;
+    --game-controls-bg-diameter: min(70vw,35vh);
 }
 
 * {
@@ -88,8 +88,9 @@ h2,
 .btn-circle {
     border-radius: 50%;
     aspect-ratio: 1;
-    background-color: var(--secondary-accent-color);
-    border-color: var(--secondary-accent-color);
+    background-color: var(--secondary-accent-color-light);
+    backdrop-filter: blur(2px);
+    border-color: var(--light-secondary-color);
     color: white;
 }
 
@@ -313,7 +314,7 @@ Intro section
 
 
 #btns-game::after {
-    --diameter: calc(var(--game-controls-bg-diameter) - 40px);
+    --diameter: calc(var(--game-controls-bg-diameter) * 0.85);
     content: "";
     display: block;
     z-index: -1;
@@ -330,11 +331,9 @@ Intro section
 
 #btns-game>button {
     position: absolute;
-    --diameter: 25vw;
+    --diameter: min(25vw,12vh);
     top: calc((100% - var(--diameter))/2);
     margin: 0;
-    border: 2px solid var(--light-secondary-color);
-    backdrop-filter: blur(2px);
     z-index: 1;
 }
 
@@ -347,11 +346,10 @@ Intro section
 #btn-stand {
     width: var(--diameter);
     right: calc((100% - var(--game-controls-bg-diameter) - (var(--diameter)*0.6))/2);
-    background-color: var(--secondary-accent-color-light);
 }
 
 #bet-amount {
-    --diameter: 160px;
+    --diameter: min(45vw,21.6vh);
     width: var(--diameter);
     aspect-ratio: 1;
     border-radius: 50%;
@@ -364,15 +362,18 @@ Intro section
 }
 
 .sum-area {
-    width: 17vw;
+    width: min(17vw, 8vh);
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: var(--tertiary-accent-color-light);
     border: 2px solid var(--light-secondary-color);
     backdrop-filter: blur(2px);
-    text-align: center;
-    vertical-align: middle;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 2rem;
 }
 
 div:has(.sum-area:first-child) {
