@@ -99,11 +99,15 @@ class uiManager {
 
     user.hand.forEach((card) => {
       const showCard = document.createElement("div");
-      showCard.classList.add("card");
+      showCard.classList.add("card-show");
+      showCard.classList.add("drop-shadow");
       if (user.revealAllCards || user.hand.indexOf(card) === 0) {
         const cardImage=`assets/images/svg-cards/${card["number"]}_of_${card["suit"]}.svg`;
         // showCard.innerHTML = `<p>${cardImage}</p>`;
         showCard.style.backgroundImage = `url(${cardImage})`;
+        if(user.hand.indexOf(card) < user.hand.length - 1){
+          showCard.classList.add("card-show-partial");
+        }
       } else {
         showCard.innerHTML = `<p>X</p>`;
       }
