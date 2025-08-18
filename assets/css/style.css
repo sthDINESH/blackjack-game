@@ -137,7 +137,9 @@ h2,
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 5px dashed green;
+    /* border: 5px dashed green; */
+    background: url(../images/background.webp) center/ cover no-repeat;
+    z-index: -5;
 
 }
 
@@ -280,6 +282,7 @@ Intro section
     align-items: center;
     justify-content: center;
     padding: 0;
+    z-index: 3;
 }
 
 #dealer-details > .row,
@@ -316,7 +319,7 @@ Intro section
     --diameter: var(--game-controls-bg-diameter);
     content: "";
     display: block;
-    z-index: -2;
+    z-index: 1;
     width: var(--diameter);
     aspect-ratio: 1;
     border-radius: 50%;
@@ -333,7 +336,7 @@ Intro section
     --diameter: calc(var(--game-controls-bg-diameter) * 0.85);
     content: "";
     display: block;
-    z-index: -1;
+    z-index: 2;
     width: var(--diameter);
     aspect-ratio: 1;
     border-radius: 50%;
@@ -350,7 +353,7 @@ Intro section
     --diameter: min(25vw,12vh);
     top: calc((100% - var(--diameter))/2);
     margin: 0;
-    z-index: 1;
+    z-index: 4;
 }
 
 #btn-hit {
@@ -374,6 +377,7 @@ Intro section
     position: absolute;
     left: calc((100% - var(--diameter))/2);
     top: calc((100% - var(--diameter))/2);
+    z-index: 3;
 
 }
 
@@ -384,7 +388,7 @@ Intro section
     background-color: var(--tertiary-accent-color-light);
     border: 2px solid var(--light-secondary-color);
     backdrop-filter: blur(2px);
-    z-index: 1;
+    z-index: 4;
     display: flex;
     align-items: center;
     justify-content: center;
