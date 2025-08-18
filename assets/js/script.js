@@ -109,7 +109,9 @@ class uiManager {
           showCard.classList.add("card-show-partial");
         }
       } else {
-        showCard.innerHTML = `<p>X</p>`;
+        const cardImage=`assets/images/svg-cards/card-back.svg`
+        showCard.style.backgroundImage = `url(${cardImage})`;
+        // showCard.innerHTML = `<p>X</p>`;
       }
       divCards.appendChild(showCard);
     });
