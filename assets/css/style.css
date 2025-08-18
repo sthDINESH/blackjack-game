@@ -275,12 +275,16 @@ Intro section
     border: 2px solid var(--light-primary-color);
     background-color: var(--light-secondary-trans-color);
     backdrop-filter: blur(2px);
-
     border-radius: 0.5rem;
-
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+}
+
+#dealer-details > .row,
+#player-details > .row {
+    width: 100%;
 }
 
 #player-details h2,
@@ -289,7 +293,6 @@ Intro section
     vertical-align: middle;
     margin: 0;
     background-color: var(--light-primary-color);
-
 }
 
 #player-cards,
