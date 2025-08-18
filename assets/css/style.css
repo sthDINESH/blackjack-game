@@ -18,7 +18,7 @@
     --primary-font: "Oregano", cursive;
     --accent-font: "Limelight", sans-serif;
 
-    --game-controls-bg-diameter: min(70vw,35vh);
+    --game-controls-bg-diameter: min(70vw, 35vh);
 }
 
 * {
@@ -102,18 +102,18 @@ h2,
 }
 
 .card-show {
-    --card-width: min(25vw,11.3vh);
+    --card-width: min(25vw, 11.3vh);
     width: var(--card-width);
     aspect-ratio: 0.69;
     text-align: center;
     margin: 0.5rem 0;
-    background-size:contain;
+    background-size: contain;
     background-repeat: no-repeat;
     border-radius: 0.25rem;
 }
 
 .card-show-partial {
-    --card-width: min(25vw,11.3vh);
+    --card-width: min(25vw, 11.3vh);
     --aspect-ratio: 0.69;
     width: calc(var(--card-width)/4);
     height: calc(var(--card-width)/var(--aspect-ratio));
@@ -160,6 +160,9 @@ Intro section
 #intro {
     text-align: center;
     min-height: 90vh;
+    background:
+    radial-gradient(circle at right top, var(--light-secondary-color), transparent, transparent), 
+        url(../images/background.webp) center/ cover no-repeat;
 }
 
 #intro p {
@@ -193,7 +196,7 @@ Intro section
 }
 
 #hero-image>#card-jack {
-    background-image: url('../images/playing-card-jack_hero.webp');
+    /* background-image: url('../images/playing-card-jack_hero.webp'); */
     width: 50%;
     height: 72%;
     right: 15%;
@@ -207,11 +210,24 @@ Intro section
     border-radius: 0.5rem;
     display: block;
     position: absolute;
-    z-index: -1;
+    z-index: 0;
     width: 100%;
     height: 106%;
     transform: rotate(-15deg) translateY(-3%) translateX(-1.5%);
     box-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.7);
+}
+
+#hero-image>#card-jack::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    right: 1%;
+    /* top: 10%; */
+    background-image: url('../images/playing-card-jack_hero.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .hero-card-style {
@@ -228,6 +244,7 @@ Intro section
     top: 40%;
     right: 13%;
     transform: rotateZ(32deg);
+    z-index: 2;
 }
 
 #hero-image>#card-ace-spade {
@@ -235,6 +252,7 @@ Intro section
     top: 42%;
     right: 13%;
     transform: rotateZ(50deg);
+    z-index: 2;
 }
 
 #hero-image>#chips-image {
@@ -244,6 +262,7 @@ Intro section
     top: 45%;
     right: 25%;
     transform: rotateZ(2.5deg);
+    z-index: 2;
     /* border: 2px dotted black; */
 }
 
@@ -285,8 +304,8 @@ Intro section
     z-index: 3;
 }
 
-#dealer-details > .row,
-#player-details > .row {
+#dealer-details>.row,
+#player-details>.row {
     width: 100%;
 }
 
@@ -350,7 +369,7 @@ Intro section
 
 #btns-game>button {
     position: absolute;
-    --diameter: min(25vw,12vh);
+    --diameter: min(25vw, 12vh);
     top: calc((100% - var(--diameter))/2);
     margin: 0;
     z-index: 4;
@@ -368,7 +387,7 @@ Intro section
 }
 
 #bet-amount {
-    --diameter: min(45vw,21.6vh);
+    --diameter: min(45vw, 21.6vh);
     width: var(--diameter);
     aspect-ratio: 1;
     border-radius: 50%;
