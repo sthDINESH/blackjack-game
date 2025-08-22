@@ -13,6 +13,7 @@
     --secondary-accent-color-light: rgba(217, 26, 61, 0.7);
     --tertiary-accent-color: #F2B807;
     --tertiary-accent-color-light: rgba(242, 184, 7, 0.7);
+    --tertiary-accent-trans-light: rgba(242, 184, 7, 0.2);
 
 
     --primary-font: "Oregano", cursive;
@@ -64,7 +65,6 @@ h2,
 }
 
 .btn {
-    min-width: 15vw;
     border-radius: 0.5rem;
     padding: 0.2rem;
     margin: 0.5rem 0;
@@ -294,7 +294,7 @@ Intro section
     height: 30%;
     width: 90%;
     border: 2px solid var(--light-primary-color);
-    background-color: var(--light-secondary-trans-color);
+    background-color: var(--tertiary-accent-trans-light);
     backdrop-filter: blur(2px);
     border-radius: 0.5rem;
     display: flex;
@@ -314,7 +314,17 @@ Intro section
     text-align: center;
     vertical-align: middle;
     margin: 0;
-    background-color: var(--light-primary-color);
+    background-color: var(--tertiary-accent-color);
+}
+#player-details h2{
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-top: 2px solid var(--light-secondary-color);
+}
+#dealer-details h2 {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom: 2px solid var(--light-secondary-color);
 }
 
 #player-cards,
