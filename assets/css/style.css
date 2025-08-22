@@ -151,7 +151,7 @@ h2,
 
 .section-wrapper .row {
     height: 100%;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 /*------------- 
@@ -291,7 +291,7 @@ Intro section
 /* Game section styling */
 #player-details,
 #dealer-details {
-    height: 30%;
+    height: 38%;
     width: 90%;
     border: 2px solid var(--light-primary-color);
     background-color: var(--tertiary-accent-trans-light);
@@ -301,12 +301,14 @@ Intro section
     align-items: center;
     justify-content: center;
     padding: 0;
-    z-index: 3;
+    z-index: 5;
 }
 
 #dealer-details>.row,
 #player-details>.row {
     width: 100%;
+    flex-direction: column;
+    align-items: center;
 }
 
 #player-details h2,
@@ -410,6 +412,11 @@ Intro section
 
 }
 
+.sum-area-container {
+    display: flex;
+    justify-content: center;
+}
+
 .sum-area {
     width: min(17vw, 8vh);
     aspect-ratio: 1;
@@ -423,11 +430,4 @@ Intro section
     justify-content: center;
     font-weight: 700;
     font-size: 2rem;
-}
-
-div:has(.sum-area:first-child) {
-    /* height: 10%; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
