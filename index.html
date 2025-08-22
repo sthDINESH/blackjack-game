@@ -13,90 +13,95 @@
 </head>
 
 <body>
-    <header id="intro" class="container hide">
-        <div class="row">
-            <div class="col-12">
-                <div id="hero-image">
-                    <div id="card-jack"></div>
-                    <div id="card-10-hearts" class="hero-card-style drop-shadow"></div>
-                    <div id="card-ace-spade" class="hero-card-style drop-shadow"></div>
-                    <div id="chips-image"></div>
-                </div>
-            </div>
-            <div class="col-12">
-                <h1>Blackjack Showdown</h1>
-            </div>
-            <div class="col-12">
-                <h2>
-                    Welcome to Blackjack Showdown!
-                </h2>
-                <p>
-                    Step up to the table, place your bets, and let's see if Lady Luck's in your corner tonight!
-                </p>
-            </div>
-            <div class="col-12">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-circle-outline" data-bs-toggle="modal" data-bs-target="#game-rules"
-                    data-type="button-bs-modal">Rules</button>
+    <header id="intro" class="hide">
+        <div class="section-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="hero-image">
+                            <div id="card-jack"></div>
+                            <div id="card-10-hearts" class="hero-card-style drop-shadow"></div>
+                            <div id="card-ace-spade" class="hero-card-style drop-shadow"></div>
+                            <div id="chips-image"></div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h1>Blackjack Showdown</h1>
+                    </div>
+                    <div class="col-12">
+                        <h2>
+                            Welcome to Blackjack Showdown!
+                        </h2>
+                        <p>
+                            Step up to the table, place your bets, and let's see if Lady Luck's in your corner tonight!
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-circle-outline" data-bs-toggle="modal"
+                            data-bs-target="#game-rules" data-type="button-bs-modal">Rules</button>
 
-                <!-- Modal -->
-                <div class="modal fade" id="game-rules" tabindex="-1" aria-labelledby="gameRulesModalLabel">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h2 class="modal-title heading" id="gameRulesModalLabel">Rules</h2>
-                            </div>
-                            <div class="modal-body">
-                                <p class="sub-heading">Objective</p>
-                                <p>Beat the dealer by having a hand total closer to 21 without going over.</p>
+                        <!-- Modal -->
+                        <div class="modal fade" id="game-rules" tabindex="-1" aria-labelledby="gameRulesModalLabel">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title heading" id="gameRulesModalLabel">Rules</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="sub-heading">Objective</p>
+                                        <p>Beat the dealer by having a hand total closer to 21 without going over.</p>
 
-                                <p class="sub-heading">Card Values</p>
-                                <ul>
-                                    <li>Number cards = their face value.</li>
-                                    <li>Face cards (J, Q, K) = 10.</li>
-                                    <li>Aces = 1 or 11 (whichever benefits your hand).</li>
-                                </ul>
+                                        <p class="sub-heading">Card Values</p>
+                                        <ul>
+                                            <li>Number cards = their face value.</li>
+                                            <li>Face cards (J, Q, K) = 10.</li>
+                                            <li>Aces = 1 or 11 (whichever benefits your hand).</li>
+                                        </ul>
 
-                                <p class="sub-heading">Gameplay</p>
-                                <ul>
-                                    <li>Place your bet before each round.</li>
-                                    <li>You and the dealer each receive 2 cards.</li>
-                                    <li>One of the dealer’s cards remains face-down until their turn.</li>
-                                </ul>
+                                        <p class="sub-heading">Gameplay</p>
+                                        <ul>
+                                            <li>Place your bet before each round.</li>
+                                            <li>You and the dealer each receive 2 cards.</li>
+                                            <li>One of the dealer’s cards remains face-down until their turn.</li>
+                                        </ul>
 
-                                <p class="sub-heading">Player Actions</p>
-                                <ul>
-                                    <li>Hit: Take another card.</li>
-                                    <li>Stand: Keep your current hand.</li>
-                                    <!-- <li>Double Down: Double your bet, take one card, and stand.</li> -->
-                                </ul>
+                                        <p class="sub-heading">Player Actions</p>
+                                        <ul>
+                                            <li>Hit: Take another card.</li>
+                                            <li>Stand: Keep your current hand.</li>
+                                            <!-- <li>Double Down: Double your bet, take one card, and stand.</li> -->
+                                        </ul>
 
-                                <p class="sub-heading">Dealer’s Turn</p>
-                                <p>Dealer must hit until their total is 17 or higher.</p>
+                                        <p class="sub-heading">Dealer’s Turn</p>
+                                        <p>Dealer must hit until their total is 17 or higher.</p>
 
-                                <p class="sub-heading">Winning</p>
-                                <ul>
-                                    <li>If your hand is closer to 21 than the dealer’s, you win.</li>
-                                    <li>If the dealer busts (goes over 21), you win.</li>
-                                    <li>If both hands are equal, it’s a push (tie).</li>
-                                </ul>
+                                        <p class="sub-heading">Winning</p>
+                                        <ul>
+                                            <li>If your hand is closer to 21 than the dealer’s, you win.</li>
+                                            <li>If the dealer busts (goes over 21), you win.</li>
+                                            <li>If both hands are equal, it’s a push (tie).</li>
+                                        </ul>
 
-                                <p class="sub-heading">Bust Rule</p>
-                                <p>If you go over 21, you lose immediately.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-circle" data-bs-dismiss="modal"
-                                    data-type="button-bs-modal">OK</button>
+                                        <p class="sub-heading">Bust Rule</p>
+                                        <p>If you go over 21, you lose immediately.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-circle" data-bs-dismiss="modal"
+                                            data-type="button-bs-modal">OK</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" data-type="game-start">Play!</button>
+                    </div>
+
                 </div>
             </div>
-            <div class="col-12">
-                <button class="btn btn-primary" data-type="game-start">Play!</button>
-            </div>
-
         </div>
+
     </header>
     <main>
         <section id="deal" class="hide">

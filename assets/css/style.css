@@ -18,6 +18,7 @@
 
     --primary-font: "Oregano", cursive;
     --accent-font: "Limelight", sans-serif;
+    
 
     --game-controls-bg-diameter: min(70vw, 35vh);
     --game-board-width: 90vw;
@@ -136,9 +137,7 @@ h2,
 }
 
 .section-wrapper>.container {
-    width: var(--game-board-width);
-    height: var(--game-board-height);
-    /* border: 2px dotted palevioletred; */
+    border: 2px dotted palevioletred;
     display: flex;
     justify-content: center;
 }
@@ -154,10 +153,16 @@ Intro section
 ---------------*/
 #intro {
     text-align: center;
-    min-height: 90vh;
-    background:
+}
+
+#intro > .section-wrapper {
+background:
     radial-gradient(circle at right top, var(--light-secondary-color), transparent, transparent), 
         url(../images/background.webp) center/ cover no-repeat;
+}
+
+#intro>.section-wrapper>.container{
+    height: 90vh;
 }
 
 #intro p {
@@ -284,6 +289,12 @@ Intro section
 }
 
 /* Game section styling */
+
+#game-round>.section-wrapper>.container {
+    width: var(--game-board-width);
+    height: var(--game-board-height);
+}
+
 .user-details {
     height: var(--user-details-height);
     width: var(--user-details-width);
@@ -465,6 +476,7 @@ Intro section
 }
 
 /* Media queries */
+
 /* Laptops and larger */
 @media screen and (min-width:992px){
     :root {
