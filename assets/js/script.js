@@ -1,442 +1,443 @@
-/**
- * ----------------------------------------------
- * CUSTOM CLASS DECLARATIONS
- * ----------------------------------------------
- */
-/** Class to handle user interface management */
-class uiManager {
-  // Private fields pointing to UI relevant DOM elements
-  #intro;
-  #deal;
-  #game;
-  #results;
-  #gameControls;
-  #playerCards;
-  #playerSum;
-  #dealerCards;
-  #dealerSum;
-
+// Wait for DOM contents to be loaded
+document.addEventListener("DOMContentLoaded", function () {
   /**
-   * Uses query selectors to assign pointers to relevant DOM nodes
+   * ----------------------------------------------
+   * CUSTOM CLASS DECLARATIONS
+   * ----------------------------------------------
    */
-  constructor() {
-    this.#intro = document.querySelector("#intro");
-    this.#deal = document.querySelector("#deal");
-    this.#game = document.querySelector("#game-round");
-    this.#results = document.querySelector("#results");
-    this.#gameControls = document.querySelector("#btns-game");
-    this.#playerCards = document.querySelector("#player-cards");
-    this.#playerSum = document.querySelector("#player-sum");
-    this.#dealerCards = document.querySelector("#dealer-cards");
-    this.#dealerSum = document.querySelector("#dealer-sum");
+  /** Class to handle user interface management */
+  class uiManager {
+    // Private fields pointing to UI relevant DOM elements
+    #intro;
+    #deal;
+    #game;
+    #results;
+    #gameControls;
+    #playerCards;
+    #playerSum;
+    #dealerCards;
+    #dealerSum;
 
-    this.displayIntro();
-  }
-  //Private utility methods
-  /**
-   * Private method to show/hide DOM nodes
-   * @param {boolean} show - true to show/false to hide
-   * @param {object} node - DOM node
-   */
-  #showNode(node, show) {
-    if (typeof show === "boolean" && node) {
-      show ? node.classList.remove("hide") : node.classList.add("hide");
-    } else if (!node) {
-      throw "Value expected for node";
-    } else {
-      throw new TypeError("Boolean value expected for show");
+    /**
+     * Uses query selectors to assign pointers to relevant DOM nodes
+     */
+    constructor() {
+      this.#intro = document.querySelector("#intro");
+      this.#deal = document.querySelector("#deal");
+      this.#game = document.querySelector("#game-round");
+      this.#results = document.querySelector("#results");
+      this.#gameControls = document.querySelector("#btns-game");
+      this.#playerCards = document.querySelector("#player-cards");
+      this.#playerSum = document.querySelector("#player-sum");
+      this.#dealerCards = document.querySelector("#dealer-cards");
+      this.#dealerSum = document.querySelector("#dealer-sum");
+
+      this.displayIntro();
     }
-  }
-
-  // Public methods
-  /**
-   * Public method to display Intro/Welcome screen
-   */
-  displayIntro() {
-    this.#showNode(this.#intro, true);
-    this.#showNode(this.#deal, false);
-    this.#showNode(this.#game, false);
-    this.#showNode(this.#results, false);
-  }
-  /**
-   * Public method to display Game screen
-   */
-  displayGameArea() {
-    this.#showNode(this.#intro, false);
-    this.#showNode(this.#deal, false);
-    this.#showNode(this.#game, true);
-    this.#showNode(this.#gameControls, true);
-    this.#showNode(this.#results, false);
-  }
-  /**
-   * Public method to display Results modal
-   * @param {string} result - Message to be displayed
-   */
-  displayResults(result) {
-    this.#showNode(this.#gameControls, false);
-    this.#showNode(this.#results, true);
-    this.#results.firstElementChild.innerText = result;
-  }
-  /**
-   * Public method to display game control buttons
-   */
-  displayGameControls() {
-    this.#showNode(this.#gameControls, true);
-    this.#showNode(this.#results, false);
-  }
-  /**
-   * Display the cards for the user on game screen
-   * @param {user} user - object of user class
-   */
-  revealHand(user) {
-    const divCards =
-      user.id === "dealer" ? this.#dealerCards : this.#playerCards;
-    const divSum = user.id === "dealer" ? this.#dealerSum : this.#playerSum;
-
-    // Empty the elements within the divs
-    divCards.innerHTML = "";
-    divSum.innerHTML = "";
-
-    user.hand.forEach((card) => {
-      const showCard = document.createElement("div");
-      showCard.classList.add("card-show");
-      showCard.classList.add("drop-shadow");
-      if (user.revealAllCards || user.hand.indexOf(card) === 0) {
-        const cardImage=`assets/images/svg-cards/${card["number"]}_of_${card["suit"]}.svg`;
-        // showCard.innerHTML = `<p>${cardImage}</p>`;
-        showCard.style.backgroundImage = `url(${cardImage})`;
-        if(user.hand.indexOf(card) < user.hand.length - 1){
-          showCard.classList.add("card-show-partial");
-        }
+    //Private utility methods
+    /**
+     * Private method to show/hide DOM nodes
+     * @param {boolean} show - true to show/false to hide
+     * @param {object} node - DOM node
+     */
+    #showNode(node, show) {
+      if (typeof show === "boolean" && node) {
+        show ? node.classList.remove("hide") : node.classList.add("hide");
+      } else if (!node) {
+        throw "Value expected for node";
       } else {
-        const cardImage=`assets/images/svg-cards/card-back.svg`
-        showCard.style.backgroundImage = `url(${cardImage})`;
-        // showCard.innerHTML = `<p>X</p>`;
-      }
-      divCards.appendChild(showCard);
-    });
-
-    if (user.revealAllCards) {
-      divSum.innerText = user.sum;
-    } else {
-      divSum.innerText = user.hand[0]["value"];
-    }
-  }
-}
-
-/**
- * Class for managing card deck in the game
- */
-class deckManager {
-  // Private fields
-  #suits;
-  #cardNumbers;
-  #cardValues;
-  #deck;
-
-  /**
-   * Initializes the deck with available cards for the game(single deck of 52 cards)
-   */
-  constructor() {
-    this.#suits = ["hearts", "spades", "diamonds", "clubs"];
-    this.#cardNumbers = [
-      "ace",
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      "jack",
-      "queen",
-      "king",
-    ];
-    this.#cardValues = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
-    this.initializeDeck();
-  }
-  /**
-   * Populates private deck[] with available cards
-   */
-  initializeDeck() {
-    this.#deck = [];
-    for (let suit of this.#suits) {
-      for (let index = 0; index < this.#cardValues.length; index++) {
-        this.#deck.push({
-          suit: suit,
-          number: this.#cardNumbers[index],
-          value: this.#cardValues[index],
-        });
+        throw new TypeError("Boolean value expected for show");
       }
     }
-  }
 
-  /**
-   * Draws cards out of the deck - the drawn cards are removed from the deck
-   * @param {*} numCardsToDraw - number of cards to draw
-   * @returns {array} - Array with drawn card objects
-   */
-  drawCards(numCardsToDraw = 1) {
-    const cards = [];
-    for (let count = 0; count < numCardsToDraw; count++) {
-      // Pick a card at random index from the deck
-      let index = Math.floor(Math.random() * this.#deck.length);
-      // Add the card to be returned
-      cards.push(this.#deck[index]);
-      // Remove the card from the deck
-      this.#deck.splice(index, 1);
+    // Public methods
+    /**
+     * Public method to display Intro/Welcome screen
+     */
+    displayIntro() {
+      this.#showNode(this.#intro, true);
+      this.#showNode(this.#deal, false);
+      this.#showNode(this.#game, false);
+      this.#showNode(this.#results, false);
     }
-    return cards;
-  }
-  /**
-   * Returns the current deck
-   * @returns {array} current deck with the cards present
-   */
-  showCurrentDeck() {
-    return this.#deck;
-  }
-}
-
-/**
- * Class to represent each user(dealer and player)
- */
-class user {
-  #id;
-  #revealAllCards;
-  #hand;
-  #sum;
-
-  constructor(id) {
-    if (id === "dealer" || id === "player") {
-      this.#id = id;
-      this.clearHand(id);
-    } else {
-      throw `Invalid value for id: ${id}`;
+    /**
+     * Public method to display Game screen
+     */
+    displayGameArea() {
+      this.#showNode(this.#intro, false);
+      this.#showNode(this.#deal, false);
+      this.#showNode(this.#game, true);
+      this.#showNode(this.#gameControls, true);
+      this.#showNode(this.#results, false);
     }
-  }
+    /**
+     * Public method to display Results modal
+     * @param {string} result - Message to be displayed
+     */
+    displayResults(result) {
+      this.#showNode(this.#gameControls, false);
+      this.#showNode(this.#results, true);
+      this.#results.firstElementChild.innerText = result;
+    }
+    /**
+     * Public method to display game control buttons
+     */
+    displayGameControls() {
+      this.#showNode(this.#gameControls, true);
+      this.#showNode(this.#results, false);
+    }
+    /**
+     * Display the cards for the user on game screen
+     * @param {user} user - object of user class
+     */
+    revealHand(user) {
+      const divCards =
+        user.id === "dealer" ? this.#dealerCards : this.#playerCards;
+      const divSum = user.id === "dealer" ? this.#dealerSum : this.#playerSum;
 
-  /**
-   * Resets the hand[], sum and revealAllCards values
-   */
-  clearHand() {
-    this.#hand = [];
-    this.#sum = 0;
-    this.#id === "dealer"
-      ? (this.#revealAllCards = false)
-      : (this.#revealAllCards = true);
-  }
-  /**
-   * Checks if the current hand includes Ace card counted with a value of 11
-   * @returns {boolean} true if present/false if not
-   */
-  #handIncludesAce11() {
-    for (let card of this.#hand) {
-      if (card["value"] === 11) {
-        return true;
+      // Empty the elements within the divs
+      divCards.innerHTML = "";
+      divSum.innerHTML = "";
+
+      user.hand.forEach((card) => {
+        const showCard = document.createElement("div");
+        showCard.classList.add("card-show");
+        showCard.classList.add("drop-shadow");
+        if (user.revealAllCards || user.hand.indexOf(card) === 0) {
+          const cardImage = `assets/images/svg-cards/${card["number"]}_of_${card["suit"]}.svg`;
+          // showCard.innerHTML = `<p>${cardImage}</p>`;
+          showCard.style.backgroundImage = `url(${cardImage})`;
+          if (user.hand.indexOf(card) < user.hand.length - 1) {
+            showCard.classList.add("card-show-partial");
+          }
+        } else {
+          const cardImage = `assets/images/svg-cards/card-back.svg`;
+          showCard.style.backgroundImage = `url(${cardImage})`;
+          // showCard.innerHTML = `<p>X</p>`;
+        }
+        divCards.appendChild(showCard);
+      });
+
+      if (user.revealAllCards) {
+        divSum.innerText = user.sum;
+      } else {
+        divSum.innerText = user.hand[0]["value"];
       }
     }
-    return false;
   }
 
   /**
-   * Calculates the sum of the values of cards in current hand and sets #sum
+   * Class for managing card deck in the game
    */
-  #calculateSumOfHand() {
-    // Calculate the sum
-    let sum = this.#hand.reduce(
-      (partialSum, currentCard) => partialSum + currentCard["value"],
-      0
-    );
-    // Recalculate the sum with Ace card replaced with value of 1 if needed
-    while (sum > 21 && this.#handIncludesAce11()) {
-      for (let index in this.#hand) {
-        if (this.#hand[index]["value"] === 11) {
-          this.#hand[index]["value"] = 1;
-          break;
+  class deckManager {
+    // Private fields
+    #suits;
+    #cardNumbers;
+    #cardValues;
+    #deck;
+
+    /**
+     * Initializes the deck with available cards for the game(single deck of 52 cards)
+     */
+    constructor() {
+      this.#suits = ["hearts", "spades", "diamonds", "clubs"];
+      this.#cardNumbers = [
+        "ace",
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        "jack",
+        "queen",
+        "king",
+      ];
+      this.#cardValues = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
+      this.initializeDeck();
+    }
+    /**
+     * Populates private deck[] with available cards
+     */
+    initializeDeck() {
+      this.#deck = [];
+      for (let suit of this.#suits) {
+        for (let index = 0; index < this.#cardValues.length; index++) {
+          this.#deck.push({
+            suit: suit,
+            number: this.#cardNumbers[index],
+            value: this.#cardValues[index],
+          });
         }
       }
-      sum = this.#hand.reduce(
+    }
+
+    /**
+     * Draws cards out of the deck - the drawn cards are removed from the deck
+     * @param {*} numCardsToDraw - number of cards to draw
+     * @returns {array} - Array with drawn card objects
+     */
+    drawCards(numCardsToDraw = 1) {
+      const cards = [];
+      for (let count = 0; count < numCardsToDraw; count++) {
+        // Pick a card at random index from the deck
+        let index = Math.floor(Math.random() * this.#deck.length);
+        // Add the card to be returned
+        cards.push(this.#deck[index]);
+        // Remove the card from the deck
+        this.#deck.splice(index, 1);
+      }
+      return cards;
+    }
+    /**
+     * Returns the current deck
+     * @returns {array} current deck with the cards present
+     */
+    showCurrentDeck() {
+      return this.#deck;
+    }
+  }
+
+  /**
+   * Class to represent each user(dealer and player)
+   */
+  class user {
+    #id;
+    #revealAllCards;
+    #hand;
+    #sum;
+
+    constructor(id) {
+      if (id === "dealer" || id === "player") {
+        this.#id = id;
+        this.clearHand(id);
+      } else {
+        throw `Invalid value for id: ${id}`;
+      }
+    }
+
+    /**
+     * Resets the hand[], sum and revealAllCards values
+     */
+    clearHand() {
+      this.#hand = [];
+      this.#sum = 0;
+      this.#id === "dealer"
+        ? (this.#revealAllCards = false)
+        : (this.#revealAllCards = true);
+    }
+    /**
+     * Checks if the current hand includes Ace card counted with a value of 11
+     * @returns {boolean} true if present/false if not
+     */
+    #handIncludesAce11() {
+      for (let card of this.#hand) {
+        if (card["value"] === 11) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    /**
+     * Calculates the sum of the values of cards in current hand and sets #sum
+     */
+    #calculateSumOfHand() {
+      // Calculate the sum
+      let sum = this.#hand.reduce(
         (partialSum, currentCard) => partialSum + currentCard["value"],
         0
       );
+      // Recalculate the sum with Ace card replaced with value of 1 if needed
+      while (sum > 21 && this.#handIncludesAce11()) {
+        for (let index in this.#hand) {
+          if (this.#hand[index]["value"] === 11) {
+            this.#hand[index]["value"] = 1;
+            break;
+          }
+        }
+        sum = this.#hand.reduce(
+          (partialSum, currentCard) => partialSum + currentCard["value"],
+          0
+        );
+      }
+      this.#sum = sum;
     }
-    this.#sum = sum;
+
+    /**
+     * Adds cards to users current hand
+     * @param {array} cards - array of card objects to be added
+     */
+    addCardsToHand(cards) {
+      // TODO: add error checks for data type of hand
+      cards.forEach((card) => {
+        this.#hand.push(card);
+      });
+      this.#calculateSumOfHand();
+    }
+    /**
+     * Accessor to return the current sum of hand
+     */
+    get sum() {
+      return this.#sum;
+    }
+
+    /**
+     * Accessor to return user id
+     */
+    get id() {
+      return this.#id;
+    }
+
+    /**
+     * Accessor to return the current hand
+     */
+    get hand() {
+      return this.#hand;
+    }
+
+    /**
+     * Accessor to check if all cards in the hand can be revealed
+     */
+    get revealAllCards() {
+      return this.#revealAllCards;
+    }
+
+    /**
+     * Accessor to set if cards can be revealed
+     */
+    set revealAllCards(show) {
+      this.#revealAllCards = show;
+    }
+  }
+
+  class flags {
+    // Private fields
+    #gameOver;
+    #stand;
+
+    constructor() {
+      this.reset();
+    }
+    /**
+     * Reset the flags to defaults
+     */
+    reset() {
+      this.#gameOver = false;
+      this.#stand = false;
+    }
+
+    set gameOver(isOver) {
+      if (typeof isOver !== "boolean") {
+        throw new TypeError("isOver value must be boolean");
+      } else {
+        this.#gameOver = isOver;
+      }
+    }
+
+    get gameOver() {
+      return this.#gameOver;
+    }
+
+    set stand(isStand) {
+      if (typeof isStand !== "boolean") {
+        throw new TypeError("isStand value must be boolean");
+      } else {
+        this.#stand = isStand;
+      }
+    }
+
+    get stand() {
+      return this.#stand;
+    }
   }
 
   /**
-   * Adds cards to users current hand
-   * @param {array} cards - array of card objects to be added
+   * ----------------------------------------------
+   * GLOBAL OBJECT INSTANCES
+   * ----------------------------------------------
    */
-  addCardsToHand(cards) {
-    // TODO: add error checks for data type of hand
-    cards.forEach((card) => {
-      this.#hand.push(card);
-    });
-    this.#calculateSumOfHand();
-  }
-  /**
-   * Accessor to return the current sum of hand
-   */
-  get sum() {
-    return this.#sum;
-  }
+  const gameUI = new uiManager();
+  const gameDeck = new deckManager();
+  const dealer = new user("dealer");
+  const player = new user("player");
+  const gameFlags = new flags();
 
   /**
-   * Accessor to return user id
+   * ----------------------------------------------
+   * GAME FUNCTIONS
+   * ----------------------------------------------
    */
-  get id() {
-    return this.#id;
-  }
+  /**
+   * Draw deck from the deck and add it to user's hand
+   * @param {*} user: global object to add the drawn deck to
+   * @param {*} numCardsToDraw : number of deck to draw from the deck
+   */
+  const drawCard = (user, numCardsToDraw = 1) => {
+    user.addCardsToHand(gameDeck.drawCards(numCardsToDraw));
+    gameUI.revealHand(user);
+
+    console.log("DEBUG: Deck", gameDeck.showCurrentDeck());
+    console.log("DEBUG:", user);
+  };
 
   /**
-   * Accessor to return the current hand
+   * Check the game results
    */
-  get hand() {
-    return this.#hand;
-  }
+  const checkResults = () => {
+    let result = null;
 
-  /**
-   * Accessor to check if all cards in the hand can be revealed
-   */
-  get revealAllCards() {
-    return this.#revealAllCards;
-  }
-
-  /**
-   * Accessor to set if cards can be revealed
-   */
-  set revealAllCards(show) {
-    this.#revealAllCards = show;
-  }
-}
-
-class flags {
-  // Private fields
-  #gameOver;
-  #stand;
-
-  constructor() {
-    this.reset();
-  }
-  /**
-   * Reset the flags to defaults
-   */
-  reset() {
-    this.#gameOver = false;
-    this.#stand = false;
-  }
-
-  set gameOver(isOver) {
-    if (typeof isOver !== "boolean") {
-      throw new TypeError("isOver value must be boolean");
+    if (!gameFlags.stand) {
+      if (player.sum > 21) {
+        // Check if player is Bust!
+        result = "Bust! You lose.";
+        gameFlags.gameOver = true;
+      } else if (player.sum == 21) {
+        //
+        result = "You win!";
+        gameFlags.gameOver = true;
+      }
     } else {
-      this.#gameOver = isOver;
-    }
-  }
-
-  get gameOver() {
-    return this.#gameOver;
-  }
-
-  set stand(isStand) {
-    if (typeof isStand !== "boolean") {
-      throw new TypeError("isStand value must be boolean");
-    } else {
-      this.#stand = isStand;
-    }
-  }
-
-  get stand() {
-    return this.#stand;
-  }
-}
-
-/**
- * ----------------------------------------------
- * GLOBAL OBJECT INSTANCES
- * ----------------------------------------------
- */
-const gameUI = new uiManager();
-const gameDeck = new deckManager();
-const dealer = new user("dealer");
-const player = new user("player");
-const gameFlags = new flags();
-
-/**
- * ----------------------------------------------
- * GAME FUNCTIONS
- * ----------------------------------------------
- */
-/**
- * Draw deck from the deck and add it to user's hand
- * @param {*} user: global object to add the drawn deck to
- * @param {*} numCardsToDraw : number of deck to draw from the deck
- */
-const drawCard = (user, numCardsToDraw = 1) => {
-  user.addCardsToHand(gameDeck.drawCards(numCardsToDraw));
-  gameUI.revealHand(user);
-
-  console.log("DEBUG: Deck", gameDeck.showCurrentDeck());
-  console.log("DEBUG:", user);
-}
-
-/**
- * Check the game results
- */
-const checkResults = () => {
-  let result = null;
-
-  if (!gameFlags.stand) {
-    if (player.sum > 21) {
-      // Check if player is Bust!
-      result = "Bust! You lose.";
       gameFlags.gameOver = true;
-    } else if (player.sum == 21) {
-      //
-      result = "You win!";
-      gameFlags.gameOver = true;
+      if (dealer.sum > 21) {
+        result = "Dealer Bust! You win.";
+      } else if (player.sum > dealer.sum) {
+        result = "You win.";
+      } else {
+        result = "Dealer wins.";
+      }
     }
-  } else {
-    gameFlags.gameOver = true;
-    if (dealer.sum > 21) {
-      result = "Dealer Bust! You win.";
-    } else if (player.sum > dealer.sum) {
-      result = "You win.";
-    } else {
-      result = "Dealer wins.";
+
+    if (gameFlags.gameOver) {
+      gameUI.displayResults(result);
     }
-  }
+  };
 
-  if (gameFlags.gameOver) {
-    gameUI.displayResults(result);
-  }
-};
+  /**
+   * Start the game
+   */
+  const playGame = () => {
+    // Switch to game User interface
+    gameUI.displayGameArea();
 
-/**
- * Start the game
- */
-const playGame = () => {
-  // Switch to game User interface
-  gameUI.displayGameArea();
+    console.log("DEBUG: Deck", gameDeck.showCurrentDeck());
 
-  console.log("DEBUG: Deck", gameDeck.showCurrentDeck());
+    // Initialize the dealer and player hand with 2 cards
+    drawCard(dealer, 2);
+    drawCard(player, 2);
 
-  // Initialize the dealer and player hand with 2 cards
-  drawCard(dealer, 2);
-  drawCard(player, 2);
+    checkResults();
+  };
 
-  checkResults();
-};
+  /**
+   * ----------------------------------------------
+   * EVENT HANDLERS
+   * ----------------------------------------------
+   */
 
-/**
- * ----------------------------------------------
- * EVENT HANDLERS
- * ----------------------------------------------
- */
-// Wait for DOM contents to be loaded
-document.addEventListener("DOMContentLoaded", function () {
   // Add event listeners for buttons
   const buttons = document.querySelectorAll("button");
   buttons.forEach((button) => {
