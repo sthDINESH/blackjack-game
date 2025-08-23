@@ -102,7 +102,7 @@
         <section id="game-round" class="hide">
             <div class="section-wrapper">
                 <div class="container">
-                    <div class="row">
+                    <div id="game-table" class="row">
                         <div id="dealer-details" class="col-12 user-details">
                             <div class="row">
                                 <h2 class="col-12">Dealer</h2>
@@ -117,9 +117,12 @@
                             <div id="bet-amount"></div>
                             <button id="btn-stand" class="btn btn-circle" data-type="stand">Stand</button>
                         </div>
-                        <div id="results" class="col-12 hide">
-                            <p></p>
-                            <button id="btn-play-again" class="btn" data-type="play-again">Play Again</button>
+                        <div id="results" class="col-12 results-grid drop-shadow hide">
+                            <p class="message"></p>
+                            <div class="control-panel">
+                                <button id="btn-play-again" class="btn btn-primary" data-type="play-again">Play Again</button>
+                                <button id="btn-play-exit" class="btn btn-accent" data-type="game-exit">Exit Game</button>
+                            </div>
                         </div>
                         <div id="player-details" class="col-12 user-details">
                             <div class="row">

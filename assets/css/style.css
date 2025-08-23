@@ -86,24 +86,18 @@ h2,
     margin: 0.5rem 0;
     font-weight: bold;
     letter-spacing: 0.2rem;
-    text-transform: uppercase;
     border: 2px solid var(--light-primary-color);
     transition: transform 0.3s, background 0.3s;
 }
 
 .btn:hover {
-   transform: scale(1.1);
-   border: 2px solid var(--light-primary-color); 
-   color: var(--light-primary-color);
+    transform: scale(1.1);
+    border: 2px solid var(--light-primary-color);
+    color: var(--light-primary-color);
 }
 
 .btn-primary {
     background-color: var(--primary-accent-color-light);
-    width: calc(0.75 * var(--intro-area-width));
-    font-family: var(--accent-font);
-    text-transform: uppercase;
-    letter-spacing: 0.4rem;
-    margin: 1rem 0;
 }
 
 .btn-primary:hover {
@@ -132,9 +126,6 @@ h2,
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
 }
 
-.hide {
-    display: none;
-}
 
 
 .section-wrapper {
@@ -186,7 +177,7 @@ Intro section
     justify-items: center;
     align-items: center;
     /* border: 2px dotted black; */
-    background: 
+    background:
         linear-gradient(45deg, transparent, var(--light-secondary-trans-color), transparent);
     border-radius: var(--border-radius-style);
     border: 2px solid var(--light-primary-color);
@@ -313,7 +304,12 @@ Intro section
 
 
 #intro .btn-primary {
+    width: calc(0.75 * var(--intro-area-width));
+    font-family: var(--accent-font);
+    letter-spacing: 0.4rem;
+    margin: 1rem 0;
     font-size: calc(0.03 * var(--intro-area-height));
+    text-transform: uppercase;
 }
 
 #intro .btn-accent {
@@ -348,6 +344,13 @@ Intro section
 #game-round>.section-wrapper>.container {
     width: var(--game-board-width);
     height: var(--game-board-height);
+}
+
+#game-table {
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .user-details {
@@ -489,6 +492,7 @@ Intro section
     margin: 0;
     z-index: 4;
     font-size: calc(0.15 * var(--diameter));
+    text-transform: uppercase;
 }
 
 #btn-hit:hover {
@@ -523,6 +527,63 @@ Intro section
     z-index: 3;
 }
 
+#results {
+    --results-area-height: calc(var(--control-panel-height) + 2.8 * var(--sum-area-height));
+    position: absolute;
+    height: var(--results-area-height);
+    width: calc(0.8 * var(--game-board-width));
+    top: calc((var(--game-board-height) - var(--results-area-height)) / 2);
+    z-index: 6;
+    /* background-color: var(--light-secondary-trans-color); */
+    background:
+        linear-gradient(90deg, var(--light-secondary-trans-color), transparent, var(--light-primary-color));
+    border-radius: var(--border-radius-style);
+    border: 2px solid var(--light-primary-color);
+    padding: 0;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows:
+        calc(1 * var(--sum-area-height)) 1fr 1fr calc(1 * var(--sum-area-height));
+    grid-template-areas:
+        "results-head"
+        "result-message"
+        "result-control-panel"
+        "statistics";
+    justify-items: center;
+}
+
+#results>.message {
+    grid-area: result-message;
+    background-color: var(--tertiary-accent-color-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#results .control-panel {
+    grid-area: result-control-panel;
+    background-color: var(--tertiary-accent-color-light);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#results button{
+    font-size: calc(0.06 * var(--results-area-height));
+    padding: 0.5rem;
+}
+
+.hide {
+    display: none;
+}
+
 /* Media queries */
 @media screen and (min-width:768px) {
     :root {
@@ -544,6 +605,9 @@ Intro section
             "tutorial";
         align-content: center;
     }
+    #results {
+        width: calc(0.6 * var(--game-board-width));
+    }
 }
 
 /* Laptops and larger */
@@ -551,6 +615,9 @@ Intro section
     :root {
         --intro-area-width: 60vw;
         --game-board-width: 60vw;
+    }
+    #results {
+        width: calc(0.5 * var(--game-board-width));
     }
 }
 
