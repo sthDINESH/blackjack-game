@@ -395,8 +395,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Check if player is Bust!
         result = "Bust! You lose.";
         gameFlags.gameOver = true;
-      } else if (player.sum == 21) {
-        //
+      } else if (player.sum === 21) {
+        // Player wins
         result = "You win!";
         gameFlags.gameOver = true;
       }
@@ -404,10 +404,15 @@ document.addEventListener("DOMContentLoaded", function () {
       gameFlags.gameOver = true;
       if (dealer.sum > 21) {
         result = "Dealer Bust! You win.";
-      } else if (player.sum > dealer.sum) {
+      } else if(dealer.sum > player.sum){
+        result = "Dealer wins";
+      } else if(dealer.sum === player.sum){
+        result = "Draw!";
+      } else if (dealer.sum < player.sum) {
         result = "You win.";
       } else {
-        result = "Dealer wins.";
+        result = "Invalid condition";
+        throw `${result}: dealer sum=>${dealer.sum}, player sum=>${player.sum}`;
       }
     }
 
