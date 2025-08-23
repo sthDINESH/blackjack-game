@@ -19,7 +19,7 @@
     --primary-font: "Oregano", cursive;
     --accent-font: "Limelight", sans-serif;
 
-    --intro-area-width: 100vw;
+    --intro-area-width: 90vw;
     --intro-area-height: 90vh;
     --hero-image-width: min(calc(0.9 * var(--intro-area-width)), calc(0.40 * var(--intro-area-height)));
     --hero-image-height: calc(1.12 * var(--hero-image-width));
@@ -125,6 +125,23 @@ h2,
     display: none;
 }
 
+#intro .grid-container {
+    width: var(--intro-area-width);
+    height: var(--intro-area-height);
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: var(--hero-image-height) 2fr 1fr 2fr 1fr;
+    grid-template-areas:
+        "hero-image"
+        "title"
+        "play"
+        "title-text"
+        "tutorial";
+    justify-items: center;
+    align-items: center;
+    border: 2px dotted black;
+}
+
 .section-wrapper {
     height: 100vh;
     width: 100vw;
@@ -139,7 +156,7 @@ h2,
 }
 
 .section-wrapper>.container {
-    border: 2px dotted palevioletred;
+    /* border: 2px dotted palevioletred; */
     display: flex;
     justify-content: center;
 }
@@ -153,43 +170,10 @@ h2,
 /*------------- 
 Intro section 
 ---------------*/
-#intro {
-    text-align: center;
-}
-
 #intro>.section-wrapper {
     background:
         radial-gradient(circle at right top, var(--light-secondary-color), transparent, transparent),
         url(../images/background.webp) center/ cover no-repeat;
-}
-
-#intro>.section-wrapper>.container {
-    height: 90vh;
-}
-
-#intro p {
-    margin-bottom: 0.5rem;
-    font-size: calc(0.025 * var(--intro-area-height));
-}
-
-#intro h1 {
-    font-size: calc(0.05 * var(--intro-area-height));
-}
-
-#intro h2 {
-    font-size: calc(0.03 * var(--intro-area-height));
-}
-
-#intro .row>div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#intro .col-12:nth-child(3),
-#intro .col-12:nth-child(4) {
-    order: 1;
 }
 
 #hero-image {
@@ -197,7 +181,38 @@ Intro section
     height: var(--hero-image-height);
     /* to align images within the container */
     position: relative;
-    border: 2px solid seagreen;
+    grid-area: hero-image;
+    /* border: 2px solid seagreen; */
+}
+
+#title {
+    grid-area: title;
+}
+
+#intro h1 {
+    font-size: calc(0.05 * var(--intro-area-height));
+}
+
+#intro .title-text {
+    grid-area: title-text;
+    text-align: center;
+}
+
+#intro p {
+    margin-bottom: 0.5rem;
+    font-size: calc(0.025 * var(--intro-area-height));
+}
+
+#intro h2 {
+    font-size: calc(0.03 * var(--intro-area-height));
+}
+
+#intro .btn-play-area {
+    grid-area: play;
+}
+
+#intro .btn-tutorial-area {
+    grid-area: tutorial;
 }
 
 #hero-image>div {
@@ -278,6 +293,7 @@ Intro section
     /* border: 2px dotted black; */
 }
 
+
 #intro .btn-primary {
     font-size: calc(0.03 * var(--intro-area-height));
 }
@@ -286,7 +302,6 @@ Intro section
     width: calc(0.3 * var(--intro-area-width));
     font-size: calc(0.025 * var(--intro-area-height));
 }
-
 
 .modal-header {
     border-bottom: 0;
@@ -499,18 +514,31 @@ Intro section
 
 /* Media queries */
 @media screen and (min-width:768px) {
-
-    #intro .col-12{
-        order: 1;
+    :root {
+        --intro-area-width: 80vw;
+        --intro-area-height: 80vh;
+        --hero-image-width: min(calc(0.9 * var(--intro-area-width)), calc(0.4 * var(--intro-area-height)));
     }
-    #intro .col-12:nth-child(2){
-        order: 0;
+    #intro .grid-container {
+        grid-template-columns: 100%;
+        grid-template-rows: var(--hero-image-height) repeat(5, calc(var(--hero-image-height)/5));
+        grid-template-areas:
+            "hero-image"
+            "title"
+            "title"
+            "title-text"
+            "play"
+            "play"
+            "tutorial";
+        align-content: center;
+        border: 2px dotted black;
     }
 }
 
 /* Laptops and larger */
 @media screen and (min-width:992px) {
     :root {
+        --intro-area-width: 60vw;
         --game-board-width: 60vw;
     }
 }
@@ -518,6 +546,7 @@ Intro section
 /* Extra Large laptops and higher */
 @media screen and (min-width:1200px) {
     :root {
+        --intro-area-width: 50vw;
         --game-board-width: 50vw;
     }
 }
