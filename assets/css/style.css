@@ -91,6 +91,12 @@ h2,
     transition: transform 0.3s, background 0.3s;
 }
 
+.btn:hover {
+   transform: scale(1.1);
+   border: 2px solid var(--light-primary-color); 
+   color: var(--light-primary-color);
+}
+
 .btn-primary {
     background-color: var(--primary-accent-color-light);
     width: calc(0.75 * var(--intro-area-width));
@@ -101,7 +107,7 @@ h2,
 }
 
 .btn-primary:hover {
-    transform: scale(1.1);
+    background-color: var(--primary-accent-color);
 }
 
 .btn-circle {
@@ -115,14 +121,12 @@ h2,
 .btn-accent:hover {
     background-color: var(--secondary-accent-color);
     color: var(--light-secondary-color);
-    transform: scale(1.1);
 }
 
 .btn-accent {
     background-color: var(--secondary-accent-color-light);
     color: var(--light-secondary-color);
 }
-
 
 .drop-shadow {
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
@@ -478,11 +482,6 @@ Intro section
 
 }
 
-#btns-game>button:hover {
-    color: var(--light-secondary-color);
-    transform: scale(1.1);
-}
-
 #btns-game>button {
     --diameter: calc(0.9 * var(--control-panel-height));
     position: absolute;
@@ -491,7 +490,6 @@ Intro section
     z-index: 4;
     font-size: calc(0.15 * var(--diameter));
 }
-
 
 #btn-hit:hover {
     background-color: var(--primary-accent-color);
@@ -523,7 +521,6 @@ Intro section
     left: calc((100% - var(--diameter))/2);
     top: calc((100% - var(--diameter))/2);
     z-index: 3;
-
 }
 
 /* Media queries */
