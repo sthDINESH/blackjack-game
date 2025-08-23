@@ -18,7 +18,11 @@
 
     --primary-font: "Oregano", cursive;
     --accent-font: "Limelight", sans-serif;
-    
+
+    --intro-area-width: 100vw;
+    --intro-area-height: 90vh;
+    --hero-image-width: min(calc(0.9 * var(--intro-area-width)), calc(0.40 * var(--intro-area-height)));
+    --hero-image-height: calc(1.12 * var(--hero-image-width));
 
     --game-controls-bg-diameter: min(70vw, 35vh);
     --game-board-width: 90vw;
@@ -26,7 +30,7 @@
     --user-details-width: calc(0.9 * var(--game-board-width));
     --user-details-height: calc(0.38 * var(--game-board-height));
     --control-panel-width: calc(var(--game-board-width));
-    --control-panel-height:calc(0.18 * var(--game-board-height));
+    --control-panel-height: calc(0.18 * var(--game-board-height));
     --card-area-height: calc(0.55 * var(--user-details-height));
     --card-area-width: calc(var(--user-details-width));
     --sum-area-height: calc(0.25 * var(--user-details-height));
@@ -54,7 +58,7 @@ h1 {
     border-top: 0.2rem solid black;
     border-bottom: 0.2rem solid black;
 
-    padding: 1rem 0;
+    padding: 0.5rem 0;
     text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -64,7 +68,6 @@ h1 {
 
 h1 {
     font-size: 2.5rem;
-    line-height: 3rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
@@ -82,19 +85,19 @@ h2,
     padding: 0.2rem;
     margin: 0.5rem 0;
     font-weight: bold;
-    font-size: 1.2rem;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
+    border: 2px solid var(--light-secondary-color);
+    transition: transform 0.3s, background 0.3s;
 }
 
 .btn-primary {
     border-color: var(--primary-accent-color);
     background-color: var(--primary-accent-color);
-    min-width: 80vw;
+    width: calc(0.75 * var(--intro-area-width));
     font-family: var(--accent-font);
     text-transform: uppercase;
     letter-spacing: 0.4rem;
-    padding: 0.5rem 0;
     margin: 1rem 0;
 }
 
@@ -107,11 +110,10 @@ h2,
     color: white;
 }
 
-.btn-circle-outline {
-    border-radius: 50%;
-    aspect-ratio: 1;
-    border: 3px solid var(--secondary-accent-color);
-    color: var(--secondary-accent-color);
+.btn-accent {
+    border: 3px solid var(--light-secondary-color);
+    background-color: var(--secondary-accent-color-light);
+    color: var(--light-secondary-color);
 }
 
 
@@ -155,21 +157,33 @@ Intro section
     text-align: center;
 }
 
-#intro > .section-wrapper {
-background:
-    radial-gradient(circle at right top, var(--light-secondary-color), transparent, transparent), 
+#intro>.section-wrapper {
+    background:
+        radial-gradient(circle at right top, var(--light-secondary-color), transparent, transparent),
         url(../images/background.webp) center/ cover no-repeat;
 }
 
-#intro>.section-wrapper>.container{
+#intro>.section-wrapper>.container {
     height: 90vh;
 }
 
 #intro p {
     margin-bottom: 0.5rem;
+    font-size: calc(0.025 * var(--intro-area-height));
 }
 
-#intro>row {
+#intro h1 {
+    font-size: calc(0.05 * var(--intro-area-height));
+}
+
+#intro h2 {
+    font-size: calc(0.03 * var(--intro-area-height));
+}
+
+#intro .row>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
@@ -179,13 +193,11 @@ background:
 }
 
 #hero-image {
-    --hero-image-width: 75vw;
-    min-width: var(--hero-image-width);
-    min-height: calc(var(--hero-image-width)*1.12);
+    width: var(--hero-image-width);
+    height: var(--hero-image-height);
     /* to align images within the container */
     position: relative;
-    margin-top: 1rem;
-    /* border: 2px solid seagreen; */
+    border: 2px solid seagreen;
 }
 
 #hero-image>div {
@@ -266,6 +278,16 @@ background:
     /* border: 2px dotted black; */
 }
 
+#intro .btn-primary {
+    font-size: calc(0.03 * var(--intro-area-height));
+}
+
+#intro .btn-accent {
+    width: calc(0.3 * var(--intro-area-width));
+    font-size: calc(0.025 * var(--intro-area-height));
+}
+
+
 .modal-header {
     border-bottom: 0;
 }
@@ -308,7 +330,7 @@ background:
     justify-content: center;
 }
 
-.user-details > .row {
+.user-details>.row {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
@@ -322,11 +344,13 @@ background:
     background-color: var(--tertiary-accent-color);
     font-size: calc(0.15*var(--card-area-height));
 }
-#player-details h2{
+
+#player-details h2 {
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
     border-top: 2px solid var(--light-secondary-color);
 }
+
 #dealer-details h2 {
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
@@ -368,7 +392,7 @@ background:
 
 .sum-area {
     /* width: min(17vw, 8vh); */
-    height:var(--sum-area-height);
+    height: var(--sum-area-height);
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: var(--tertiary-accent-color-light);
@@ -425,8 +449,8 @@ background:
 
 }
 
-#btns-game>button:hover{
-    color:var(--light-secondary-color);
+#btns-game>button:hover {
+    color: var(--light-secondary-color);
     transform: scale(1.1);
 }
 
@@ -437,8 +461,6 @@ background:
     margin: 0;
     z-index: 4;
     font-size: calc(0.15 * var(--diameter));
-    border: 2px solid var(--light-secondary-color);
-    transition: transform 0.3s, background 0.3s;
 }
 
 
@@ -476,17 +498,26 @@ background:
 }
 
 /* Media queries */
+@media screen and (min-width:768px) {
+
+    #intro .col-12{
+        order: 1;
+    }
+    #intro .col-12:nth-child(2){
+        order: 0;
+    }
+}
 
 /* Laptops and larger */
-@media screen and (min-width:992px){
+@media screen and (min-width:992px) {
     :root {
-       --game-board-width: 80vw;
-    }
-}
-/* Extra Large laptops and higher */
-@media screen and (min-width:1200px){
-    :root {
-       --game-board-width: 60vw;
+        --game-board-width: 60vw;
     }
 }
 
+/* Extra Large laptops and higher */
+@media screen and (min-width:1200px) {
+    :root {
+        --game-board-width: 50vw;
+    }
+}
