@@ -15,6 +15,12 @@
     --tertiary-accent-color-light: rgba(242, 184, 7, 0.7);
     --tertiary-accent-trans-light: rgba(242, 184, 7, 0.2);
 
+    --accent-color-4: #262223;
+    --accent-color-4-light: rgba(38,34,35,0.8);
+
+    --accent-color-5: #4DA15C;
+    --accent-color-5-light: rgba(77,161,92,0.8);
+
     --primary-font: "Oregano", cursive;
     --accent-font: "Limelight", sans-serif;
 
@@ -24,8 +30,8 @@
     --hero-image-height: calc(1.12 * var(--hero-image-width));
 
     --deal-area-width: 90vw;
-    --deal-area-height: 60vh;
-    --bank-area-diameter: calc(var(--deal-area-height)/2);
+    --deal-area-height: 75vh;
+    --bank-area-diameter: calc(0.8 * var(--deal-area-height)/2);
 
 
     --game-controls-bg-diameter: min(70vw, 35vh);
@@ -404,34 +410,49 @@ Deal area section styling
 
 #bank-area > button{
     position: absolute;
-    width: calc(var(--bank-area-diameter)/3)
+    width: calc(var(--bank-area-diameter)/3);
+    font-size: calc(var(--bank-area-diameter)/15);
+}
+
+#bank-area > button::after{
+    --border-width: calc(0.08 * var(--bank-area-diameter)/3); 
+    content: "";
+    inset: 0;
+    position: absolute;
+    color: transparent;
+    border: var(--border-width) dashed var(--light-primary-color);
+    border-radius: 50%;
 }
 
 #bank-area>button[data-type="chip-1000"]{
     top: calc(var(--bank-area-diameter)/3);
-    left: calc(-1 * var(--bank-area-diameter)/6)
+    left: calc(-1 * var(--bank-area-diameter)/6);
+    background-color: var(--accent-color-4-light);
 }
 
 #bank-area>button[data-type="chip-500"]{
     top: calc(0.76 * var(--bank-area-diameter));
-    left: calc(0.083 * var(--bank-area-diameter))
+    left: calc(0.083 * var(--bank-area-diameter));
+    background-color: var(--secondary-accent-color-light);
 }
 
 #bank-area>button[data-type="chip-100"]{
     top: calc(0.76 * var(--bank-area-diameter));
-    right: calc(0.083 * var(--bank-area-diameter))
+    right: calc(0.083 * var(--bank-area-diameter));
+    background-color: var(--primary-accent-color-light);
 }
 
 #bank-area>button[data-type="chip-50"]{
     top: calc(var(--bank-area-diameter)/3);
-    right: calc(-1 * var(--bank-area-diameter)/6)
+    right: calc(-1 * var(--bank-area-diameter)/6);
+    background-color: var(--accent-color-5-light);
 }
 
 #bank-amount {
     height: calc(0.5 * var(--bank-area-diameter));
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 2px dotted coral;
+    border: 4px double coral;
     position: absolute;
     top: calc(0.25 * var(--bank-area-diameter));
     left: calc(0.25 * var(--bank-area-diameter));
