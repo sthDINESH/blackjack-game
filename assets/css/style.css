@@ -511,6 +511,8 @@ Game section styling
 #player-details h2 {
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
+    border-bottom: none;
+    border-top: 2px solid var(--light-primary-color);
 }
 
 #dealer-details h2 {
