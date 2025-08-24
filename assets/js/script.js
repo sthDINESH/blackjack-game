@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Private fields pointing to UI relevant DOM elements
     #intro;
     #deal;
+    #bank;
     #game;
     #results;
     #gameControls;
@@ -24,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     constructor() {
       this.#intro = document.querySelector("#intro");
       this.#deal = document.querySelector("#deal");
+      this.#bank = document.querySelector("#bank-amount");
       this.#game = document.querySelector("#game-round");
       this.#results = document.querySelector("#results");
       this.#gameControls = document.querySelector("#btns-game");
@@ -68,6 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#deal, true);
       this.#showNode(this.#game, false);
       this.#showNode(this.#results, false);
+    }
+    updateBankAmount(amount){
+      this.#bank.innerText = `£${amount}`;
     }
     /**
      * Public method to display Game screen
@@ -323,10 +328,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  /**
+   * 
+   */
   class gameState {
     // Private fields
     #gameOver;
     #stand;
+    bank;
 
     constructor() {
       this.reset();
@@ -374,6 +383,42 @@ document.addEventListener("DOMContentLoaded", function () {
   const dealer = new user("dealer");
   const player = new user("player");
   const gameStateObject = new gameState();
+  
+  // Object to track bets in the game
+  const bank = {
+    totalAmount:1000,
+    debit: function (amount) {
+      if(typeof amount === "number"){
+        if(this.totalAmount>=amount){
+          this.totalAmount -= amount;
+        }
+      } else {
+        throw `TypeError: Numeric amount expected for ${amount}`;
+      }
+    },
+    credit: function (amount) {
+      if(typeof amount === "number"){
+        if(this.totalAmount){
+          this.totalAmount += amount;
+        }
+      } else {
+        throw `TypeError: Numeric amount expected for ${amount}`;
+      }
+    },
+    denominationAvailable: function (denomination){
+      if(typeof denomination === "number"){
+        return (this.totalAmount >= denomination)? true : false;
+      } else {
+        throw `TypeError: Numeric amount expected for ${denomination}`;
+      }
+    },
+    getStatement: function (){
+      return this.totalAmount;
+    }
+  };
+
+  // Point gameStateObject to use bank object
+  gameStateObject.bank = bank;
 
   /**
    * ----------------------------------------------
@@ -413,9 +458,9 @@ document.addEventListener("DOMContentLoaded", function () {
       gameStateObject.gameOver = true;
       if (dealer.sum > 21) {
         result = "Dealer Bust! You win.";
-      } else if(dealer.sum > player.sum){
+      } else if (dealer.sum > player.sum) {
         result = "Dealer wins";
-      } else if(dealer.sum === player.sum){
+      } else if (dealer.sum === player.sum) {
         result = "Draw!";
       } else if (dealer.sum < player.sum) {
         result = "You win.";
@@ -446,11 +491,11 @@ document.addEventListener("DOMContentLoaded", function () {
     checkResults();
   };
 
-  const placeBet = () =>{
+  const placeBet = (gameState) => {
     //Switch to the deal area interface
     gameUI.displayDeal();
-
-  }
+    gameUI.updateBankAmount(gameState.bank.getStatement());
+  };
 
   /**
    * ----------------------------------------------
@@ -464,7 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (button.getAttribute("data-type") !== "button-bs-modal") {
       button.addEventListener("click", function (event) {
         if (this.getAttribute("data-type") === "game-start") {
-          placeBet();
+          placeBet(gameStateObject);
         } else if (this.getAttribute("data-type") === "deal") {
           playGame();
         } else if (this.getAttribute("data-type") === "hit") {
@@ -486,6 +531,9 @@ document.addEventListener("DOMContentLoaded", function () {
           gameDeck.initializeDeck();
           // playGame();
           placeBet();
+        } else if(this.getAttribute("data-type") === "chip"){
+          gameStateObject.bank.debit(parseInt(this.getAttribute("data-chip-value")));
+          gameUI.updateBankAmount(gameStateObject.bank.getStatement());
         } else {
           alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
           throw `Unimplememted feature: ${this.getAttribute("data-type")}`;

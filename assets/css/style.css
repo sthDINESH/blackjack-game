@@ -443,25 +443,25 @@ Deal area section styling
     border-radius: 50%;
 }
 
-#bank-area>button[data-type="chip-1000"] {
+#bank-area>button[data-chip-value="1000"] {
     top: calc(var(--bank-area-diameter)/3);
     left: calc(-1 * var(--bank-area-diameter)/6);
     background-color: var(--accent-color-4-light);
 }
 
-#bank-area>button[data-type="chip-500"] {
+#bank-area>button[data-chip-value="500"] {
     top: calc(0.76 * var(--bank-area-diameter));
     left: calc(0.083 * var(--bank-area-diameter));
     background-color: var(--secondary-accent-color-light);
 }
 
-#bank-area>button[data-type="chip-100"] {
+#bank-area>button[data-chip-value="100"] {
     top: calc(0.76 * var(--bank-area-diameter));
     right: calc(0.083 * var(--bank-area-diameter));
     background-color: var(--primary-accent-color-light);
 }
 
-#bank-area>button[data-type="chip-50"] {
+#bank-area>button[data-chip-value="50"] {
     top: calc(var(--bank-area-diameter)/3);
     right: calc(-1 * var(--bank-area-diameter)/6);
     background-color: var(--accent-color-5-light);
