@@ -61,6 +61,15 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#results, false);
     }
     /**
+     * Public method to display Intro/Welcome screen
+     */
+    displayDeal() {
+      this.#showNode(this.#intro, false);
+      this.#showNode(this.#deal, true);
+      this.#showNode(this.#game, false);
+      this.#showNode(this.#results, false);
+    }
+    /**
      * Public method to display Game screen
      */
     displayGameArea() {
@@ -437,6 +446,12 @@ document.addEventListener("DOMContentLoaded", function () {
     checkResults();
   };
 
+  const placeBet = () =>{
+    //Switch to the deal area interface
+    gameUI.displayDeal();
+
+  }
+
   /**
    * ----------------------------------------------
    * EVENT HANDLERS
@@ -449,6 +464,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (button.getAttribute("data-type") !== "button-bs-modal") {
       button.addEventListener("click", function (event) {
         if (this.getAttribute("data-type") === "game-start") {
+          placeBet();
+        } else if (this.getAttribute("data-type") === "deal") {
           playGame();
         } else if (this.getAttribute("data-type") === "hit") {
           drawCard(player);
@@ -467,7 +484,8 @@ document.addEventListener("DOMContentLoaded", function () {
           gameFlags.reset();
 
           gameDeck.initializeDeck();
-          playGame();
+          // playGame();
+          placeBet();
         } else {
           alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
           throw `Unimplememted feature: ${this.getAttribute("data-type")}`;

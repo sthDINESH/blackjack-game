@@ -352,6 +352,7 @@ Intro section
     align-items: center;
 }
 
+.deal-details,
 .user-details {
     height: var(--user-details-height);
     width: var(--user-details-width);
