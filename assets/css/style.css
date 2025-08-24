@@ -158,7 +158,6 @@ Intro section
 ---------------*/
 #intro>.section-wrapper {
     background:
-        radial-gradient(circle at right top, var(--light-secondary-color), transparent, transparent),
         url(../images/background.webp) center/ cover no-repeat;
 }
 
