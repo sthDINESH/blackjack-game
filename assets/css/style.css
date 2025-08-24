@@ -16,10 +16,10 @@
     --tertiary-accent-trans-light: rgba(242, 184, 7, 0.2);
 
     --accent-color-4: #262223;
-    --accent-color-4-light: rgba(38,34,35,0.8);
+    --accent-color-4-light: rgba(38, 34, 35, 0.8);
 
     --accent-color-5: #4DA15C;
-    --accent-color-5-light: rgba(77,161,92,0.8);
+    --accent-color-5-light: rgba(77, 161, 92, 0.8);
 
     --primary-font: "Oregano", cursive;
     --accent-font: "Limelight", sans-serif;
@@ -146,11 +146,11 @@ h2,
 
 }
 
-.value-display{
+.value-display {
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: var(--tertiary-accent-color-light);
-    border: 2px solid var(--light-secondary-color);
+    border: 2px solid var(--light-primary-color);
     backdrop-filter: blur(2px);
     display: flex;
     align-items: center;
@@ -366,8 +366,8 @@ Deal area section styling
 -------------------------------------------------
 */
 #deal .grid-container {
-    border: 2px dashed green;
-    width:var(--deal-area-width);
+    /* border: 2px dashed green; */
+    width: var(--deal-area-width);
     height: var(--deal-area-height);
     display: grid;
     grid-template-columns: auto;
@@ -376,9 +376,13 @@ Deal area section styling
     align-content: center;
     align-items: stretch;
     justify-items: center;
+    background-color: var(--light-secondary-trans-color);
+    border-radius: var(--border-radius-style);
+    border: 2px solid var(--light-primary-color);
+
 }
 
-#deal-area.details-card{
+#deal-area.details-card {
     grid-area: 1 / 1 / 3 / 2;
     width: calc(0.85 * var(--deal-area-width));
     z-index: 5;
@@ -400,7 +404,7 @@ Deal area section styling
     font-size: calc(0.25 * var(--diameter));
 }
 
-#bank-area{
+#bank-area {
     grid-area: 2 / 1 / 4 / 2;
     aspect-ratio: 1;
     border-radius: 50%;
@@ -408,14 +412,14 @@ Deal area section styling
     position: relative;
 }
 
-#bank-area > button{
+#bank-area>button {
     position: absolute;
     width: calc(var(--bank-area-diameter)/3);
     font-size: calc(var(--bank-area-diameter)/15);
 }
 
-#bank-area > button::after{
-    --border-width: calc(0.08 * var(--bank-area-diameter)/3); 
+#bank-area>button::after {
+    --border-width: calc(0.08 * var(--bank-area-diameter)/3);
     content: "";
     inset: 0;
     position: absolute;
@@ -424,25 +428,25 @@ Deal area section styling
     border-radius: 50%;
 }
 
-#bank-area>button[data-type="chip-1000"]{
+#bank-area>button[data-type="chip-1000"] {
     top: calc(var(--bank-area-diameter)/3);
     left: calc(-1 * var(--bank-area-diameter)/6);
     background-color: var(--accent-color-4-light);
 }
 
-#bank-area>button[data-type="chip-500"]{
+#bank-area>button[data-type="chip-500"] {
     top: calc(0.76 * var(--bank-area-diameter));
     left: calc(0.083 * var(--bank-area-diameter));
     background-color: var(--secondary-accent-color-light);
 }
 
-#bank-area>button[data-type="chip-100"]{
+#bank-area>button[data-type="chip-100"] {
     top: calc(0.76 * var(--bank-area-diameter));
     right: calc(0.083 * var(--bank-area-diameter));
     background-color: var(--primary-accent-color-light);
 }
 
-#bank-area>button[data-type="chip-50"]{
+#bank-area>button[data-type="chip-50"] {
     top: calc(var(--bank-area-diameter)/3);
     right: calc(-1 * var(--bank-area-diameter)/6);
     background-color: var(--accent-color-5-light);
@@ -452,7 +456,8 @@ Deal area section styling
     height: calc(0.5 * var(--bank-area-diameter));
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 4px double coral;
+    border: 5px double var(--tertiary-accent-color);
+    background-color: var(--light-primary-color);
     position: absolute;
     top: calc(0.25 * var(--bank-area-diameter));
     left: calc(0.25 * var(--bank-area-diameter));
@@ -665,7 +670,7 @@ Game section styling
     align-items: center;
 }
 
-#results button{
+#results button {
     font-size: calc(0.06 * var(--results-area-height));
     padding: 0.5rem;
 }
@@ -680,6 +685,7 @@ Game section styling
         --intro-area-width: 80vw;
         --intro-area-height: 85vh;
         --hero-image-width: min(calc(0.9 * var(--intro-area-width)), calc(0.4 * var(--intro-area-height)));
+        --deal-area-width: 60vw;
     }
 
     #intro .grid-container {
@@ -695,6 +701,7 @@ Game section styling
             "tutorial";
         align-content: center;
     }
+
     #results {
         width: calc(0.6 * var(--game-board-width));
     }
@@ -706,6 +713,7 @@ Game section styling
         --intro-area-width: 60vw;
         --game-board-width: 60vw;
     }
+
     #results {
         width: calc(0.5 * var(--game-board-width));
     }
@@ -716,5 +724,6 @@ Game section styling
     :root {
         --intro-area-width: 50vw;
         --game-board-width: 50vw;
+        --deal-area-width: 50vw;
     }
 }
