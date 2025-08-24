@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  class flags {
+  class gameState {
     // Private fields
     #gameOver;
     #stand;
@@ -373,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const gameDeck = new deckManager();
   const dealer = new user("dealer");
   const player = new user("player");
-  const gameFlags = new flags();
+  const gameStateObject = new gameState();
 
   /**
    * ----------------------------------------------
@@ -399,18 +399,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const checkResults = () => {
     let result = null;
 
-    if (!gameFlags.stand) {
+    if (!gameStateObject.stand) {
       if (player.sum > 21) {
         // Check if player is Bust!
         result = "Bust! You lose.";
-        gameFlags.gameOver = true;
+        gameStateObject.gameOver = true;
       } else if (player.sum === 21) {
         // Player wins
         result = "You win!";
-        gameFlags.gameOver = true;
+        gameStateObject.gameOver = true;
       }
     } else {
-      gameFlags.gameOver = true;
+      gameStateObject.gameOver = true;
       if (dealer.sum > 21) {
         result = "Dealer Bust! You win.";
       } else if(dealer.sum > player.sum){
@@ -425,7 +425,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    if (gameFlags.gameOver) {
+    if (gameStateObject.gameOver) {
       gameUI.displayResults(result);
     }
   };
@@ -471,7 +471,7 @@ document.addEventListener("DOMContentLoaded", function () {
           drawCard(player);
           checkResults();
         } else if (this.getAttribute("data-type") === "stand") {
-          gameFlags.stand = true;
+          gameStateObject.stand = true;
           dealer.revealAllCards = true;
           gameUI.revealHand(dealer);
           while (dealer.sum < 17) {
@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (this.getAttribute("data-type") === "play-again") {
           dealer.clearHand();
           player.clearHand();
-          gameFlags.reset();
+          gameStateObject.reset();
 
           gameDeck.initializeDeck();
           // playGame();
