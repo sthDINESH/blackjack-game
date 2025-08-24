@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <header id="intro" class="hide">
+    <header id="intro">
         <div class="section-wrapper">
             <div class="grid-container">
                 <div id="hero-image">
@@ -89,7 +89,7 @@
                         <p>If you go over 21, you lose immediately.</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-circle" data-bs-dismiss="modal"
+                        <button type="button" class="btn btn-accent btn-circle" data-bs-dismiss="modal"
                             data-type="button-bs-modal">OK</button>
                     </div>
                 </div>
@@ -100,52 +100,47 @@
         <section id="deal" class="hide">
             <div class="section-wrapper">
                 <div class="grid-container">
-                    <div id="deal-area" class="deal-details">
-                        <button id="deal" data-type="deal">Deal</button>
+                    <div id="deal-area" class="details-card">
+                        <h2>Place your bet!</h2>
+                        <button id="deal" class="btn btn-primary" data-type="deal">Deal</button>
+                        <div id="deal-amount" class="value-display">£250</div>
                     </div>
                     <div id="bank-area">
-                        <button data-type="chip-1000"></button>
-                        <button data-type="chip-500"></button>
-                        <button data-type="chip-100"></button>
-                        <button data-type="chip-50"></button>
+                        <div id="bank-amount">£1000</div>
+                        <button class="btn btn-circle" data-type="chip-1000">£1000</button>
+                        <button class="btn btn-circle" data-type="chip-500">$500</button>
+                        <button class="btn btn-circle" data-type="chip-100">£100</button>
+                        <button class="btn btn-circle" data-type="chip-50">£50</button>
                     </div>
                 </div>
             </div>
         </section>
         <section id="game-round" class="hide">
             <div class="section-wrapper">
-                <div class="container">
-                    <div id="game-table" class="row">
-                        <div id="dealer-details" class="col-12 user-details">
-                            <div class="row">
-                                <h2 class="col-12">Dealer</h2>
-                                <div id="dealer-cards" class="col-12 cards-area"></div>
-                                <div class="col-12 sum-area-container">
-                                    <div id="dealer-sum" class="sum-area"></div>
-                                </div>
-                            </div>
+                <div id="game-table">
+                    <div id="dealer-details" class="col-12 user-details">
+                        <h2>Dealer</h2>
+                        <div id="dealer-cards" class="cards-area"></div>
+                        <div id="dealer-sum" class="value-display"></div>
+                    </div>
+                    <div id="btns-game" class="control-panel">
+                        <button id="btn-hit" class="btn btn-primary btn-circle" data-type="hit">Hit</button>
+                        <div id="bet-amount"></div>
+                        <button id="btn-stand" class="btn btn-accent btn-circle" data-type="stand">Stand</button>
+                    </div>
+                    <div id="results" class="results-grid drop-shadow hide">
+                        <p class="message"></p>
+                        <div class="control-panel">
+                            <button id="btn-play-again" class="btn btn-primary" data-type="play-again">Play
+                                Again</button>
+                            <button id="btn-play-exit" class="btn btn-accent" data-type="game-exit">Exit
+                                Game</button>
                         </div>
-                        <div id="btns-game" class="col-12 control-panel">
-                            <button id="btn-hit" class="btn btn-circle" data-type="hit">Hit</button>
-                            <div id="bet-amount"></div>
-                            <button id="btn-stand" class="btn btn-circle" data-type="stand">Stand</button>
-                        </div>
-                        <div id="results" class="col-12 results-grid drop-shadow hide">
-                            <p class="message"></p>
-                            <div class="control-panel">
-                                <button id="btn-play-again" class="btn btn-primary" data-type="play-again">Play Again</button>
-                                <button id="btn-play-exit" class="btn btn-accent" data-type="game-exit">Exit Game</button>
-                            </div>
-                        </div>
-                        <div id="player-details" class="col-12 user-details">
-                            <div class="row">
-                                <div class="col-12 sum-area-container">
-                                    <div id="player-sum" class="sum-area"></div>
-                                </div>
-                                <div id="player-cards" class="col-12 cards-area"></div>
-                                <h2 class="col-12">Player</h2>
-                            </div>
-                        </div>
+                    </div>
+                    <div id="player-details" class="user-details">
+                        <div id="player-sum" class="value-display"></div>
+                        <div id="player-cards" class="cards-area"></div>
+                        <h2>Player</h2>
                     </div>
                 </div>
             </div>
