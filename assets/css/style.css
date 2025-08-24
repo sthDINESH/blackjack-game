@@ -416,13 +416,13 @@ Deal area section styling
 #bank-area:after {
     content: "";
     position: absolute;
-    top:5%;
-    left: 5%;
-    width:90%;
+    top:10%;
+    left: 10%;
+    width:80%;
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: var(--secondary-accent-color);
-    border: 5px dotted var(--tertiary-accent-color);
+    border: 8px dotted var(--tertiary-accent-color);
     /* z-index: -1; */
 }
 
@@ -472,7 +472,8 @@ Deal area section styling
     aspect-ratio: 1;
     border-radius: 50%;
     border: 8px double var(--tertiary-accent-color);
-    background-color: var(--light-primary-color);
+    background-color: var(--primary-accent-color);
+    color:var(--light-primary-color);
     position: absolute;
     top: calc(0.25 * var(--bank-area-diameter) - 2.5px);
     left: calc(0.25 * var(--bank-area-diameter) - 2.5px);
