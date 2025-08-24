@@ -460,42 +460,20 @@ Game section styling
     align-items: center;
 }
 
-.deal-details,
-.user-details {
+#game-table .details-card {
     height: var(--user-details-height);
     width: var(--user-details-width);
-    border: 2px solid var(--light-primary-color);
-    background-color: var(--tertiary-accent-trans-light);
-    backdrop-filter: blur(2px);
-    border-radius: var(--border-radius-style);
-    padding: 0;
     z-index: 5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.user-details h2 {
-    width: 100%;
-    text-align: center;
-    vertical-align: middle;
-    margin: 0;
-    padding: 0.25rem;
-    background-color: var(--tertiary-accent-color);
-    font-size: calc(0.15*var(--card-area-height));
 }
 
 #player-details h2 {
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    border-top: 2px solid var(--light-secondary-color);
 }
 
 #dealer-details h2 {
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
-    border-bottom: 2px solid var(--light-secondary-color);
 }
 
 .cards-area {
