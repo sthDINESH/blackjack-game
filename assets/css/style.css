@@ -408,14 +408,29 @@ Deal area section styling
     grid-area: 2 / 1 / 4 / 2;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 2px dotted blueviolet;
     position: relative;
+    border: 5px dashed var(--tertiary-accent-color);
+    background-color: var(--primary-accent-color);
+}
+
+#bank-area:after {
+    content: "";
+    position: absolute;
+    top:5%;
+    left: 5%;
+    width:90%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: var(--secondary-accent-color);
+    border: 5px dotted var(--tertiary-accent-color);
+    /* z-index: -1; */
 }
 
 #bank-area>button {
     position: absolute;
     width: calc(var(--bank-area-diameter)/3);
     font-size: calc(var(--bank-area-diameter)/15);
+    z-index: 5;
 }
 
 #bank-area>button::after {
@@ -456,15 +471,16 @@ Deal area section styling
     height: calc(0.5 * var(--bank-area-diameter));
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 5px double var(--tertiary-accent-color);
+    border: 8px double var(--tertiary-accent-color);
     background-color: var(--light-primary-color);
     position: absolute;
-    top: calc(0.25 * var(--bank-area-diameter));
-    left: calc(0.25 * var(--bank-area-diameter));
+    top: calc(0.25 * var(--bank-area-diameter) - 2.5px);
+    left: calc(0.25 * var(--bank-area-diameter) - 2.5px);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: calc(var(--bank-area-diameter)/8);
+    z-index: 5;
 
 }
 
