@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#intro = document.querySelector("#intro");
       this.#deal = document.querySelector("#deal");
       this.#bank = document.querySelector("#bank-amount");
-      this.#bet = document.querySelector("#deal-amount");
+      this.#bet = document.querySelector("#deal-amount>p");
       this.#game = document.querySelector("#game-round");
       this.#results = document.querySelector("#results");
       this.#gameControls = document.querySelector("#btns-game");
@@ -376,6 +376,11 @@ document.addEventListener("DOMContentLoaded", function () {
     get stand() {
       return this.#stand;
     }
+
+    resetBet() {
+      this.#betAmount = 0;
+    }
+
     set raiseBet(amount) {
       if (typeof amount === "number") {
         this.#betAmount += amount;
@@ -411,9 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     credit: function (amount) {
       if (typeof amount === "number") {
-        if (this.totalAmount) {
-          this.totalAmount += amount;
-        }
+        this.totalAmount += amount;
       } else {
         throw `TypeError: Numeric amount expected for ${amount}`;
       }
@@ -550,6 +553,10 @@ document.addEventListener("DOMContentLoaded", function () {
             gameStateObject.bank.debit(chipValue);
             gameStateObject.raiseBet = chipValue;
           }
+          gameUI.updateDeal(gameStateObject);
+        } else if (this.getAttribute("data-type") === "reset-bet") {
+          gameStateObject.bank.credit(gameStateObject.betAmount);
+          gameStateObject.resetBet();
           gameUI.updateDeal(gameStateObject);
         } else {
           alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
