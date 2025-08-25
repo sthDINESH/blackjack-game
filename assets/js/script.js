@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     constructor() {
       this.#intro = document.querySelector("#intro");
       this.#deal = document.querySelector("#deal");
-      this.#bank = document.querySelector("#bank-amount");
+      this.#bank = document.querySelector("#bank-amount>p");
       this.#bet = document.querySelector("#deal-amount>p");
       this.#game = document.querySelector("#game-round");
       this.#results = document.querySelector("#results");

@@ -407,13 +407,13 @@ Deal area section styling
     position: absolute;
     left: 100%;
 }
-#deal-area .btn[data-type="reset-bid"]>i {
-    color: var(--accent-color-4);
-    font-weight: 900;
+
+#deal-area .btn[data-type="reset-bet"]>i {
+    color: black;
 }
 
 #deal-amount.value-display {
-    --diameter: calc(var(--bank-area-diameter) * 0.6);
+    --diameter: calc(var(--bank-area-diameter) * 0.5);
     height: var(--diameter);
     font-size: calc(0.25 * var(--diameter));
     position: relative;
@@ -437,9 +437,9 @@ Deal area section styling
 #bank-area:after {
     content: "";
     position: absolute;
-    top:10%;
+    top: 10%;
     left: 10%;
-    width:80%;
+    width: 80%;
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: var(--secondary-accent-color);
@@ -494,16 +494,19 @@ Deal area section styling
     border-radius: 50%;
     border: 8px double var(--tertiary-accent-color);
     background-color: var(--primary-accent-color);
-    color:var(--light-primary-color);
     position: absolute;
     top: calc(0.25 * var(--bank-area-diameter) - 2.5px);
     left: calc(0.25 * var(--bank-area-diameter) - 2.5px);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: calc(var(--bank-area-diameter)/8);
     z-index: 5;
+}
 
+#bank-amount>i {
+    color: var(--light-primary-color);
 }
 
 
