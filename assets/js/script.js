@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     #intro;
     #deal;
     #bank;
+    #bet;
     #game;
     #results;
     #gameControls;
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#intro = document.querySelector("#intro");
       this.#deal = document.querySelector("#deal");
       this.#bank = document.querySelector("#bank-amount");
+      this.#bet = document.querySelector("#deal-amount");
       this.#game = document.querySelector("#game-round");
       this.#results = document.querySelector("#results");
       this.#gameControls = document.querySelector("#btns-game");
@@ -71,8 +73,9 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#game, false);
       this.#showNode(this.#results, false);
     }
-    updateBankAmount(amount){
-      this.#bank.innerText = `£${amount}`;
+    updateDeal(gameState) {
+      this.#bank.innerText = `£${gameState.bank.getStatement()}`;
+      this.#bet.innerText = `£${gameState.betAmount}`;
     }
     /**
      * Public method to display Game screen
@@ -329,12 +332,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /**
-   * 
+   *
    */
   class gameState {
     // Private fields
     #gameOver;
     #stand;
+    #betAmount;
     bank;
 
     constructor() {
@@ -346,6 +350,7 @@ document.addEventListener("DOMContentLoaded", function () {
     reset() {
       this.#gameOver = false;
       this.#stand = false;
+      this.#betAmount = 0;
     }
 
     set gameOver(isOver) {
@@ -371,6 +376,16 @@ document.addEventListener("DOMContentLoaded", function () {
     get stand() {
       return this.#stand;
     }
+    set raiseBet(amount) {
+      if (typeof amount === "number") {
+        this.#betAmount += amount;
+      } else {
+        throw `TypeError: Expected number for amount ${amount}`;
+      }
+    }
+    get betAmount() {
+      return this.#betAmount;
+    }
   }
 
   /**
@@ -383,38 +398,36 @@ document.addEventListener("DOMContentLoaded", function () {
   const dealer = new user("dealer");
   const player = new user("player");
   const gameStateObject = new gameState();
-  
+
   // Object to track bets in the game
   const bank = {
-    totalAmount:1000,
+    totalAmount: 1000,
     debit: function (amount) {
-      if(typeof amount === "number"){
-        if(this.totalAmount>=amount){
-          this.totalAmount -= amount;
-        }
+      if (typeof amount === "number") {
+        this.totalAmount -= amount;
       } else {
         throw `TypeError: Numeric amount expected for ${amount}`;
       }
     },
     credit: function (amount) {
-      if(typeof amount === "number"){
-        if(this.totalAmount){
+      if (typeof amount === "number") {
+        if (this.totalAmount) {
           this.totalAmount += amount;
         }
       } else {
         throw `TypeError: Numeric amount expected for ${amount}`;
       }
     },
-    denominationAvailable: function (denomination){
-      if(typeof denomination === "number"){
-        return (this.totalAmount >= denomination)? true : false;
+    denominationAvailable: function (denomination) {
+      if (typeof denomination === "number") {
+        return this.totalAmount >= denomination ? true : false;
       } else {
         throw `TypeError: Numeric amount expected for ${denomination}`;
       }
     },
-    getStatement: function (){
+    getStatement: function () {
       return this.totalAmount;
-    }
+    },
   };
 
   // Point gameStateObject to use bank object
@@ -494,7 +507,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const placeBet = (gameState) => {
     //Switch to the deal area interface
     gameUI.displayDeal();
-    gameUI.updateBankAmount(gameState.bank.getStatement());
+    gameUI.updateDeal(gameState);
   };
 
   /**
@@ -531,9 +544,13 @@ document.addEventListener("DOMContentLoaded", function () {
           gameDeck.initializeDeck();
           // playGame();
           placeBet();
-        } else if(this.getAttribute("data-type") === "chip"){
-          gameStateObject.bank.debit(parseInt(this.getAttribute("data-chip-value")));
-          gameUI.updateBankAmount(gameStateObject.bank.getStatement());
+        } else if (this.getAttribute("data-type") === "chip") {
+          const chipValue = parseInt(this.getAttribute("data-chip-value"));
+          if (gameStateObject.bank.getStatement() >= chipValue) {
+            gameStateObject.bank.debit(chipValue);
+            gameStateObject.raiseBet = chipValue;
+          }
+          gameUI.updateDeal(gameStateObject);
         } else {
           alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
           throw `Unimplememted feature: ${this.getAttribute("data-type")}`;
