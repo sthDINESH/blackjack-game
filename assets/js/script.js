@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Private fields pointing to UI relevant DOM elements
     #intro;
     #deal;
+    #dealBtn;
     #bank;
     #bet;
     #chips;
@@ -27,8 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
     constructor() {
       this.#intro = document.querySelector("#intro");
       this.#deal = document.querySelector("#deal");
-      this.#bank = document.querySelector("#bank-amount>p");
-      this.#bet = document.querySelector("#deal-amount>p");
+      this.#dealBtn = document.querySelector("#deal-button");
+      this.#bank = document.querySelector("#bank-amount span");
+      this.#bet = document.querySelector("#deal-amount span");
       this.#chips = document.querySelectorAll("button[data-type='chip']");
       this.#game = document.querySelector("#game-round");
       this.#results = document.querySelector("#results");
@@ -80,8 +82,8 @@ document.addEventListener("DOMContentLoaded", function () {
      * @param {object} gameState 
      */
     updateDeal(gameState) {
-      this.#bank.innerText = `£${gameState.bank.getStatement()}`;
-      this.#bet.innerText = `£${gameState.betAmount}`;
+      this.#bank.innerText = `${gameState.bank.getStatement()}`;
+      this.#bet.innerText = `${gameState.betAmount}`;
 
       // Disable chips based on amount left in bank
       this.#chips.forEach((chip)=>{
@@ -91,6 +93,8 @@ document.addEventListener("DOMContentLoaded", function () {
           chip.disabled = false; 
         }
       });
+      // Disable Deal button if bet is not placed
+      (gameState.betAmount <= 0)? (this.#dealBtn.disabled) = true: (this.#dealBtn.disabled = false);
     }
     /**
      * Public method to display Game screen
