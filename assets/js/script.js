@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     #deal;
     #bank;
     #bet;
+    #chips;
     #game;
     #results;
     #gameControls;
@@ -28,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#deal = document.querySelector("#deal");
       this.#bank = document.querySelector("#bank-amount>p");
       this.#bet = document.querySelector("#deal-amount>p");
+      this.#chips = document.querySelectorAll("button[data-type='chip']");
       this.#game = document.querySelector("#game-round");
       this.#results = document.querySelector("#results");
       this.#gameControls = document.querySelector("#btns-game");
@@ -73,9 +75,22 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#game, false);
       this.#showNode(this.#results, false);
     }
+    /**
+     * Function to update the deal area UI
+     * @param {object} gameState 
+     */
     updateDeal(gameState) {
       this.#bank.innerText = `£${gameState.bank.getStatement()}`;
       this.#bet.innerText = `£${gameState.betAmount}`;
+
+      // Disable chips based on amount left in bank
+      this.#chips.forEach((chip)=>{
+        if(parseInt(chip.getAttribute("data-chip-value")) > gameState.bank.getStatement()){
+          chip.disabled = true;
+        } else {
+          chip.disabled = false; 
+        }
+      });
     }
     /**
      * Public method to display Game screen
