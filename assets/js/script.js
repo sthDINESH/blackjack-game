@@ -555,6 +555,20 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   /**
+   * Handle payouts
+   */
+  const handlePayout = () => {
+    const result = gameStateObject.gameResult();
+    if(result.blackJack){
+      gameStateObject.bank.credit(gameStateObject.betAmount * 3);
+    } else if(result.playerWin){
+      gameStateObject.bank.credit(gameStateObject.betAmount * 2);
+    } else if(result.draw){
+      gameStateObject.bank.credit(gameStateObject.betAmount);
+    }
+  }
+
+  /**
    * Check the game results
    */
   const checkResults = () => {
@@ -565,7 +579,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (player.sum > 21) {
         // Check if player is Bust!
         gameStateObject.gameOver = true;
-        // gameStateObject.setPlayerLoss("Bust! You lose.");
         gameStateObject.playerBust();
       } else if (player.sum === 21) {
         if (
@@ -581,22 +594,17 @@ document.addEventListener("DOMContentLoaded", function () {
           gameStateObject.playerWin();
         }
         gameStateObject.gameOver = true;
-        // gameStateObject.setPlayerWin("You win!");
         gameStateObject.playerWin();
       }
     } else {
       gameStateObject.gameOver = true;
       if (dealer.sum > 21) {
-        // gameStateObject.setPlayerWin("Dealer Bust! You win.");
         gameStateObject.dealerBust();
       } else if (dealer.sum > player.sum) {
-        // gameStateObject.setPlayerLoss("Dealer wins!");
         gameStateObject.dealerWin();
       } else if (dealer.sum === player.sum) {
-        // result = "Draw!";
         gameStateObject.draw();
       } else if (dealer.sum < player.sum) {
-        // gameStateObject.setPlayerWin("You win!");
         gameStateObject.playerWin();
       } else {
         result = "Invalid condition";
@@ -605,9 +613,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (gameStateObject.gameOver) {
+      handlePayout();
       gameUI.displayResults(gameStateObject);
     }
   };
+
 
   /**
    * Start the game
