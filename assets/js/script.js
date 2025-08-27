@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
       // Disable Deal button if bet is not placed
-      (gameState.betAmount <= 0)? (this.#dealBtn.disabled) = true: (this.#dealBtn.disabled = false);
+      (gameState.betAmount <= 0)? (this.#dealBtn.classList.add("hide")): (this.#dealBtn.classList.remove("hide"));
     }
     /**
      * Public method to display Game screen
