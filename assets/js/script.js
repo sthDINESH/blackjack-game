@@ -81,22 +81,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     /**
      * Function to update the deal area UI
-     * @param {object} gameState 
+     * @param {object} gameState
      */
     updateDeal(gameState) {
       this.#bank.innerText = `${gameState.bank.getStatement()}`;
       this.#bet.innerText = `${gameState.betAmount}`;
 
       // Disable chips based on amount left in bank
-      this.#chips.forEach((chip)=>{
-        if(parseInt(chip.getAttribute("data-chip-value")) > gameState.bank.getStatement()){
+      this.#chips.forEach((chip) => {
+        if (
+          parseInt(chip.getAttribute("data-chip-value")) >
+          gameState.bank.getStatement()
+        ) {
           chip.disabled = true;
         } else {
-          chip.disabled = false; 
+          chip.disabled = false;
         }
       });
       // Disable Deal button if bet is not placed
-      (gameState.betAmount <= 0)? (this.#dealBtn.classList.add("hide")): (this.#dealBtn.classList.remove("hide"));
+      gameState.betAmount <= 0
+        ? this.#dealBtn.classList.add("hide")
+        : this.#dealBtn.classList.remove("hide");
     }
     /**
      * Public method to display Game screen
@@ -114,10 +119,25 @@ document.addEventListener("DOMContentLoaded", function () {
      * Public method to display Results modal
      * @param {string} result - Message to be displayed
      */
-    displayResults(result) {
+    displayResults(gameState) {
       this.#showNode(this.#gameControls, false);
       this.#showNode(this.#results, true);
-      this.#results.firstElementChild.innerText = result;
+      const gameResult = gameState.gameResult();
+      let message = null;
+      if (gameResult.isBlackJack) {
+        message = "Blackjack!!! You win.";
+      } else if (gameResult.dealerBust) {
+        message = "Dealer Bust!!! You win.";
+      } else if (gameResult.playerBust) {
+        message = "Bust!!! You lose.";
+      } else if (gameResult.playerWin) {
+        message = "You win!!!";
+      } else if (gameResult.draw) {
+        message = "Draw.";
+      } else {
+        message = "You lose!!!";
+      }
+      this.#results.firstElementChild.innerText = message;
     }
     /**
      * Public method to display game control buttons
@@ -362,18 +382,31 @@ document.addEventListener("DOMContentLoaded", function () {
     #gameOver;
     #stand;
     #betAmount;
+    #isBlackJack;
+    #isPlayerWin;
+    #isDealerBust;
+    #isPlayerBust;
+    #isDraw;
+    #countPlayerWin;
+    #countPlayerLoss;
+    #countGames;
     bank;
 
     constructor() {
-      this.reset();
+      this.gameReset();
     }
     /**
      * Reset the flags to defaults
      */
-    reset() {
+    gameReset() {
       this.#gameOver = false;
       this.#stand = false;
       this.#betAmount = 0;
+      this.#isBlackJack = false;
+      this.#isPlayerWin = false;
+      this.#isDealerBust = false;
+      this.#isPlayerBust = false;
+      this.#isDraw = false;
     }
 
     set gameOver(isOver) {
@@ -413,6 +446,50 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     get betAmount() {
       return this.#betAmount;
+    }
+    dealerBust() {
+      this.#isDealerBust = true;
+      this.#isPlayerWin = true;
+      this.#countPlayerWin++;
+      this.#countGames++;
+    }
+    playerBust() {
+      this.#isPlayerBust = true;
+      this.#isPlayerWin = false;
+      this.#countPlayerLoss++;
+      this.#countGames++;
+    }
+    blackJack() {
+      this.#isBlackJack = true;
+      this.#isPlayerWin = true;
+      this.#countPlayerWin++;
+      this.#countGames++;
+    }
+    playerWin() {
+      this.#isPlayerWin = true;
+      this.#countPlayerWin++;
+      this.#countGames++;
+    }
+    dealerWin() {
+      this.#isPlayerWin = false;
+      this.#countPlayerLoss++;
+      this.#countGames++;
+    }
+    draw(message) {
+      this.#isDraw = true;
+      this.#countGames++;
+    }
+    gameResult() {
+      return {
+        playerWin: this.#isPlayerWin,
+        dealerBust: this.#isDealerBust,
+        playerBust: this.#isPlayerBust,
+        blackJack: this.#isBlackJack,
+        draw: this.#isDraw,
+        wins: this.#countPlayerWin,
+        losses: this.#countPlayerLoss,
+        rounds: this.#countGames,
+      };
     }
   }
 
@@ -482,27 +559,45 @@ document.addEventListener("DOMContentLoaded", function () {
    */
   const checkResults = () => {
     let result = null;
+    let isBlackJack = false;
 
     if (!gameStateObject.stand) {
       if (player.sum > 21) {
         // Check if player is Bust!
-        result = "Bust! You lose.";
         gameStateObject.gameOver = true;
+        // gameStateObject.setPlayerLoss("Bust! You lose.");
+        gameStateObject.playerBust();
       } else if (player.sum === 21) {
-        // Player wins
-        result = "You win!";
+        if (
+          player.hand.length == 2 &&
+          player.hand.some((card) => {
+            card.value === 11;
+          })
+        ) {
+          // Check if the hand includes Ace for blackjack
+          gameStateObject.blackJack();
+        } else {
+          // Player wins
+          gameStateObject.playerWin();
+        }
         gameStateObject.gameOver = true;
+        // gameStateObject.setPlayerWin("You win!");
+        gameStateObject.playerWin();
       }
     } else {
       gameStateObject.gameOver = true;
       if (dealer.sum > 21) {
-        result = "Dealer Bust! You win.";
+        // gameStateObject.setPlayerWin("Dealer Bust! You win.");
+        gameStateObject.dealerBust();
       } else if (dealer.sum > player.sum) {
-        result = "Dealer wins";
+        // gameStateObject.setPlayerLoss("Dealer wins!");
+        gameStateObject.dealerWin();
       } else if (dealer.sum === player.sum) {
-        result = "Draw!";
+        // result = "Draw!";
+        gameStateObject.draw();
       } else if (dealer.sum < player.sum) {
-        result = "You win.";
+        // gameStateObject.setPlayerWin("You win!");
+        gameStateObject.playerWin();
       } else {
         result = "Invalid condition";
         throw `${result}: dealer sum=>${dealer.sum}, player sum=>${player.sum}`;
@@ -510,7 +605,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (gameStateObject.gameOver) {
-      gameUI.displayResults(result);
+      gameUI.displayResults(gameStateObject);
     }
   };
 
@@ -565,7 +660,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (this.getAttribute("data-type") === "play-again") {
           dealer.clearHand();
           player.clearHand();
-          gameStateObject.reset();
+          gameStateObject.gameReset();
 
           gameDeck.initializeDeck();
           // playGame();
