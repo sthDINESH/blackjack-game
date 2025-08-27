@@ -387,7 +387,6 @@ Deal area section styling
     background-color: var(--light-secondary-trans-color);
     border-radius: var(--border-radius-style);
     border: 2px solid var(--light-primary-color);
-
 }
 
 #deal-area.details-card {
@@ -622,9 +621,7 @@ Game section styling
     position: absolute;
     left: calc((100% - var(--diameter))/2);
     top: calc((100% - var(--diameter))/2);
-
 }
-
 
 #btns-game::after {
     --diameter: calc(var(--game-controls-bg-diameter) * 0.85);
@@ -671,8 +668,8 @@ Game section styling
     right: calc((100% - var(--game-controls-bg-diameter) - (var(--diameter)*0.6))/2);
 }
 
-#bet-amount {
-    --diameter: min(45vw, 21.6vh);
+#game-bet-display {
+    --diameter: calc(var(--game-controls-bg-diameter) * 0.60);
     width: var(--diameter);
     aspect-ratio: 1;
     border-radius: 50%;
@@ -682,6 +679,14 @@ Game section styling
     left: calc((100% - var(--diameter))/2);
     top: calc((100% - var(--diameter))/2);
     z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(0.20 * var(--diameter));
+}
+#game-bet-display > i {
+    color: var(--light-primary-color);
 }
 
 #results {

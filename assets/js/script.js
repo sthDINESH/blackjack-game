@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     #playerSum;
     #dealerCards;
     #dealerSum;
+    #gameBetDisplay;
 
     /**
      * Uses query selectors to assign pointers to relevant DOM nodes
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#playerSum = document.querySelector("#player-sum");
       this.#dealerCards = document.querySelector("#dealer-cards");
       this.#dealerSum = document.querySelector("#dealer-sum");
+      this.#gameBetDisplay = document.querySelector("#game-bet-display span");
 
       this.displayIntro();
     }
@@ -99,12 +101,14 @@ document.addEventListener("DOMContentLoaded", function () {
     /**
      * Public method to display Game screen
      */
-    displayGameArea() {
+    displayGameArea(gameState) {
       this.#showNode(this.#intro, false);
       this.#showNode(this.#deal, false);
       this.#showNode(this.#game, true);
       this.#showNode(this.#gameControls, true);
       this.#showNode(this.#results, false);
+
+      this.#gameBetDisplay.innerText = gameState.betAmount;
     }
     /**
      * Public method to display Results modal
@@ -513,9 +517,9 @@ document.addEventListener("DOMContentLoaded", function () {
   /**
    * Start the game
    */
-  const playGame = () => {
+  const playGame = (gameState) => {
     // Switch to game User interface
-    gameUI.displayGameArea();
+    gameUI.displayGameArea(gameState);
 
     console.log("DEBUG: Deck", gameDeck.showCurrentDeck());
 
@@ -546,7 +550,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (this.getAttribute("data-type") === "game-start") {
           placeBet(gameStateObject);
         } else if (this.getAttribute("data-type") === "deal") {
-          playGame();
+          playGame(gameStateObject);
         } else if (this.getAttribute("data-type") === "hit") {
           drawCard(player);
           checkResults();
