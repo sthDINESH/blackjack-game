@@ -31,7 +31,7 @@
 
     --deal-area-width: 90vw;
     --deal-area-height: 75vh;
-    --bank-area-diameter: calc(1 * var(--deal-area-height)/2);
+    --bank-area-diameter: calc(0.85 * var(--deal-area-height)/2);
 
 
     --game-controls-bg-diameter: min(70vw, 35vh);
@@ -102,7 +102,14 @@ h2,
 }
 
 .btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
+    border: 2px solid var(--light-primary-color);
+    color: var(--light-primary-color);
+}
+
+.btn:focus {
+    outline: 2px solid var(--tertiary-accent-color);
+    outline-offset: 2px;
     border: 2px solid var(--light-primary-color);
     color: var(--light-primary-color);
 }
@@ -396,16 +403,16 @@ Deal area section styling
 
 #deal-area>.btn[data-type="deal"] {
     width: 60%;
-    margin: 0.5rem 0;
+    margin: 1rem 0 0.25rem 0;
 }
 
 #deal-area .btn[data-type="reset-bet"] {
-    height: calc(var(--bank-area-diameter)/5);
+    height: calc(var(--bank-area-diameter)/6);
     background-color: var(--light-secondary-color);
     margin: 0;
     padding: 0;
     position: absolute;
-    left: 100%;
+    left: calc(100% + 2px);
 }
 
 #deal-area .btn[data-type="reset-bet"]>i {
@@ -413,10 +420,15 @@ Deal area section styling
 }
 
 #deal-amount.value-display {
-    --diameter: calc(var(--bank-area-diameter) * 0.5);
+    --diameter: calc(var(--bank-area-diameter) * 0.45);
     height: var(--diameter);
     font-size: calc(0.25 * var(--diameter));
+    margin: 0.5rem 0;
     position: relative;
+}
+
+#deal-amount>i {
+    color: var(--light-primary-color);
 }
 
 #deal-amount.value-display>p {
@@ -454,6 +466,12 @@ Deal area section styling
     z-index: 5;
 }
 
+#bank-area>button:disabled {
+    color: var(--light-primary-color);
+    border-color: var(--light-primary-color);
+    opacity: 0.4;
+}
+
 #bank-area>button::after {
     --border-width: calc(0.08 * var(--bank-area-diameter)/3);
     content: "";
@@ -467,42 +485,43 @@ Deal area section styling
 #bank-area>button[data-chip-value="1000"] {
     top: calc(var(--bank-area-diameter)/3);
     left: calc(-1 * var(--bank-area-diameter)/6);
-    background-color: var(--accent-color-4-light);
+    background-color: var(--accent-color-4);
 }
 
 #bank-area>button[data-chip-value="500"] {
     top: calc(0.76 * var(--bank-area-diameter));
     left: calc(0.083 * var(--bank-area-diameter));
-    background-color: var(--secondary-accent-color-light);
+    background-color: var(--secondary-accent-color);
 }
 
 #bank-area>button[data-chip-value="100"] {
     top: calc(0.76 * var(--bank-area-diameter));
     right: calc(0.083 * var(--bank-area-diameter));
-    background-color: var(--primary-accent-color-light);
+    background-color: var(--primary-accent-color);
 }
 
 #bank-area>button[data-chip-value="50"] {
     top: calc(var(--bank-area-diameter)/3);
     right: calc(-1 * var(--bank-area-diameter)/6);
-    background-color: var(--accent-color-5-light);
+    background-color: var(--accent-color-5);
 }
 
 #bank-amount {
-    height: calc(0.5 * var(--bank-area-diameter));
+    --height: calc(0.6 * var(--bank-area-diameter));
+    height: var(--height);
     aspect-ratio: 1;
     border-radius: 50%;
     border: 8px double var(--tertiary-accent-color);
     background-color: var(--primary-accent-color);
     position: absolute;
-    top: calc(0.25 * var(--bank-area-diameter) - 2.5px);
-    left: calc(0.25 * var(--bank-area-diameter) - 2.5px);
+    top: calc((var(--bank-area-diameter) - var(--height))/2 - 5px);
+    left: calc((var(--bank-area-diameter) - var(--height))/2 - 5px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: calc(var(--bank-area-diameter)/8);
-    z-index: 5;
+    z-index: 4;
 }
 
 #bank-amount>i {
