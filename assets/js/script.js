@@ -565,7 +565,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           gameDeck.initializeDeck();
           // playGame();
-          placeBet();
+          placeBet(gameStateObject);
         } else if (this.getAttribute("data-type") === "chip") {
           const chipValue = parseInt(this.getAttribute("data-chip-value"));
           if (gameStateObject.bank.getStatement() >= chipValue) {
