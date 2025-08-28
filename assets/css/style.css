@@ -646,7 +646,7 @@ Game section styling
     top: calc((100% - var(--diameter))/2);
     margin: 0;
     z-index: 4;
-    font-size: calc(0.15 * var(--diameter));
+    font-size: calc(0.20 * var(--diameter));
     text-transform: uppercase;
 }
 
