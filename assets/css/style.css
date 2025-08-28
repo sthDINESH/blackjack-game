@@ -426,7 +426,7 @@ Deal area section styling
     position: relative;
 }
 
-#deal-amount>i {
+#deal-amount>p {
     color: var(--light-primary-color);
 }
 
@@ -523,7 +523,7 @@ Deal area section styling
     z-index: 4;
 }
 
-#bank-amount>i {
+#bank-amount>p {
     color: var(--light-primary-color);
 }
 
@@ -571,18 +571,18 @@ Game section styling
 }
 
 .card-show {
-    --card-height: min(calc(0.45*var(--card-area-width)), var(--card-area-height));
+    --card-height: min(calc(0.45*var(--card-area-width)), calc(var(--card-area-height) - 1rem));
     height: var(--card-height);
     aspect-ratio: 0.69;
     text-align: center;
     margin: 0.5rem 0;
     background-size: contain;
     background-repeat: no-repeat;
-    border-radius: 0.25rem;
+    border-radius: 0.3rem;
 }
 
 .card-show-partial {
-    --card-height: min(calc(0.45*var(--card-area-width)), var(--card-area-height));
+    --card-height: min(calc(0.45*var(--card-area-width)), calc(var(--card-area-height) - 1rem));
     --aspect-ratio: 0.69;
     height: var(--card-height);
     width: calc(var(--card-height) * var(--aspect-ratio)/4);
@@ -593,7 +593,8 @@ Game section styling
 
 #player-sum.value-display,
 #dealer-sum.value-display {
-    width: var(--sum-area-height);
+    width: calc(var(--sum-area-height) - 0.25rem);
+    margin: 0.125rem 0;
     z-index: 4;
     font-size: calc(0.5 * var(--sum-area-height));
 }
@@ -640,7 +641,7 @@ Game section styling
 }
 
 #btns-game>button {
-    --diameter: calc(0.9 * var(--control-panel-height));
+    --diameter: calc(0.85 * var(--control-panel-height));
     position: absolute;
     top: calc((100% - var(--diameter))/2);
     margin: 0;
@@ -685,7 +686,7 @@ Game section styling
     align-items: center;
     font-size: calc(0.20 * var(--diameter));
 }
-#game-bet-display > i {
+#game-bet-display > p {
     color: var(--light-primary-color);
 }
 
