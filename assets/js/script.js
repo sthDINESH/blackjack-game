@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
     #chips;
     #game;
     #results;
+    #resultsMessage;
+    #resultsStats;
     #gameControls;
     #playerCards;
     #playerSum;
@@ -35,6 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#chips = document.querySelectorAll("button[data-type='chip']");
       this.#game = document.querySelector("#game-round");
       this.#results = document.querySelector("#results");
+      this.#resultsMessage = document.querySelector("#results>.message>p");
+      this.#resultsStats = document.querySelector("#results>.message>.game-stats");
       this.#gameControls = document.querySelector("#btns-game");
       this.#playerCards = document.querySelector("#player-cards");
       this.#playerSum = document.querySelector("#player-sum");
@@ -137,7 +141,14 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         message = "You lose!!!";
       }
-      this.#results.firstElementChild.innerText = message;
+      this.#resultsMessage.innerText = message;
+      this.#resultsStats.innerHTML="";
+      const statWins = document.createElement("span");
+      statWins.innerHTML = `Wins: ${gameResult.wins}/${gameResult.rounds}`;
+      this.#resultsStats.appendChild(statWins);
+      const statLosses = document.createElement("span");
+      statLosses.innerHTML = `Losses: ${gameResult.losses}/${gameResult.rounds}`;
+      this.#resultsStats.appendChild(statLosses);
     }
     /**
      * Public method to display game control buttons
@@ -391,12 +402,22 @@ document.addEventListener("DOMContentLoaded", function () {
     #countPlayerLoss;
     #countGames;
     bank;
+    payoutMap;
 
     constructor() {
+      this.resetAll();
+    }
+    /**
+     * 
+     */
+    resetAll() {
+      this.#countGames = 0;
+      this.#countPlayerWin = 0;
+      this.#countPlayerLoss = 0;
       this.gameReset();
     }
     /**
-     * Reset the flags to defaults
+     * Reset the flags to defaults for current game
      */
     gameReset() {
       this.#gameOver = false;
@@ -535,6 +556,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Point gameStateObject to use bank object
   gameStateObject.bank = bank;
+
+  // Enum type object to map payout factors on bets 
+  const payoutMap = {
+    "blackJack":2,
+    "win":1,
+    "draw":0,
+  }
+
+  // Point gameStateObject to use payout mappings
+  gameStateObject.payoutMap = payoutMap;
 
   /**
    * ----------------------------------------------
