@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#results, true);
       const gameResult = gameState.gameResult();
       let message = null;
-      if (gameResult.isBlackJack) {
+      if (gameResult.blackJack) {
         message = "Blackjack!!! You win.";
       } else if (gameResult.dealerBust) {
         message = "Dealer Bust!!! You win.";
@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
      * Checks if the current hand includes Ace card counted with a value of 11
      * @returns {boolean} true if present/false if not
      */
-    #handIncludesAce11() {
+    handIncludesAce11() {
       for (let card of this.#hand) {
         if (card["value"] === 11) {
           return true;
@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
         0
       );
       // Recalculate the sum with Ace card replaced with value of 1 if needed
-      while (sum > 21 && this.#handIncludesAce11()) {
+      while (sum > 21 && this.handIncludesAce11()) {
         for (let index in this.#hand) {
           if (this.#hand[index]["value"] === 11) {
             this.#hand[index]["value"] = 1;
@@ -583,9 +583,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else if (player.sum === 21) {
         if (
           player.hand.length == 2 &&
-          player.hand.some((card) => {
-            card.value === 11;
-          })
+          player.handIncludesAce11()
         ) {
           // Check if the hand includes Ace for blackjack
           gameStateObject.blackJack();
@@ -594,7 +592,6 @@ document.addEventListener("DOMContentLoaded", function () {
           gameStateObject.playerWin();
         }
         gameStateObject.gameOver = true;
-        gameStateObject.playerWin();
       }
     } else {
       gameStateObject.gameOver = true;
