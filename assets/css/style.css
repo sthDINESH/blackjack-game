@@ -115,7 +115,7 @@ h2,
 }
 
 .btn-primary {
-    background-color: var(--primary-accent-color-light);
+    background-color: var(--primary-accent-color);
 }
 
 .btn-primary:hover {
@@ -133,7 +133,7 @@ h2,
 }
 
 .btn-accent {
-    background-color: var(--secondary-accent-color-light);
+    background-color: var(--secondary-accent-color);
     backdrop-filter: blur(2px);
     color: var(--light-primary-color);
 }
@@ -185,7 +185,6 @@ h2,
     margin: 0;
     padding: 0.25rem;
     background-color: var(--tertiary-accent-color);
-    border-bottom: 2px solid var(--light-primary-color);
 }
 
 /*------------- 
@@ -364,8 +363,8 @@ Intro section
     justify-content: center;
 }
 
-.modal-footer .btn-circle {
-    min-width: 15vw;
+#game-rules .modal-footer .btn-circle {
+    width: calc(0.2 * var(--intro-area-width));
 }
 
 /*  
@@ -555,7 +554,6 @@ Game section styling
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
     border-bottom: none;
-    border-top: 2px solid var(--light-primary-color);
 }
 
 #dealer-details h2 {
@@ -667,6 +665,7 @@ Game section styling
 #btn-stand {
     width: var(--diameter);
     right: calc((100% - var(--game-controls-bg-diameter) - (var(--diameter)*0.6))/2);
+    background-color: var(--secondary-accent-color-light);
 }
 
 #game-bet-display {
