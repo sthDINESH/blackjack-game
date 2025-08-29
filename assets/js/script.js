@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     #intro;
     #deal;
     #dealBtn;
+    #dealBtnReplace;
     #bank;
     #bet;
     #chips;
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#intro = document.querySelector("#intro");
       this.#deal = document.querySelector("#deal");
       this.#dealBtn = document.querySelector("#deal-button");
+      this.#dealBtnReplace = document.querySelector("#deal-btn-replace");
       this.#bank = document.querySelector("#bank-amount span");
       this.#bet = document.querySelector("#deal-amount span");
       this.#chips = document.querySelectorAll("button[data-type='chip']");
@@ -105,9 +107,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
       // Disable Deal button if bet is not placed
-      gameState.betAmount <= 0
-        ? this.#dealBtn.classList.add("hide")
-        : this.#dealBtn.classList.remove("hide");
+      if(gameState.betAmount <= 0){
+        this.#dealBtn.classList.add("hide");
+        this.#dealBtnReplace.classList.remove("hide");
+      } else {
+        this.#dealBtn.classList.remove("hide");
+        this.#dealBtnReplace.classList.add("hide");
+      }
     }
     /**
      * Public method to display Game screen

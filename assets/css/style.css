@@ -417,12 +417,18 @@ Deal area section styling
     color: black;
 }
 
+#deal-btn-replace {
+    margin: 1rem 0;
+    font-size: calc(0.065 * var(--bank-area-diameter));
+}
+
 #deal-amount.value-display {
     --diameter: calc(var(--bank-area-diameter) * 0.45);
     height: var(--diameter);
     font-size: calc(0.25 * var(--diameter));
     margin: 0.5rem 0;
     position: relative;
+    flex-grow: 1;
 }
 
 #deal-amount>p {
@@ -685,7 +691,8 @@ Game section styling
     align-items: center;
     font-size: calc(0.20 * var(--diameter));
 }
-#game-bet-display > p {
+
+#game-bet-display>p {
     color: var(--light-primary-color);
 }
 
@@ -704,7 +711,7 @@ Game section styling
     font-size: calc(0.15 * var(--control-panel-height));
 }
 
-#results p{
+#results p {
     margin: 0;
 }
 
@@ -738,7 +745,7 @@ Game section styling
     justify-content: center;
 }
 
-#results>.message>*{
+#results>.message>* {
     flex-grow: 1;
 }
 
@@ -804,6 +811,10 @@ Game section styling
 
     #results {
         width: calc(0.5 * var(--game-board-width));
+    }
+
+    #deal-area>.btn[data-type="deal"] {
+        width: 40%;
     }
 }
 
