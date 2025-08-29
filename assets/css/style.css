@@ -142,6 +142,10 @@ h2,
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
 }
 
+.btn i{
+    transform: translateX(2px);
+}
+
 .section-wrapper {
     height: 100vh;
     width: 100vw;
@@ -406,11 +410,14 @@ Deal area section styling
 
 #deal-area .btn[data-type="reset-bet"] {
     height: calc(var(--bank-area-diameter)/6);
-    background-color: var(--light-secondary-color);
+    background-color: var(--light-secondary-trans-color);
     margin: 0;
     padding: 0;
     position: absolute;
     left: calc(100% + 2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #deal-area .btn[data-type="reset-bet"]>i {
@@ -532,8 +539,6 @@ Deal area section styling
     color: var(--light-primary-color);
 }
 
-
-
 /*  
 -------------------------------------------------
 Game section styling 
@@ -554,17 +559,39 @@ Game section styling
     height: var(--user-details-height);
     width: var(--user-details-width);
     z-index: 5;
+    position: relative;
 }
 
+#game-table .details-card>h2 {
+    font-size: calc(0.1 * var(--user-details-height));
+}
 #player-details h2 {
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    border-bottom: none;
 }
 
 #dealer-details h2 {
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
+}
+
+#game-table .details-card .btn{
+    position: absolute;
+    width: calc(0.2 * var(--user-details-height));
+    bottom: 20%;
+    font-size: calc(0.1 * var(--user-details-height));
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-secondary-trans-color);
+    color: var(--accent-color-4);
+}
+
+#game-table .btn[data-type="game-statistics"] {
+    right: 1.5%;
+}
+
+#game-table .btn[data-bs-toggle="modal"] {
+    left: 1.5%;
 }
 
 .cards-area {
@@ -781,6 +808,7 @@ Game section styling
         --intro-area-height: 85vh;
         --hero-image-width: min(calc(0.9 * var(--intro-area-width)), calc(0.4 * var(--intro-area-height)));
         --deal-area-width: 60vw;
+        --game-board-width: 70vw;
     }
 
     #intro .grid-container {
