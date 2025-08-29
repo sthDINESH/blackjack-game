@@ -149,6 +149,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const statLosses = document.createElement("span");
       statLosses.innerHTML = `Losses: ${gameResult.losses}/${gameResult.rounds}`;
       this.#resultsStats.appendChild(statLosses);
+      const statWinnings = document.createElement("span");
+      statWinnings.innerHTML = `Winnings: £${gameResult.reward}`;
+      this.#resultsStats.appendChild(statWinnings);
     }
     /**
      * Public method to display game control buttons
@@ -402,7 +405,9 @@ document.addEventListener("DOMContentLoaded", function () {
     #countPlayerLoss;
     #countGames;
     bank;
-    payoutMap;
+    rewardsMap;
+    #rewardKey;
+    #reward;
 
     constructor() {
       this.resetAll();
@@ -428,6 +433,8 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#isDealerBust = false;
       this.#isPlayerBust = false;
       this.#isDraw = false;
+      this.#rewardKey = null;
+      this.#reward = 0;
     }
 
     set gameOver(isOver) {
@@ -468,36 +475,51 @@ document.addEventListener("DOMContentLoaded", function () {
     get betAmount() {
       return this.#betAmount;
     }
+    get rewardKey() {
+      return this.#rewardKey;
+    }
+    set reward(value) {
+      this.#reward = value;
+    }
+    get reward() {
+      return this.#reward;
+    }
     dealerBust() {
       this.#isDealerBust = true;
       this.#isPlayerWin = true;
+      this.#rewardKey = "win";
       this.#countPlayerWin++;
       this.#countGames++;
     }
     playerBust() {
       this.#isPlayerBust = true;
       this.#isPlayerWin = false;
+      this.#rewardKey = "lose";
       this.#countPlayerLoss++;
       this.#countGames++;
     }
     blackJack() {
       this.#isBlackJack = true;
       this.#isPlayerWin = true;
+      this.#rewardKey = "blackJack";
       this.#countPlayerWin++;
       this.#countGames++;
     }
     playerWin() {
       this.#isPlayerWin = true;
+      this.#rewardKey = "win";
       this.#countPlayerWin++;
       this.#countGames++;
     }
     dealerWin() {
       this.#isPlayerWin = false;
+      this.#rewardKey = "lose";
       this.#countPlayerLoss++;
       this.#countGames++;
     }
     draw(message) {
       this.#isDraw = true;
+      this.#rewardKey = "draw";
       this.#countGames++;
     }
     gameResult() {
@@ -510,6 +532,7 @@ document.addEventListener("DOMContentLoaded", function () {
         wins: this.#countPlayerWin,
         losses: this.#countPlayerLoss,
         rounds: this.#countGames,
+        reward: this.#reward,
       };
     }
   }
@@ -525,14 +548,21 @@ document.addEventListener("DOMContentLoaded", function () {
   const player = new user("player");
   const gameStateObject = new gameState();
 
-  // Object to track bets in the game
+  // Object to handle available funds in the game
   const bank = {
-    totalAmount: 1000,
+    totalAmount: 0,
+    initialize: function (amount){
+      if(typeof amount === "number"){
+      this.totalAmount = amount;
+      } else {
+        throw `bank=>TypeError! Expected number for amount:${amount}`;
+      }
+    },
     debit: function (amount) {
       if (typeof amount === "number") {
         this.totalAmount -= amount;
       } else {
-        throw `TypeError: Numeric amount expected for ${amount}`;
+        throw `bank=>TypeError: Numeric amount expected for ${amount}`;
       }
     },
     credit: function (amount) {
@@ -542,30 +572,25 @@ document.addEventListener("DOMContentLoaded", function () {
         throw `TypeError: Numeric amount expected for ${amount}`;
       }
     },
-    denominationAvailable: function (denomination) {
-      if (typeof denomination === "number") {
-        return this.totalAmount >= denomination ? true : false;
-      } else {
-        throw `TypeError: Numeric amount expected for ${denomination}`;
-      }
-    },
     getStatement: function () {
       return this.totalAmount;
     },
   };
-
-  // Point gameStateObject to use bank object
+  // Start game with £1000 
+  bank.initialize(2000);
+  // Pass reference to bank for use from gameStateObject
   gameStateObject.bank = bank;
 
-  // Enum type object to map payout factors on bets 
-  const payoutMap = {
+  // Enum type object to map reward factors on bets 
+  const rewardsMap = {
     "blackJack":2,
     "win":1,
     "draw":0,
+    "lose":-1,
   }
 
   // Point gameStateObject to use payout mappings
-  gameStateObject.payoutMap = payoutMap;
+  gameStateObject.rewardsMap = rewardsMap;
 
   /**
    * ----------------------------------------------
@@ -589,13 +614,9 @@ document.addEventListener("DOMContentLoaded", function () {
    * Handle payouts
    */
   const handlePayout = () => {
-    const result = gameStateObject.gameResult();
-    if(result.blackJack){
-      gameStateObject.bank.credit(gameStateObject.betAmount * 3);
-    } else if(result.playerWin){
-      gameStateObject.bank.credit(gameStateObject.betAmount * 2);
-    } else if(result.draw){
-      gameStateObject.bank.credit(gameStateObject.betAmount);
+    if (gameStateObject.rewardsMap[gameStateObject.rewardKey] >=0){
+      gameStateObject.reward = gameStateObject.rewardsMap[gameStateObject.rewardKey] * gameStateObject.betAmount;
+      gameStateObject.bank.credit(gameStateObject.betAmount + gameStateObject.reward);
     }
   }
 
