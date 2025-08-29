@@ -696,19 +696,29 @@ Game section styling
     width: calc(0.8 * var(--game-board-width));
     top: calc((var(--game-board-height) - var(--results-area-height)) / 2);
     z-index: 6;
-    /* background-color: var(--light-secondary-trans-color); */
     background:
         linear-gradient(90deg, var(--light-secondary-trans-color), transparent, var(--light-primary-color));
     border-radius: var(--border-radius-style);
     border: 2px solid var(--light-primary-color);
     padding: 0;
+    font-size: calc(0.15 * var(--control-panel-height));
+}
+
+#results p{
+    margin: 0;
+}
+
+#results .message-text {
+    font-weight: 900;
+    font-size: calc(0.2 * var(--control-panel-height));
+    margin: calc(0.045 * var(--sum-area-height)) 0;
 }
 
 .results-grid {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows:
-        calc(1 * var(--sum-area-height)) 1fr 1fr calc(1 * var(--sum-area-height));
+        calc(1 * var(--sum-area-height)) 6fr 1fr calc(1 * var(--sum-area-height));
     grid-template-areas:
         "results-head"
         "result-message"
@@ -728,6 +738,10 @@ Game section styling
     justify-content: center;
 }
 
+#results>.message>*{
+    flex-grow: 1;
+}
+
 #results .game-stats {
     width: 100%;
     display: flex;
@@ -745,8 +759,8 @@ Game section styling
 }
 
 #results button {
-    font-size: calc(0.06 * var(--results-area-height));
-    padding: 0.5rem;
+    font-size: calc(0.055 * var(--results-area-height));
+    padding: 0.4rem;
 }
 
 .hide {
