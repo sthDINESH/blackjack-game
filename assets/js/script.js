@@ -79,19 +79,15 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#results, false);
     }
     /**
-     * Public method to display Intro/Welcome screen
+     * Function to update the deal area UI
+     * @param {object} gameState
      */
-    displayDeal() {
+    displayDeal(gameState) {
       this.#showNode(this.#intro, false);
       this.#showNode(this.#deal, true);
       this.#showNode(this.#game, false);
       this.#showNode(this.#results, false);
-    }
-    /**
-     * Function to update the deal area UI
-     * @param {object} gameState
-     */
-    updateDeal(gameState) {
+      
       this.#bank.innerText = `${gameState.bank.getStatement()}`;
       this.#bet.innerText = `${gameState.betAmount}`;
 
@@ -675,8 +671,7 @@ document.addEventListener("DOMContentLoaded", function () {
    */
   const placeBet = () => {
     //Switch to the deal area interface
-    gameUI.displayDeal();
-    gameUI.updateDeal(gameStateObject);
+    gameUI.displayDeal(gameStateObject);
   };
 
   /**
@@ -720,11 +715,11 @@ document.addEventListener("DOMContentLoaded", function () {
             bank.debit(chipValue);
             gameStateObject.raiseBet = chipValue;
           }
-          gameUI.updateDeal(gameStateObject);
+          gameUI.displayDeal(gameStateObject);
         } else if (this.getAttribute("data-type") === "reset-bet") {
           bank.credit(gameStateObject.betAmount);
           gameStateObject.resetBet();
-          gameUI.updateDeal(gameStateObject);
+          gameUI.displayDeal(gameStateObject);
         } else {
           alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
           throw `Unimplememted feature: ${this.getAttribute("data-type")}`;
