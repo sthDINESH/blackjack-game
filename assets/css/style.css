@@ -592,11 +592,11 @@ Game section styling
     color: var(--accent-color-4);
 }
 
-#game-table .btn[data-type="game-statistics"] {
+#game-table .btn[data-bs-target="#game-statistics"] {
     right: 1.5%;
 }
 
-#game-table .btn[data-bs-toggle="modal"] {
+#game-table .btn[data-bs-target="#game-rules"] {
     left: 1.5%;
 }
 
@@ -806,8 +806,29 @@ Game section styling
 .hide {
     display: none;
 }
+/* ----------------------------------------------
+Game statistics modal styling 
+------------------------------------------------- */
+.stat-card{
+    flex-basis: 100%;
+    border: 2px dotted green;
+}
 
-/* Media queries */
+#game-statistics .modal-body{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#session-stats, 
+#all-time-record {
+    flex-basis: 50%;
+}
+
+
+
+/* ----------------------------------------------
+Media queries 
+------------------------------------------------- */
 @media screen and (min-width:768px) {
     :root {
         --intro-area-width: 80vw;
