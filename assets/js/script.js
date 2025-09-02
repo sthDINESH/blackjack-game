@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#deal, true);
       this.#showNode(this.#game, false);
       this.#showNode(this.#results, false);
-      
+
       this.#bank.innerText = `${gameState.bank.getStatement()}`;
       this.#bet.innerText = `${gameState.betAmount}`;
 
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
       // Disable Deal button if bet is not placed
-      if(gameState.betAmount <= 0){
+      if (gameState.betAmount <= 0) {
         this.#dealBtn.classList.add("hide");
         this.#dealBtnReplace.classList.remove("hide");
       } else {
@@ -679,7 +679,15 @@ document.addEventListener("DOMContentLoaded", function () {
    * EVENT HANDLERS
    * ----------------------------------------------
    */
-
+  // Remove focus from any focused element within the modal before it closes
+  document
+    .getElementById("game-rules")
+    .addEventListener("hide.bs.modal", function (event) {
+      const focusedElement = document.activeElement;
+      if (this.contains(focusedElement)) {
+        focusedElement.blur();
+      }
+    });
   // Add event listeners for buttons
   const buttons = document.querySelectorAll("button");
   buttons.forEach((button) => {
