@@ -36,7 +36,7 @@
                 <div class="btn-tutorial-area">
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#game-rules"
-                        data-type="button-bs-modal">Rules</button>
+                        data-type="button-bs-modal">House Rules</button>
                 </div>
                 <div class="btn-play-area">
                     <button class="btn btn-primary" data-type="game-start">Play!</button>
@@ -49,7 +49,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title heading" id="gameRulesModalLabel">Rules</h2>
+                    <h2 class="modal-title heading" id="gameRulesModalLabel">House Rules</h2>
                 </div>
                 <div class="modal-body">
                     <p class="sub-heading">Objective</p>
@@ -66,7 +66,7 @@
                     <ul>
                         <li>Place your bet before each round.</li>
                         <li>You and the dealer each receive 2 cards.</li>
-                        <li>One of the dealer’s cards remains face-down until their turn.</li>
+                        <li>One of the dealer's cards remains face-down until their turn.</li>
                     </ul>
 
                     <p class="sub-heading">Player Actions</p>
@@ -76,18 +76,26 @@
                         <!-- <li>Double Down: Double your bet, take one card, and stand.</li> -->
                     </ul>
 
-                    <p class="sub-heading">Dealer’s Turn</p>
+                    <p class="sub-heading">Dealer's Turn</p>
                     <p>Dealer must hit until their total is 17 or higher.</p>
 
-                    <p class="sub-heading">Winning</p>
+                    <p class="sub-heading">Winning & Payouts</p>
                     <ul>
-                        <li>If your hand is closer to 21 than the dealer’s, you win.</li>
-                        <li>If the dealer busts (goes over 21), you win.</li>
-                        <li>If both hands are equal, it’s a push (tie).</li>
+                        <li><strong>Blackjack (21 with 2 cards):</strong> You win 3x your bet (your bet + 2x bonus).</li>
+                        <li><strong>Regular Win:</strong> You win 2x your bet (your bet + 1x bonus).</li>
+                        <li><strong>Push/Draw:</strong> You get your bet back (1x your bet).</li>
+                        <li><strong>Loss:</strong> You lose your bet.</li>
+                    </ul>
+
+                    <p class="sub-heading">How to Win</p>
+                    <ul>
+                        <li>Get a hand total closer to 21 than the dealer's without going over.</li>
+                        <li>Get 21 with your first 2 cards (Blackjack) for the highest payout.</li>
+                        <li>Win when the dealer busts (goes over 21).</li>
                     </ul>
 
                     <p class="sub-heading">Bust Rule</p>
-                    <p>If you go over 21, you lose immediately.</p>
+                    <p>If you go over 21, you lose immediately regardless of the dealer's hand.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-accent btn-circle" data-bs-dismiss="modal"

@@ -345,12 +345,18 @@ Intro section
 }
 
 #intro .btn-accent {
-    width: calc(0.3 * var(--intro-area-width));
+    width: calc(0.45 * var(--intro-area-width));
     font-size: calc(0.025 * var(--intro-area-height));
 }
 
 .modal-header {
     border-bottom: 0;
+}
+
+.modal-header .heading {
+    font-size: min(7vh, 7vw);
+    border-top: 0;
+    margin-top: 2rem;
 }
 
 .modal-content .sub-heading {
@@ -368,7 +374,7 @@ Intro section
 }
 
 #game-rules .modal-footer .btn-circle {
-    width: calc(0.2 * var(--intro-area-width));
+    width: min(15vw, 12.5vh);
 }
 
 /*  
