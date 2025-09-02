@@ -150,11 +150,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             
             const currentBalance = gameState.bank.getStatement();
+            const currentBid = gameState.betAmount;
             const startingBalance = 2000; // Your initial balance
-            const netGain = currentBalance - startingBalance;
+            // Calculate net position including current bid (money at risk)
+            const totalAtRisk = currentBalance + currentBid;
+            const netGain = totalAtRisk - startingBalance;
             
             statContentDiv.innerHTML = `
                 <p>Current Balance: <span>£${currentBalance}</span></p>
+                <p>Current Bid: <span>£${currentBid}</span></p>
                 <p>Starting Balance: <span>£${startingBalance}</span></p>
                 <p>Net ${netGain >= 0 ? 'Gain' : 'Loss'}: <span>£${Math.abs(netGain)}</span></p>
                 <p>Biggest Win: <span>£${gameState.result.stats.biggestWin || 0}</span></p>
@@ -700,6 +704,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const handlePayout = () => {
     gameStateObject.creditAmount =
       gameResult.betMultiplier() * gameStateObject.betAmount;
+    gameStateObject.resetBet()
     if (gameStateObject.creditAmount) {
       bank.credit(gameStateObject.creditAmount);
       // Track biggest win (winnings minus original bet)
