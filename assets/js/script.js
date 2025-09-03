@@ -41,14 +41,14 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#bet = document.querySelector("#deal-amount span");
       this.#chips = document.querySelectorAll("button[data-type='chip']");
       this.#game = document.querySelector("#game-round");
-      
+
       this.#results = document.querySelector("#results");
       this.#resultsMessage = document.querySelector("#results>.message>p");
       this.#resultsStats = document.querySelector("#results .game-stats");
       this.#resultsWinnings = document.querySelector("#results .winnings");
       this.#playAgainBtn = document.querySelector("#btn-play-again");
       this.#newGameBtn = document.querySelector("#btn-new-game");
-      
+
       this.#gameControls = document.querySelector("#btns-game");
 
       this.#playerCards = document.querySelector("#player-cards");
@@ -118,75 +118,97 @@ document.addEventListener("DOMContentLoaded", function () {
         this.#dealBtnReplace.classList.add("hide");
       }
     }
-    
+
     /**
      * Update game statistics modal content
      * @param {object} gameState - Game state object containing references to bank and gameResult
      */
     updateGameStats(gameState) {
-        const sessionStats = document.getElementById('session-stats');
-        const financialSummary = document.getElementById('financial-summary');
-        const allTimeRecord = document.getElementById('all-time-record');
+      const sessionStats = document.getElementById("session-stats");
+      const financialSummary = document.getElementById("financial-summary");
+      const allTimeRecord = document.getElementById("all-time-record");
 
-        // Update session stats - only update the stat-content div
-        if (sessionStats) {
-            let statContentDiv = sessionStats.querySelector('.stat-content');
-            if (!statContentDiv) {
-                // If stat-content doesn't exist, create it (append to existing card)
-                statContentDiv = document.createElement('div');
-                statContentDiv.classList.add('stat-content');
-                sessionStats.appendChild(statContentDiv);
-            }
-            statContentDiv.innerHTML = `
-                <p>Rounds Played: <span>${gameState.result.stats.rounds}</span></p>
+      // Update session stats - only update the stat-content div
+      if (sessionStats) {
+        let statContentDiv = sessionStats.querySelector(".stat-content");
+        if (!statContentDiv) {
+          // If stat-content doesn't exist, create it (append to existing card)
+          statContentDiv = document.createElement("div");
+          statContentDiv.classList.add("stat-content");
+          sessionStats.appendChild(statContentDiv);
+        }
+        statContentDiv.innerHTML = `
+                <p>Rounds Played: <span>${
+                  gameState.result.stats.rounds
+                }</span></p>
                 <p>Wins: <span>${gameState.result.stats.playerWins}</span></p>
-                <p>Losses: <span>${gameState.result.stats.playerLosses}</span></p>
+                <p>Losses: <span>${
+                  gameState.result.stats.playerLosses
+                }</span></p>
                 <p>Draws: <span>${gameState.result.stats.draw}</span></p>
-                <p>Win Rate: <span>${gameState.result.stats.rounds > 0 ? Math.round((gameState.result.stats.playerWins / gameState.result.stats.rounds) * 100) : 0}%</span></p>
+                <p>Win Rate: <span>${
+                  gameState.result.stats.rounds > 0
+                    ? Math.round(
+                        (gameState.result.stats.playerWins /
+                          gameState.result.stats.rounds) *
+                          100
+                      )
+                    : 0
+                }%</span></p>
             `;
+      }
+
+      // Update financial summary - only update the stat-content div
+      if (financialSummary) {
+        let statContentDiv = financialSummary.querySelector(".stat-content");
+        if (!statContentDiv) {
+          // If stat-content doesn't exist, create it (append to existing card)
+          statContentDiv = document.createElement("div");
+          statContentDiv.classList.add("stat-content");
+          financialSummary.appendChild(statContentDiv);
         }
 
-        // Update financial summary - only update the stat-content div
-        if (financialSummary) {
-            let statContentDiv = financialSummary.querySelector('.stat-content');
-            if (!statContentDiv) {
-                // If stat-content doesn't exist, create it (append to existing card)
-                statContentDiv = document.createElement('div');
-                statContentDiv.classList.add('stat-content');
-                financialSummary.appendChild(statContentDiv);
-            }
-            
-            const currentBalance = gameState.bank.getStatement();
-            const currentBid = gameState.betAmount;
-            const startingBalance = 2000; // Your initial balance
-            // Calculate net position including current bid (money at risk)
-            const totalAtRisk = currentBalance + currentBid;
-            const netGain = totalAtRisk - startingBalance;
-            
-            statContentDiv.innerHTML = `
+        const currentBalance = gameState.bank.getStatement();
+        const currentBid = gameState.betAmount;
+        const startingBalance = 2000; // Your initial balance
+        // Calculate net position including current bid (money at risk)
+        const totalAtRisk = currentBalance + currentBid;
+        const netGain = totalAtRisk - startingBalance;
+
+        statContentDiv.innerHTML = `
                 <p>Current Balance: <span>£${currentBalance}</span></p>
                 <p>Current Bid: <span>£${currentBid}</span></p>
                 <p>Starting Balance: <span>£${startingBalance}</span></p>
-                <p>Net ${netGain >= 0 ? 'Gain' : 'Loss'}: <span>£${Math.abs(netGain)}</span></p>
-                <p>Biggest Win: <span>£${gameState.result.stats.biggestWin || 0}</span></p>
+                <p>Net ${netGain >= 0 ? "Gain" : "Loss"}: <span>£${Math.abs(
+          netGain
+        )}</span></p>
+                <p>Biggest Win: <span>£${
+                  gameState.result.stats.biggestWin || 0
+                }</span></p>
             `;
-        }
+      }
 
-        // Update all-time record - only update the stat-content div
-        if (allTimeRecord) {
-            let statContentDiv = allTimeRecord.querySelector('.stat-content');
-            if (!statContentDiv) {
-                // If stat-content doesn't exist, create it (append to existing card)
-                statContentDiv = document.createElement('div');
-                statContentDiv.classList.add('stat-content');
-                allTimeRecord.appendChild(statContentDiv);
-            }
-            statContentDiv.innerHTML = `
-                <p>Best Streak: <span>${gameState.result.stats.bestStreak || 0}</span></p>
-                <p>Total Blackjacks: <span>${gameState.result.stats.totalBlackjacks || 0}</span></p>
-                <p>Perfect Rounds: <span>${gameState.result.stats.perfectRounds || 0}</span></p>
-            `;
+      // Update all-time record - only update the stat-content div
+      if (allTimeRecord) {
+        let statContentDiv = allTimeRecord.querySelector(".stat-content");
+        if (!statContentDiv) {
+          // If stat-content doesn't exist, create it (append to existing card)
+          statContentDiv = document.createElement("div");
+          statContentDiv.classList.add("stat-content");
+          allTimeRecord.appendChild(statContentDiv);
         }
+        statContentDiv.innerHTML = `
+                <p>Best Streak: <span>${
+                  gameState.result.stats.bestStreak || 0
+                }</span></p>
+                <p>Total Blackjacks: <span>${
+                  gameState.result.stats.totalBlackjacks || 0
+                }</span></p>
+                <p>Perfect Rounds: <span>${
+                  gameState.result.stats.perfectRounds || 0
+                }</span></p>
+            `;
+      }
     }
 
     /**
@@ -211,25 +233,24 @@ document.addEventListener("DOMContentLoaded", function () {
       let message = null;
       let rewardMessage = null;
       if (gameState.result.state.blackJack) {
-        message = "Blackjack!!! You win.";
-        rewardMessage = "House payout";
+        message = "Blackjack!!! You won";
+        rewardMessage = "House pays";
       } else if (gameState.result.state.dealerBust) {
-        message = "Dealer Bust!!! You win.";
-        rewardMessage = "House payout";
+        message = "Dealer Bust!!! You won";
+        rewardMessage = "House pays";
       } else if (gameState.result.state.playerBust) {
-        message = "Bust!!! You lose.";
+        message = "Bust!!! You lost";
         rewardMessage = "House keeps";
       } else if (gameState.result.state.playerWin) {
-        message = "You win!!!";
-        rewardMessage = "House payout";
+        message = "You won!!!";
+        rewardMessage = "House pays";
       } else if (gameState.result.state.draw) {
-        message = "Draw.";
-        rewardMessage = "Returned";
+        message = "Draw";
+        rewardMessage = "House returns";
       } else {
-        message = "You lose!!!";
+        message = "You lost!!!";
         rewardMessage = "House keeps";
       }
-      this.#resultsMessage.innerText = message;
       this.#resultsStats.innerHTML = `
       <span>Wins: ${gameState.result.stats.playerWins}/${gameState.result.stats.rounds}</span>
       <span>Draw: ${gameState.result.stats.draw}/${gameState.result.stats.rounds}</span>
@@ -242,12 +263,16 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
       // Check player balance to ensure user can continue
-      if(gameState.bank.getStatement()) {
-        this.#showNode(this.#playAgainBtn,true)
+      if (gameState.bank.getStatement()) {
+        this.#showNode(this.#playAgainBtn, true);
       } else {
-         this.#showNode(this.#playAgainBtn,false);
-         this.#resultsWinnings.querySelector("div:last-child").classList.add("issue-highlight");
+        this.#showNode(this.#playAgainBtn, false);
+        this.#resultsWinnings
+          .querySelector("div:last-child")
+          .classList.add("issue-highlight");
+          message = message.replace(/[!.?]+$/, "") + " and have no more funds!";
       }
+      this.#resultsMessage.innerText = message;
     }
     /**
      * Public method to display game control buttons
@@ -560,6 +585,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const player = new user("player");
   const gameStateObject = new gameState();
 
+  // Game settings object
+  const gameSettings = {
+    initialBankBalance: 2000,
+    cardDecks: 1,
+  };
+
   // Object to handle available funds in the game
   const bank = {
     totalAmount: 0,
@@ -588,8 +619,8 @@ document.addEventListener("DOMContentLoaded", function () {
       return this.totalAmount;
     },
   };
-  // Start game with £1000
-  bank.initialize(2000);
+  // Initialize balance available in the bank
+  bank.initialize(gameSettings.initialBankBalance);
   // Pass reference to bank for use from gameStateObject
   gameStateObject.bank = bank;
 
@@ -805,7 +836,7 @@ document.addEventListener("DOMContentLoaded", function () {
    * ----------------------------------------------
    */
   // Remove focus from any focused element within the modal before it closes
-  document.querySelectorAll(".modal").forEach((modal)=>{
+  document.querySelectorAll(".modal").forEach((modal) => {
     modal.addEventListener("hide.bs.modal", function (event) {
       const focusedElement = document.activeElement;
       if (this.contains(focusedElement)) {
@@ -842,13 +873,23 @@ document.addEventListener("DOMContentLoaded", function () {
           }
           checkResults();
         } else if (this.getAttribute("data-type") === "play-again") {
-          // Resets for new round
+          // Reset game objects for new round
           gameStateObject.reset();
           gameResult.resetRound();
           dealer.clearHand();
           player.clearHand();
           gameDeck.initializeDeck();
-
+          // Display betting screen
+          placeBet();
+        } else if (this.getAttribute("data-type") === "new-game") {
+          // Completely reset all game objects for a fresh start
+          gameStateObject.reset();
+          gameResult.resetAll();
+          bank.initialize(gameSettings.initialBankBalance);
+          dealer.clearHand();
+          player.clearHand();
+          gameDeck.initializeDeck();
+          // Display betting screen
           placeBet();
         } else if (this.getAttribute("data-type") === "chip") {
           const chipValue = parseInt(this.getAttribute("data-chip-value"));
@@ -856,10 +897,12 @@ document.addEventListener("DOMContentLoaded", function () {
             bank.debit(chipValue);
             gameStateObject.raiseBet = chipValue;
           }
+          // Refresh betting area with statement and bet updates
           gameUI.displayDeal(gameStateObject);
         } else if (this.getAttribute("data-type") === "reset-bet") {
           bank.credit(gameStateObject.betAmount);
           gameStateObject.resetBet();
+          // Refresh betting area with statement and bet updates
           gameUI.displayDeal(gameStateObject);
         } else {
           alert(`Unimplememted feature: ${this.getAttribute("data-type")}`);
