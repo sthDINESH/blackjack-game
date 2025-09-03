@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
     #resultsMessage;
     #resultsStats;
     #resultsWinnings;
+    #playAgainBtn;
+    #newGameBtn;
     #gameControls;
     #playerCards;
     #playerSum;
@@ -39,11 +41,16 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#bet = document.querySelector("#deal-amount span");
       this.#chips = document.querySelectorAll("button[data-type='chip']");
       this.#game = document.querySelector("#game-round");
+      
       this.#results = document.querySelector("#results");
       this.#resultsMessage = document.querySelector("#results>.message>p");
       this.#resultsStats = document.querySelector("#results .game-stats");
       this.#resultsWinnings = document.querySelector("#results .winnings");
+      this.#playAgainBtn = document.querySelector("#btn-play-again");
+      this.#newGameBtn = document.querySelector("#btn-new-game");
+      
       this.#gameControls = document.querySelector("#btns-game");
+
       this.#playerCards = document.querySelector("#player-cards");
       this.#playerSum = document.querySelector("#player-sum");
       this.#dealerCards = document.querySelector("#dealer-cards");
@@ -202,32 +209,45 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#gameControls, false);
       this.#showNode(this.#results, true);
       let message = null;
+      let rewardMessage = null;
       if (gameState.result.state.blackJack) {
         message = "Blackjack!!! You win.";
+        rewardMessage = "House payout";
       } else if (gameState.result.state.dealerBust) {
         message = "Dealer Bust!!! You win.";
+        rewardMessage = "House payout";
       } else if (gameState.result.state.playerBust) {
         message = "Bust!!! You lose.";
+        rewardMessage = "House keeps";
       } else if (gameState.result.state.playerWin) {
         message = "You win!!!";
+        rewardMessage = "House payout";
       } else if (gameState.result.state.draw) {
         message = "Draw.";
+        rewardMessage = "Returned";
       } else {
         message = "You lose!!!";
+        rewardMessage = "House keeps";
       }
       this.#resultsMessage.innerText = message;
-      this.#resultsStats.innerHTML = "";
-      const statWins = document.createElement("span");
-      statWins.innerHTML = `Wins: ${gameState.result.stats.playerWins}/${gameState.result.stats.rounds}`;
-      this.#resultsStats.appendChild(statWins);
-      const statDraw = document.createElement("span");
-      statDraw.innerHTML = `Draw: ${gameState.result.stats.draw}/${gameState.result.stats.rounds}`;
-      this.#resultsStats.appendChild(statDraw);
-      const statLosses = document.createElement("span");
-      statLosses.innerHTML = `Losses: ${gameState.result.stats.playerLosses}/${gameState.result.stats.rounds}`;
-      this.#resultsStats.appendChild(statLosses);
+      this.#resultsStats.innerHTML = `
+      <span>Wins: ${gameState.result.stats.playerWins}/${gameState.result.stats.rounds}</span>
+      <span>Draw: ${gameState.result.stats.draw}/${gameState.result.stats.rounds}</span>
+      <span>Losses: ${gameState.result.stats.playerLosses}/${gameState.result.stats.rounds}<span>
+      `;
 
-      this.#resultsWinnings.innerHTML = `Winnings: £${gameState.creditAmount}`;
+      this.#resultsWinnings.innerHTML = `
+        <div>${rewardMessage}: £${Math.abs(gameState.creditAmount)}</div>
+        <div>Balance: £${gameState.bank.getStatement()}</div>
+        `;
+
+      // Check player balance to ensure user can continue
+      if(gameState.bank.getStatement()) {
+        this.#showNode(this.#playAgainBtn,true)
+      } else {
+         this.#showNode(this.#playAgainBtn,false);
+         this.#resultsWinnings.querySelector("div:last-child").classList.add("issue-highlight");
+      }
     }
     /**
      * Public method to display game control buttons
@@ -663,7 +683,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Draw doesn't reset streak but doesn't increase it either
     },
     betMultiplier: function () {
-      let multiplier = 0;
+      let multiplier = -1; // House keeps bet amount by default(player looses game)
       Object.keys(this.state).forEach((key) => {
         if (
           this.state[key] &&
@@ -704,8 +724,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const handlePayout = () => {
     gameStateObject.creditAmount =
       gameResult.betMultiplier() * gameStateObject.betAmount;
-    gameStateObject.resetBet()
-    if (gameStateObject.creditAmount) {
+    if (gameStateObject.creditAmount > 0) {
       bank.credit(gameStateObject.creditAmount);
       // Track biggest win (winnings minus original bet)
       const netWin = gameStateObject.creditAmount - gameStateObject.betAmount;
@@ -713,6 +732,7 @@ document.addEventListener("DOMContentLoaded", function () {
         gameResult.updateBiggestWin(netWin);
       }
     }
+    gameStateObject.resetBet();
   };
 
   /**

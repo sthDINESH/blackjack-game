@@ -752,13 +752,15 @@ Game section styling
     font-weight: 900;
     font-size: calc(0.2 * var(--control-panel-height));
     margin: calc(0.045 * var(--sum-area-height)) 0;
+    align-self: center;
+    /* border-bottom: 1px solid var(--accent-color-4); */
 }
 
 .results-grid {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows:
-        calc(1 * var(--sum-area-height)) 6fr 1fr calc(1 * var(--sum-area-height));
+        var(--sum-area-height) 6fr 1fr var(--sum-area-height);
     grid-template-areas:
         "results-head"
         "result-message"
@@ -774,18 +776,19 @@ Game section styling
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
+    padding: 0 0.5rem;
 }
 
 #results>.message>* {
     flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
 }
 
-#results .game-stats {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
+.issue-highlight{
+    color: var(--secondary-accent-color);
 }
 
 #results .control-panel {
