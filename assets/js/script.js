@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
     #resultsStats;
     #resultsWinnings;
     #playAgainBtn;
-    #newGameBtn;
     #gameControls;
+    #playerDetails;
     #playerCards;
     #playerSum;
     #dealerCards;
@@ -47,10 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#resultsStats = document.querySelector("#results .game-stats");
       this.#resultsWinnings = document.querySelector("#results .winnings");
       this.#playAgainBtn = document.querySelector("#btn-play-again");
-      this.#newGameBtn = document.querySelector("#btn-new-game");
 
       this.#gameControls = document.querySelector("#btns-game");
 
+      this.#playerDetails = document.querySelector("#player-details");
       this.#playerCards = document.querySelector("#player-cards");
       this.#playerSum = document.querySelector("#player-sum");
       this.#dealerCards = document.querySelector("#dealer-cards");
@@ -219,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.#showNode(this.#deal, false);
       this.#showNode(this.#game, true);
       this.#showNode(this.#gameControls, true);
+      this.#playerDetails.querySelectorAll("button").forEach((button)=>{this.#showNode(button,true);});
       this.#showNode(this.#results, false);
 
       this.#gameBetDisplay.innerText = gameState.betAmount;
@@ -230,6 +231,10 @@ document.addEventListener("DOMContentLoaded", function () {
     displayResults(gameState) {
       this.#showNode(this.#gameControls, false);
       this.#showNode(this.#results, true);
+
+      // Hide buttons from player-area
+      this.#playerDetails.querySelectorAll("button").forEach((button)=>{this.#showNode(button,false);});
+
       let message = null;
       let rewardMessage = null;
       if (gameState.result.state.blackJack) {
